@@ -33,6 +33,10 @@ class Post < ApplicationRecord
     slug
   end
 
+  def author
+    Author.instance!
+  end
+
   def publish!
     update(status: "published")
   end

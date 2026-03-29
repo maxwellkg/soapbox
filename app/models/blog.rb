@@ -18,8 +18,26 @@ class Blog < ApplicationRecord
     end
   end
 
+  def author
+    Author.instance!
+  end
+
+  def as_atom_feed_xml
+    atom_feed.to_xml
+  end
+
+  def atom_feed
+    feed.atom_feed
+  end
+
+  def feed
+    @feed ||= Blog::Feed.new(self)
+  end
+
   private
     def single_instance_only
-      errors.add(:base, "Only one blog is allowed") if self.class.instance?
+      if self.class.instance?
+        errors.add(:base, :singleton_violation, message: "Only one blog is allowed")
+      end
     end
 end

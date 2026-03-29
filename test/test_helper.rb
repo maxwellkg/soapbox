@@ -5,6 +5,8 @@ require_relative "test_helpers/session_test_helper"
 
 module ActiveSupport
   class TestCase
+    include Rails.application.routes.url_helpers
+
     # Run tests in parallel with specified workers
     parallelize(workers: :number_of_processors)
 

@@ -36,7 +36,7 @@ class BlogTest < ActiveSupport::TestCase
     blog = Blog.new(title: "Second Blog")
 
     assert_not blog.valid?
-    assert_includes blog.errors[:base], "Only one blog is allowed"
+    assert blog.errors.of_kind?(:base, :singleton_violation)
   end
 
   test "rejects creating a second blog at the db layer" do
