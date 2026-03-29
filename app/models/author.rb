@@ -32,6 +32,8 @@ class Author < ApplicationRecord
 
   private
     def single_instance_only
-      errors.add(:base, "Only one author is allowed") if self.class.instance?
+      if self.class.instance?
+        errors.add(:base, :singleton_violation, message: "Only one author is allowed")
+      end
     end
 end

@@ -90,7 +90,7 @@ class AuthorTest < ActiveSupport::TestCase
     author = Author.new(email_address: "second@example.com", password: "password")
 
     assert_not author.valid?
-    assert_includes author.errors[:base], "Only one author is allowed"
+    assert author.errors.of_kind?(:base, :singleton_violation)
   end
 
   test "rejects creating a second author (at the db layer)" do
