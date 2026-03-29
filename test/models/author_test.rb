@@ -42,6 +42,9 @@ class AuthorTest < ActiveSupport::TestCase
 
     assert_not author.valid?
     assert author.errors.of_kind?(:first_name, :blank)
+
+    author.first_name = "Jane"
+    assert author.valid?
   end
 
   test "requires a last name" do
@@ -50,6 +53,9 @@ class AuthorTest < ActiveSupport::TestCase
 
     assert_not author.valid?
     assert author.errors.of_kind?(:last_name, :blank)
+
+    author.last_name = "Doe"
+    assert author.valid?
   end
 
   test "requires an email address" do
@@ -58,6 +64,9 @@ class AuthorTest < ActiveSupport::TestCase
 
     assert_not author.valid?
     assert author.errors.of_kind?(:email_address, :blank)
+
+    author.email_address = "one@example.com"
+    assert author.valid?
   end
 
   test "requires a valid email address format" do
@@ -66,6 +75,15 @@ class AuthorTest < ActiveSupport::TestCase
 
     assert_not author.valid?
     assert author.errors.of_kind?(:email_address, :invalid)
+
+    author.email_address = "one@example.com"
+    assert author.valid?
+  end
+
+  test "is valid when all validations are met" do
+    author = authors(:one)
+
+    assert author.valid?
   end
 
   test "rejects creating a second author (at the application layer)" do
