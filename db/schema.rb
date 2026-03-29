@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_28_225524) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_29_120001) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -59,6 +59,29 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_28_225524) do
     t.datetime "updated_at", null: false
     t.index ["singleton_guard"], name: "index_authors_on_singleton_guard", unique: true
     t.check_constraint "singleton_guard = 1", name: "authors_singleton_guard_true"
+  end
+
+  create_table "blogs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.boolean "singleton_guard", default: true, null: false
+    t.text "subtitle"
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["singleton_guard"], name: "index_blogs_on_singleton_guard", unique: true
+    t.check_constraint "singleton_guard = 1", name: "blogs_singleton_guard_true"
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.boolean "pinned", default: false, null: false
+    t.datetime "published_at"
+    t.string "slug", null: false
+    t.string "status", default: "draft", null: false
+    t.text "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_posts_on_slug", unique: true
+    t.check_constraint "((status = 'published' AND published_at IS NOT NULL) OR (status = 'draft' AND published_at IS NULL))", name: "posts_status_published_at_consistency"
+    t.check_constraint "status IN ('draft', 'published')", name: "posts_status_check"
   end
 
   create_table "sessions", force: :cascade do |t|

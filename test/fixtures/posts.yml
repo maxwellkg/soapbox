@@ -1,0 +1,51 @@
+draft:
+  status: draft
+  title: A Draft Post
+  slug: a-draft-post
+  pinned: false
+
+published:
+  status: published
+  title: A Published Post
+  slug: a-published-post
+  pinned: false
+  published_at: <%= Time.new(2025, 11, 3, 10, 13, 12) %>
+  created_at: <%= Time.new(2025, 11, 1, 12, 37, 14) %>
+  updated_at: <%= Time.new(2025, 11, 5, 10, 0, 15) %>
+
+pinned:
+  status: published
+  title: A Pinned Post
+  slug: a-pinned-post
+  pinned: true
+  published_at: <%= Time.new(2025, 11, 2, 9, 12, 12) %>
+  created_at: <%= Time.new(2025, 11, 2, 9, 3, 11) %>
+  updated_at: <%= Time.new(2025, 11, 2, 16, 44, 25) %>
+
+pinned_newer:
+  status: published
+  title: Pinned Newer
+  slug: pinned-newer
+  pinned: true
+  published_at: <%= Time.new(2025, 11, 6, 9, 0, 0) %>
+
+pinned_older:
+  status: published
+  title: Pinned Older
+  slug: pinned-older
+  pinned: true
+  published_at: <%= Time.new(2025, 11, 4, 9, 0, 0) %>
+
+unpinned_newer:
+  status: published
+  title: Unpinned Newer
+  slug: unpinned-newer
+  pinned: false
+  published_at: <%= Time.new(2025, 11, 7, 9, 0, 0) %>
+
+unpinned_older:
+  status: published
+  title: Unpinned Older
+  slug: unpinned-older
+  pinned: false
+  published_at: <%= Time.new(2025, 11, 5, 9, 0, 0) %>

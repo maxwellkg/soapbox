@@ -1,4 +1,44 @@
-# one:
-#   record: name_of_fixture (ClassOfFixture)
-#   name: content
-#   body: <p>In a <i>million</i> stars!</p>
+draft_content:
+  record: draft (Post)
+  name: content
+  body: <p>Draft post content</p>
+
+published_content:
+  record: published (Post)
+  name: content
+  body: <p>Published post content</p>
+
+published_summary:
+  record: published (Post)
+  name: summary
+  body: <p>Published post summary</p>
+
+pinned_content:
+  record: pinned (Post)
+  name: content
+  body: <p>Pinned post content</p>
+
+pinned_newer_content:
+  record: pinned_newer (Post)
+  name: content
+  body: <p>Pinned newer content</p>
+
+pinned_older_content:
+  record: pinned_older (Post)
+  name: content
+  body: <p>Pinned older content</p>
+
+unpinned_newer_content:
+  record: unpinned_newer (Post)
+  name: content
+  body: <p>Unpinned newer content</p>
+
+unpinned_older_content:
+  record: unpinned_older (Post)
+  name: content
+  body: <p>Unpinned older content</p>
+
+blog_description:
+  record: instance (Blog)
+  name: description
+  body: <p>Soapbox description</p>

@@ -1,0 +1,4 @@
+instance:
+  title: Soapbox
+  subtitle: Notes from the workshop
+  singleton_guard: true
