@@ -1,0 +1,14 @@
+reader_one:
+  email_address: reader.one@example.com
+
+reader_two:
+  email_address: reader.two@example.com
+
+reader_three:
+  email_address: reader.three@example.com
+
+reader_four:
+  email_address: reader.four@example.com
+
+reader_without_subscription:
+  email_address: reader.without.subscription@example.com
