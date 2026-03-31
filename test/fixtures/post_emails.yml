@@ -1,0 +1,11 @@
+reader_one_email:
+  post: emailed
+  subscription: reader_one_active
+
+reader_two_email:
+  post: emailed
+  subscription: reader_two_active
+
+reader_three_email:
+  post: emailed
+  subscription: reader_three_active

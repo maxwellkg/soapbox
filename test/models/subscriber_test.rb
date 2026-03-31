@@ -50,7 +50,7 @@ class SubscriberTest < ActiveSupport::TestCase
     assert active.active?
     assert_not active.inactive?
 
-    inactive = subscribers(:reader_four)
+    inactive = subscribers(:reader_without_subscription)
 
     assert_not inactive.active?
     assert inactive.inactive?
@@ -65,7 +65,7 @@ class SubscriberTest < ActiveSupport::TestCase
       end
     end
 
-    inactive = subscribers(:reader_four)
+    inactive = subscribers(:reader_without_subscription)
 
     assert_no_changes -> { inactive.updated_at } do
       assert inactive.deactivate
@@ -89,13 +89,13 @@ class SubscriberTest < ActiveSupport::TestCase
   end
 
   test "scopes to active subscribers" do
-    active = %i[reader_one reader_two reader_three].map { |key| subscribers(key) }
+    active = %i[reader_one reader_two reader_three reader_four].map { |key| subscribers(key) }
 
     assert_equal active.map(&:id).sort, Subscriber.active.pluck(:id).sort
   end
 
   test "scopes to inactive subscribers" do
-    inactive = %i[reader_four reader_without_subscription].map { |key| subscribers(key) }
+    inactive = %i[reader_without_subscription].map { |key| subscribers(key) }
 
     assert_equal inactive.map(&:id).sort, Subscriber.inactive.pluck(:id).sort
   end

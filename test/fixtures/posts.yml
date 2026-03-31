@@ -49,3 +49,25 @@ unpinned_older:
   slug: unpinned-older
   pinned: false
   published_at: <%= Time.new(2025, 11, 5, 9, 0, 0) %>
+
+emailed:
+  status: published
+  email_status: initiated
+  start_emails_job_key: <%= SecureRandom.uuid %>
+  title: An Emailed Post
+  slug: an-emailed-post
+  pinned: false
+  published_at: <%= Time.new(2025, 11, 6, 12, 13, 14) %>
+  created_at: <%= Time.new(2025, 11, 4, 9, 13, 12) %>
+  updated_at: <%= Time.new(2025, 11, 6, 12, 16, 12) %>
+
+pending_email:
+  status: published
+  email_status: pending
+  start_emails_job_key: <%= SecureRandom.uuid %>
+  title: A Post Pending Email Delivery
+  slug: a-post-pending-email-delivery
+  pinned: false
+  published_at: <%= Time.new(2025, 11, 7, 14, 26, 12) %>
+  created_at: <%= Time.new(2025, 11, 7, 9, 15, 11) %>
+  updated_at: <%= Time.new(2025, 11, 7, 14, 28, 1) %>

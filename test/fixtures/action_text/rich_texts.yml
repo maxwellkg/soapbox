@@ -42,3 +42,13 @@ blog_description:
   record: instance (Blog)
   name: description
   body: <p>Soapbox description</p>
+
+emailed_content:
+  record: emailed (Post)
+  name: content
+  body: <p>Emailed post content</p>
+
+pending_email_content:
+  record: pending_email (Post)
+  name: content
+  body: <p>Pending email post content</p>

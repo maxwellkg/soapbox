@@ -101,9 +101,11 @@ class SubscriptionTest < ActiveSupport::TestCase
   end
 
   test "is invalid when active subscription has an end date" do
-    subscription = subscriptions(:reader_four_inactive)
-    subscription.active = true
-    subscription.end_date = Date.current
+    subscription = Subscription.new(
+      subscriber: subscribers(:reader_without_subscription),
+      active: true,
+      end_date: Date.current
+    )
 
     assert_not subscription.valid?
 
@@ -125,7 +127,7 @@ class SubscriptionTest < ActiveSupport::TestCase
     assert subscription.errors.of_kind?(:active, "cannot reactivate an ended subscription")
 
     replacement = Subscription.new(
-      subscriber: subscription.subscriber,
+      subscriber: subscribers(:reader_without_subscription),
       active: true,
       start_date: Date.current
     )
@@ -138,7 +140,8 @@ class SubscriptionTest < ActiveSupport::TestCase
     active_subscriptions = [
       subscriptions(:reader_one_active),
       subscriptions(:reader_two_active),
-      subscriptions(:reader_three_active)
+      subscriptions(:reader_three_active),
+      subscriptions(:reader_four_active)
     ]
 
     assert_equal active_subscriptions.map(&:id).sort, Subscription.active.map(&:id).sort

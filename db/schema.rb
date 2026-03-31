@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_29_123001) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_30_205018) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -71,16 +71,30 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_29_123001) do
     t.check_constraint "singleton_guard = 1", name: "blogs_singleton_guard_true"
   end
 
+  create_table "post_emails", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "post_id", null: false
+    t.integer "subscription_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id", "subscription_id"], name: "index_post_emails_on_post_id_and_subscription_id", unique: true
+    t.index ["post_id"], name: "index_post_emails_on_post_id"
+    t.index ["subscription_id"], name: "index_post_emails_on_subscription_id"
+  end
+
   create_table "posts", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.string "email_status", default: "not_started", null: false
     t.boolean "pinned", default: false, null: false
     t.datetime "published_at"
     t.string "slug", null: false
+    t.string "start_emails_job_key"
     t.string "status", default: "draft", null: false
     t.text "title", null: false
     t.datetime "updated_at", null: false
     t.index ["slug"], name: "index_posts_on_slug", unique: true
     t.check_constraint "((status = 'published' AND published_at IS NOT NULL) OR (status = 'draft' AND published_at IS NULL))", name: "posts_status_published_at_consistency"
+    t.check_constraint "(email_status = 'not_started' AND start_emails_job_key IS NULL) OR start_emails_job_key IS NOT NULL", name: "posts_email_status_job_key_consistency"
+    t.check_constraint "email_status IN ('not_started', 'pending', 'initiated')", name: "posts_email_status_check"
     t.check_constraint "status IN ('draft', 'published')", name: "posts_status_check"
   end
 
@@ -116,6 +130,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_29_123001) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "post_emails", "posts"
+  add_foreign_key "post_emails", "subscriptions"
   add_foreign_key "sessions", "authors"
   add_foreign_key "subscriptions", "subscribers"
 end

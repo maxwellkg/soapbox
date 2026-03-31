@@ -19,6 +19,11 @@ reader_three_inactive_history:
   start_date: <%= Date.new(2025, 1, 1) %>
   end_date: <%= Date.new(2025, 2, 15) %>
 
+reader_four_active:
+  subscriber: reader_four
+  active: true
+  start_date: <%= Date.new(2025, 9, 1) %>
+
 reader_four_inactive:
   subscriber: reader_four
   active: false

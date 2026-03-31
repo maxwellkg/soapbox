@@ -115,7 +115,9 @@ class PostTest < ActiveSupport::TestCase
       posts(:pinned_newer),
       posts(:pinned_older),
       posts(:pinned),
+      posts(:pending_email),
       posts(:unpinned_newer),
+      posts(:emailed),
       posts(:unpinned_older),
       posts(:published)
     ]

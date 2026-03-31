@@ -1,0 +1,7 @@
+<%= @post.title %>
+
+<%= @post.content.to_plain_text %>
+
+---
+
+Unsubscribe: <%= subscriber_unsubscribe_url(@subscriber) %>

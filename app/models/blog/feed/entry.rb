@@ -17,7 +17,7 @@ class Blog::Feed::Entry
     item.updated = updated_at.utc
     item.content.content = content
     item.content.type = "html"
-  
+
     item
   end
 
@@ -28,7 +28,7 @@ class Blog::Feed::Entry
 
     def identifier
       "Post/#{id}"
-    end    
+    end
 
     def author_name
       author.full_name
@@ -48,5 +48,5 @@ class Blog::Feed::Entry
 
     def post_url
       Rails.application.routes.url_helpers.post_url(post)
-    end    
+    end
 end
