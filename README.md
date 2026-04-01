@@ -1,5 +1,11 @@
 # README
 
+## Search
+
+Search architecture and behavior are documented in `docs/search.md`.
+
+To rebuild all configured search indexes, run `bin/rake search:reindex_all`.
+
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
