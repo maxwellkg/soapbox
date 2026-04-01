@@ -1,4 +1,5 @@
 class Subscriber < ApplicationRecord
+  include Searchable::Model
   include Subscriber::Unsubscribable
 
   STATUSES = %w[ active inactive ]
@@ -21,6 +22,9 @@ class Subscriber < ApplicationRecord
             presence: true,
             uniqueness: true,
             format: { with: URI::MailTo::EMAIL_REGEXP }
+
+
+  basic_search_on :email_address
 
   def active?
     active_subscription.present?

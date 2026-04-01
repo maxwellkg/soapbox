@@ -1,5 +1,6 @@
 class Post < ApplicationRecord
   include Post::Emailing
+  include Post::Searchable
 
   MAX_SLUG_LENGTH = 50
   STATUSES = %w[ draft published ]

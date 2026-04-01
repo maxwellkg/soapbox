@@ -87,7 +87,7 @@ module Post::Emailing
 
     def initiate_emails_using_key(key:)
       initiate_emails if email_job_key_matches?(key)
-    end    
+    end
 
     def initiate_emails
       raise "Can only initiate emails when email_status is 'pending'" unless email_status_pending?

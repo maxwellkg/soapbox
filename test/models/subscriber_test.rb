@@ -44,6 +44,12 @@ class SubscriberTest < ActiveSupport::TestCase
     assert_equal "foo@bar.com", subscriber.email_address
   end
 
+  test "searches by email address" do
+    assert_equal [ subscribers(:reader_one).id ], Subscriber.search_email_address("reader.one").pluck(:id)
+    assert_equal Subscriber.all.pluck(:id).sort, Subscriber.search_email_address(nil).pluck(:id).sort
+    assert_equal [], Subscriber.search_email_address("no-such-subscriber").to_a
+  end
+
   test "knows whether it has an active subscription" do
     active = subscribers(:reader_three)
 
