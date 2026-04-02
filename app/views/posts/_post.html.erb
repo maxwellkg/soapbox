@@ -1,0 +1,14 @@
+<article id="<%= dom_id(post) %>">
+  <header>
+    <h1><%= post.title %></h1>
+    <p>By <%= post.author.full_name %></p>
+
+    <% if post.published_at.present? %>
+      <p><%= formatted_date(post.published_at) %></p>
+    <% end %>
+  </header>
+
+  <section>
+    <%= post.content %>
+  </section>
+</article>

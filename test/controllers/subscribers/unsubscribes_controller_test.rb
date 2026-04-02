@@ -10,7 +10,7 @@ class Subscribers::UnsubscribesControllerTest < ActionDispatch::IntegrationTest
       assert_redirected_to root_url
     end
 
-    assert_equal "#{subscriber.email_address} has been unsubscribed", flash[:notice]
+    assert_equal "#{subscriber.email_address} has been unsubscribed", flash[:success]
   end
 
   test "succeeds for inactive subscriber" do
@@ -19,7 +19,7 @@ class Subscribers::UnsubscribesControllerTest < ActionDispatch::IntegrationTest
     get subscriber_unsubscribe_url(subscriber)
     assert_redirected_to root_url
 
-    assert_equal "#{subscriber.email_address} has been unsubscribed", flash[:notice]
+    assert_equal "#{subscriber.email_address} has been unsubscribed", flash[:success]
   end
 
   test "gives alert if unsubscribe fails" do

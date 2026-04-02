@@ -1,3 +1,12 @@
+:root {
+  --background-color: #0E1923;
+  --font-color: #D6E8EE;
+  --invert-font-color: #0E1923;
+  --primary-color: #5ACCF0;
+  --secondary-color: #8EAAB3;
+  --code-bg-color: #11212D;
+}
+
 .site-shell {
   max-width: 60rem;
   margin: 3rem auto;
@@ -5,8 +14,169 @@
   width: 100%;
 }
 
+.blog-title-link,
+.blog-title-link:visited {
+  color: var(--font-color);
+}
+
+.blog-title {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.blog-subtitle {
+  font-size: 1.2rem;
+  margin-top: 0;
+}
+
+.blog-title-link:hover {
+  background-color: transparent;
+  color: var(--primary-color);
+}
+
+.signup-section {
+  margin: 2.5rem 0 2rem;
+}
+
+.signup-fieldset {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.signup-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.75rem;
+  align-items: end;
+}
+
+.signup-actions {
+  margin-top: 0;
+}
+
+.signup-errors {
+  margin-bottom: 0.75rem;
+}
+
+.signup-rss-note {
+  margin: 0;
+}
+
+.posts-search-section {
+  margin: 2rem 0 2.5rem;
+}
+
+.search-fieldset {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.search-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.75rem;
+}
+
+.post-preview {
+  margin: 2.25rem 0;
+  padding: 0.5rem;
+}
+
+.post-preview-body {
+  padding: 1rem 1.1rem;
+}
+
+.post-preview h2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.15rem;
+}
+
+.post-preview-meta {
+  color: var(--secondary-color);
+  margin: 0;
+}
+
+.post-preview-date {
+  margin-bottom: 0.85rem;
+}
+
+.post-preview-summary {
+  margin-top: 1.5rem;
+}
+
+.post-preview-read-more {
+  margin-bottom: 0;
+}
+
+.flashes-container {
+  margin-bottom: 1.25rem;
+}
+
+.flash-message {
+  border: 1px solid transparent;
+  border-left-width: 4px;
+  margin-bottom: 0.75rem;
+  padding: 0.75rem 1rem;
+}
+
+.flash-message-text {
+  color: #fff;
+  margin: 0;
+}
+
+.flash-success {
+  background-color: #143427;
+  border-color: #4fd98f;
+  color: #b7f5d6;
+}
+
+.flash-error {
+  background-color: #3a1c22;
+  border-color: #ff6b78;
+  color: #ffd2d8;
+}
+
+.flash-alert {
+  background-color: #3b2d16;
+  border-color: #f0bf63;
+  color: #ffe2a8;
+}
+
+.flash-notice {
+  background-color: #153342;
+  border-color: #69d8ff;
+  color: #d4f4ff;
+}
+
+.flash-neutral {
+  background-color: #1a2a33;
+  border-color: #8eaab3;
+  color: var(--font-color);
+}
+
+.invisible {
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
 @media (max-width: 640px) {
   .site-shell {
     margin-top: 1.5rem;
+  }
+
+  .search-row {
+    grid-template-columns: 1fr;
+  }
+
+  .signup-row {
+    grid-template-columns: 1fr;
   }
 }

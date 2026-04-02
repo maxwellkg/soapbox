@@ -1,0 +1,7 @@
+<div class="flashes-container">
+  <%= turbo_frame_tag flashes_tf_id, aria: { live: "polite", atomic: "true" } do %>
+    <% flash.each do |type, message| %>
+      <%= render "shared/flash_message", type:, message: %>
+    <% end %>
+  <% end %>
+</div>

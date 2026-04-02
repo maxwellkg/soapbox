@@ -1,0 +1,27 @@
+<%= turbo_frame_tag signup_form_tf_id do %>
+  <%= form_with model: signup, url: signups_path do |form| %>
+    <% if signup.errors.any? %>
+      <div id="<%= signup_errors_id %>" class="signup-errors" role="alert">
+        <p><%= pluralize(signup.errors.count, "error") %> prevented signup:</p>
+        <ul>
+          <% signup.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <fieldset class="signup-fieldset">
+      <legend>Subscribe to updates by email</legend>
+      <div class="signup-row">
+        <%= form.label :email_address, "Email address", class: "invisible" %>
+        <%= form.email_field :email_address, **signup_email_field_options(signup) %>
+        <div class="signup-actions">
+          <%= form.button "Subscribe", class: "btn btn-primary" %>
+        </div>
+      </div>
+
+      <p class="signup-rss-note">Or <%= link_to "grab the RSS feed", feed_path, data: { turbo: false }, target: "_blank", rel: "noopener" %>.</p>
+    </fieldset>
+  <% end %>
+<% end %>

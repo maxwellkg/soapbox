@@ -5,10 +5,12 @@ class Subscribers::UnsubscribesController < ApplicationController
 
   def unsubscribe
     if @subscriber.unsubscribe
-      redirect_to root_path, notice: "#{@subscriber.email_address} has been unsubscribed"
+      flash_success "#{@subscriber.email_address} has been unsubscribed"
     else
-      redirect_to root_path, alert: "Sorry, something went wrong. Please try again."
+      flash_alert "Sorry, something went wrong. Please try again."
     end
+
+    redirect_to root_path
   end
 
   private
@@ -16,6 +18,7 @@ class Subscribers::UnsubscribesController < ApplicationController
     def set_subscriber
       @subscriber = Subscriber.find_by_unsubscribe_token!(params.expect(:token))
     rescue ActiveRecord::RecordNotFound, ActiveSupport::MessageVerifier::InvalidSignature
-      redirect_to root_path, alert: "Unsubscribe link is invalid or has expired."
+      flash_alert "Unsubscribe link is invalid or has expired."
+      redirect_to root_path
     end
 end

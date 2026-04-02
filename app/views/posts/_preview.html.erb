@@ -1,0 +1,21 @@
+<article id="<%= dom_id(post) %>" class="post-preview terminal-card">
+  <div class="post-preview-body">
+    <header>
+      <% if post.pinned? %>
+        <p class="post-preview-meta"><em>Pinned</em></p>
+      <% end %>
+
+      <h2><%= link_to post.title, post_path(post) %></h2>
+
+      <% if post.published_at.present? %>
+        <p class="post-preview-meta post-preview-date"><%= formatted_date(post.published_at) %></p>
+      <% end %>
+    </header>
+
+    <div class="post-preview-summary">
+      <%= post_preview_content(post) %>
+    </div>
+
+    <p class="post-preview-read-more"><%= link_to "Read more", post_path(post), id: "post_#{post.id}_link" %></p>
+  </div>
+</article>

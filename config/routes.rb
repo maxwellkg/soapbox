@@ -7,7 +7,8 @@ Rails.application.routes.draw do
   root "posts#index"
 
   get "feed", to: "posts#index", defaults: { format: :atom }, constraints: lambda { |req| req.format == :atom }
-  resources :posts, except: :index
+  resources :posts, only: :show, param: :slug
+  post "signup", to: "subscribers/signups#create", as: :signups
 
   get "/subscribers/:token/unsubscribe", to: "subscribers/unsubscribes#unsubscribe", as: :unsubscribe
 

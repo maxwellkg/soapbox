@@ -1,0 +1,13 @@
+<% content_for :title, @post.title %>
+
+<p><%= link_to "See all posts", root_path %></p>
+
+<header>
+  <%= render "posts/blog_title", blog: @blog %>
+</header>
+
+<section class="signup-section">
+  <%= render "subscribers/signups/form", signup: @signup %>
+</section>
+
+<%= render "posts/post", post: @post %>

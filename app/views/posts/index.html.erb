@@ -1,0 +1,40 @@
+<% content_for :title, @blog.title %>
+
+<header>
+  <%= render "posts/blog_title", blog: @blog %>
+</header>
+
+<section class="signup-section">
+  <%= render "subscribers/signups/form", signup: @signup %>
+</section>
+
+<% if @blog.description? %>
+  <section id="description">
+    <%= @blog.description %>
+  </section>
+<% end %>
+
+<section class="posts-search-section">
+  <%= form_with url: root_path, method: :get do |form| %>
+    <fieldset class="search-fieldset">
+      <legend>Search posts</legend>
+      <div class="search-row">
+        <%= form.label :search, "Search posts", class: "invisible" %>
+        <%= form.search_field :search, value: search_term, placeholder: "search for a post" %>
+        <%= form.button "Search", class: "btn btn-primary" %>
+      </div>
+    </fieldset>
+  <% end %>
+</section>
+
+<section id="posts">
+  <% if search_term.present? %>
+    <p><%= pluralize(@posts.count, "matching post") %></p>
+  <% end %>
+
+  <% if @posts.any? %>
+    <%= render partial: "posts/preview", collection: @posts, as: :post %>
+  <% else %>
+    <p><%= no_matching_posts_text %></p>
+  <% end %>
+</section>

@@ -1,0 +1,5 @@
+<h1 class="blog-title"><%= link_to blog.title, root_path, class: "blog-title-link" %></h1>
+
+<% if blog.subtitle.present? %>
+  <p class="blog-subtitle"><%= blog.subtitle %></p>
+<% end %>
