@@ -180,6 +180,32 @@
   gap: 1rem;
 }
 
+.admin-posts-search-section {
+  margin: 0 0 1.5rem;
+}
+
+.admin-search-fieldset {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.admin-search-row {
+  align-items: end;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+}
+
+.admin-search-input,
+.admin-search-select,
+.admin-search-actions {
+  margin: 0;
+}
+
+.admin-search-select select {
+  margin-bottom: 0;
+}
+
 .admin-post-card {
   margin: 0;
 }
@@ -329,5 +355,9 @@
 
   .admin-post-preview-actions {
     margin-top: 1rem;
+  }
+
+  .admin-search-row {
+    grid-template-columns: 1fr;
   }
 }

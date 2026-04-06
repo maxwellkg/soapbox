@@ -8,7 +8,15 @@
   <h1>Posts</h1>
 </header>
 
+<section class="admin-posts-search-section">
+  <%= render "admin/posts/search_form" %>
+</section>
+
 <section class="admin-posts-list">
+  <% if admin_posts_searching? %>
+    <p><%= admin_num_matching_posts_text %></p>
+  <% end %>
+
   <% if @posts.any? %>
     <%= render partial: "admin/posts/preview", collection: @posts, as: :post %>
   <% else %>

@@ -19,4 +19,16 @@ module Admin::PostsHelper
               form_class: "admin-post-action-form",
               data: { turbo_confirm: "delete this post?" }
   end
+
+  def admin_posts_selected_status
+    params[:status].presence
+  end
+
+  def admin_posts_searching?
+    search_term.present? || admin_posts_selected_status.present?
+  end
+
+  def admin_num_matching_posts_text
+    "#{@posts.count} matching posts"
+  end
 end

@@ -1,8 +1,14 @@
 class Admin::PostsController < Admin::ApplicationController
+  include Searchable::Controller
+
   before_action :set_post, only: %i[ show edit update destroy ]
 
   def index
-    @posts = Post.with_rich_text_summary.order(updated_at: :desc)
+    @posts = Post
+             .with_rich_text_summary
+             .search_title_summary_and_content(search_term)
+             .where(filter_conditions)
+             .order(updated_at: :desc)
   end
 
   def show
@@ -48,5 +54,13 @@ class Admin::PostsController < Admin::ApplicationController
 
     def post_params
       params.expect(post: [ :title, :slug, :summary, :content, :pinned ])
+    end
+
+    def filter_conditions
+      { status: filter_params[:status] }.compact_blank
+    end
+
+    def filter_params
+      params.permit(:status)
     end
 end

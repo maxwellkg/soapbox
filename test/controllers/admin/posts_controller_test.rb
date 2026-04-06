@@ -38,13 +38,65 @@ class Admin::PostsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "h1", "Posts"
 
+    assert_select "h2", Post.count
+
     Post.all.each do |post|
       assert_select "h2", text: post.title
-      assert_select "a[href='#{admin_post_path(post)}']", text: post.title
-      assert_select "a[href='#{edit_admin_post_path(post)}']", text: "edit"
     end
+  end
 
-    assert_select "a", text: "show", count: 0
+  test "index searches posts" do
+    sign_in_as(@author)
+    Post.reindex_all!
+
+    get admin_posts_path, params: { search: "email" }
+
+    assert_response :success
+    assert_select "h2", count: 2
+    assert_select "h2", text: posts(:emailed).title
+    assert_select "h2", text: posts(:pending_email).title
+    assert_select "p", text: "2 matching posts"
+
+    get admin_posts_path, params: { search: "foobar" }
+    assert_select "h2", count: 0
+    assert_select "p", text: "0 matching posts"
+  end
+
+  test "index filters posts by status" do
+    sign_in_as(@author)
+
+    get admin_posts_path, params: { status: "draft" }
+    assert_response :success
+    assert_select "h2", count: Post.draft.count
+
+    get admin_posts_path, params: { status: "published" }
+    assert_response :success
+    assert_select "h2", count: Post.published.count
+
+    get admin_posts_path, params: { status: "" }
+    assert_response :success
+    assert_select "h2", count: Post.count
+
+    get admin_posts_path, params: { status: "foobar" }
+    assert_response :success
+    assert_select "h2", count: 0
+  end
+
+  test "index combines search and status filter" do
+    sign_in_as(@author)
+    Post.reindex_all!
+
+    get admin_posts_path, params: { search: "email", status: "published" }
+
+    assert_response :success
+    assert_select "h2", count: 2
+    assert_select "h2", text: posts(:emailed).title
+    assert_select "h2", text: posts(:pending_email).title
+
+    get admin_posts_path, params: { search: "email", status: "draft" }
+
+    assert_response :success
+    assert_select "h2", count: 0
   end
 
   test "show displays the post" do

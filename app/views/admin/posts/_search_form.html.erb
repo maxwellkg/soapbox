@@ -1,0 +1,23 @@
+<%= form_with url: admin_posts_path, method: :get do |form| %>
+  <fieldset class="admin-search-fieldset">
+    <legend>search and filter</legend>
+
+    <div class="admin-search-row">
+      <div class="admin-search-input">
+        <%= form.label :search, "search posts", class: "invisible" %>
+        <%= form.search_field :search, value: search_term, placeholder: "search for a post" %>
+      </div>
+
+      <div class="admin-search-select">
+        <%= form.label :status, "status", class: "invisible" %>
+        <%= form.select :status,
+                        options_for_select(Post::STATUSES, admin_posts_selected_status),
+                        { include_blank: "all statuses" } %>
+      </div>
+
+      <div class="admin-search-actions">
+        <%= form.button "search", class: "btn btn-primary" %>
+      </div>
+    </div>
+  </fieldset>
+<% end %>
