@@ -29,7 +29,19 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "title", post.title
     assert_select "h1", text: post.title
+    assert_select "a[href='#{root_path}']", text: "see all posts"
+    assert_select "a[href='#{edit_admin_post_path(post)}']", text: "edit post", count: 0
     assert_includes response.body, post.content.body.to_s
+  end
+
+  test "show displays edit post action for authenticated author" do
+    post = posts(:published)
+    sign_in_as(authors(:one))
+
+    get post_url(post)
+
+    assert_response :success
+    assert_select "a[href='#{edit_admin_post_path(post)}']", text: "edit post"
   end
 
   test "show does not find draft posts" do

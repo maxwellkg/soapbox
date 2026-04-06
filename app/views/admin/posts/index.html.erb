@@ -1,0 +1,17 @@
+<% content_for :title, "(Admin) Posts" %>
+
+<section class="admin-post-actions page-actions">
+  <%= link_to "New post", new_admin_post_path, class: "btn btn-primary" %>
+</section>
+
+<header class="admin-header">
+  <h1>Posts</h1>
+</header>
+
+<section class="admin-posts-list">
+  <% if @posts.any? %>
+    <%= render partial: "admin/posts/preview", collection: @posts, as: :post %>
+  <% else %>
+    <p>No posts yet.</p>
+  <% end %>
+</section>

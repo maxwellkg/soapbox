@@ -4,7 +4,7 @@
     <p>By <%= post.author.full_name %></p>
 
     <% if post.published_at.present? %>
-      <p><%= formatted_date(post.published_at) %></p>
+      <p><%= standard_formatted_date(post.published_at) %></p>
     <% end %>
   </header>
 

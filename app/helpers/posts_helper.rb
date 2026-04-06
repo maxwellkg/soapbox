@@ -1,8 +1,4 @@
 module PostsHelper
-  def formatted_date(date)
-    date.strftime("%d %B %Y")
-  end
-
   def post_preview_content(post)
     post.summary.presence || post_preview_content_from_post_content(post)
   end

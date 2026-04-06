@@ -1,0 +1,20 @@
+<article id="<%= dom_id(post) %>" class="terminal-card admin-post-card">
+  <div class="admin-post-card-body">
+    <div class="admin-post-preview-row">
+      <header>
+        <h2><%= link_to post.title, admin_post_path(post) %></h2>
+        <p class="admin-post-meta">
+          <span class="admin-label">Status:</span> <%= admin_post_status_text(post) %>
+          <% if post.pinned? %>
+            · <span class="admin-label">Pinned</span>
+          <% end %>
+          · <span class="admin-label">Updated:</span> <%= admin_post_updated_at_text(post) %>
+        </p>
+      </header>
+
+      <div class="admin-post-actions admin-post-preview-actions">
+        <%= link_to "edit", edit_admin_post_path(post), class: "btn" %>
+      </div>
+    </div>
+  </div>
+</article>

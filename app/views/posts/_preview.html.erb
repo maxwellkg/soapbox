@@ -8,7 +8,7 @@
       <h2><%= link_to post.title, post_path(post) %></h2>
 
       <% if post.published_at.present? %>
-        <p class="post-preview-meta post-preview-date"><%= formatted_date(post.published_at) %></p>
+        <p class="post-preview-meta post-preview-date"><%= standard_formatted_date(post.published_at) %></p>
       <% end %>
     </header>
 

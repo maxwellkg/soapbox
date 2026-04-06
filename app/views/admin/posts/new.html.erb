@@ -1,0 +1,11 @@
+<% content_for :title, "New Post" %>
+
+<section class="admin-post-actions page-actions">
+  <%= link_to "back to posts", admin_posts_path, class: "btn" %>
+</section>
+
+<header class="admin-header">
+  <h1>New Post</h1>
+</header>
+
+<%= render "admin/posts/form", post: @post %>

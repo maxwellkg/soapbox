@@ -1,0 +1,34 @@
+<% content_for :title, @post.title %>
+
+<%= render "admin/posts/status_note", post: @post %>
+
+<section class="admin-post-actions page-actions">
+  <%= link_to "back to posts", admin_posts_path, class: "btn" %>
+  <%= link_to "edit", edit_admin_post_path(@post), class: "btn" %>
+  <%= admin_post_status_change_button %>
+  <%= admin_post_delete_button %>
+</section>
+
+<header class="admin-header">
+  <h1><%= @post.title %></h1>
+</header>
+
+<section class="admin-post-meta-block">
+  <p><span class="admin-label">Slug:</span> <code><%= @post.slug %></code></p>
+  <p><span class="admin-label">Status:</span> <%= admin_post_status_text(@post) %></p>
+  <p><span class="admin-label">Published:</span> <%= admin_post_published_at_text(@post) %></p>
+</section>
+
+<section class="admin-post-content">
+  <% if @post.summary.present? %>
+    <h2>Summary</h2>
+    <div>
+      <%= @post.summary %>
+    </div>
+  <% end %>
+
+  <h2>Content</h2>
+  <div>
+    <%= @post.content %>
+  </div>
+</section>

@@ -167,6 +167,148 @@
   width: 1px;
 }
 
+.admin-header {
+  margin-bottom: 1.5rem;
+}
+
+.admin-header h1 {
+  margin: 0;
+}
+
+.admin-posts-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.admin-post-card {
+  margin: 0;
+}
+
+.admin-post-card-body {
+  padding: 1rem;
+}
+
+.admin-post-preview-row {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.admin-post-preview-row header {
+  min-width: 0;
+}
+
+.admin-post-preview-row h2 {
+  margin: 0;
+}
+
+.admin-post-meta {
+  color: var(--secondary-color);
+  margin: 0.5rem 0 0;
+}
+
+.admin-label {
+  font-weight: 700;
+}
+
+.admin-post-meta-block {
+  margin: 1rem 0 1.5rem;
+}
+
+.admin-status-note {
+  margin-bottom: 1rem;
+}
+
+.admin-status-note-body {
+  align-items: center;
+  display: flex;
+  min-height: 3.75rem;
+  padding: 1rem;
+}
+
+.admin-status-note-body p {
+  margin: 0;
+}
+
+.admin-status-note-draft {
+  background-color: #3b2d16;
+  border-color: #f0bf63;
+  color: #ffe2a8;
+}
+
+.admin-status-note-published {
+  background-color: #153342;
+  border-color: #69d8ff;
+  color: #d4f4ff;
+}
+
+.admin-status-note a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.admin-post-fieldset {
+  border: 1px solid var(--secondary-color);
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 1rem;
+}
+
+.admin-form-row {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.admin-form-row-checkbox {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.admin-form-errors {
+  margin-bottom: 1rem;
+}
+
+.admin-post-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.admin-post-actions form {
+  margin: 0;
+}
+
+.admin-post-actions .admin-post-action-form {
+  display: inline-flex;
+  margin: 0;
+  width: auto;
+}
+
+.page-actions {
+  margin-bottom: 1rem;
+  margin-top: 0;
+}
+
+.admin-post-preview-actions {
+  margin-top: 0;
+}
+
+.btn-error {
+  border-color: red;
+  color: white;
+}
+
+.btn-error:hover {
+  background-color: #ff6b78;
+  border-color: #ff6b78;
+  color: #09141c;
+}
+
 @media (max-width: 640px) {
   .site-shell {
     margin-top: 1.5rem;
@@ -178,5 +320,14 @@
 
   .signup-row {
     grid-template-columns: 1fr;
+  }
+
+  .admin-post-preview-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .admin-post-preview-actions {
+    margin-top: 1rem;
   }
 }

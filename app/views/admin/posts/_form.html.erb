@@ -1,0 +1,44 @@
+<%= form_with(model: [ :admin, post ]) do |form| %>
+  <% if post.errors.any? %>
+    <section class="admin-form-errors" role="alert">
+      <p><%= pluralize(post.errors.count, "error") %> prevented this post from being saved:</p>
+      <ul>
+        <% post.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </section>
+  <% end %>
+
+  <fieldset class="admin-post-fieldset">
+    <div class="admin-form-row">
+      <%= form.label :title %>
+      <%= form.text_field :title, required: true, autofocus: true %>
+    </div>
+
+    <div class="admin-form-row">
+      <%= form.label :slug %>
+      <%= form.text_field :slug %>
+    </div>
+
+    <div class="admin-form-row admin-form-row-checkbox">
+      <%= form.check_box :pinned %>
+      <%= form.label :pinned, "Pin post" %>
+    </div>
+
+    <div class="admin-form-row">
+      <%= form.label :summary %>
+      <%= form.rich_text_area :summary %>
+    </div>
+
+    <div class="admin-form-row">
+      <%= form.label :content %>
+      <%= form.rich_text_area :content %>
+    </div>
+  </fieldset>
+
+  <div class="admin-post-actions">
+    <%= form.submit(post.persisted? ? "update post" : "create post", class: "btn btn-primary") %>
+    <%= link_to "cancel", post.persisted? ? admin_post_path(post) : admin_posts_path, class: "btn" %>
+  </div>
+<% end %>
