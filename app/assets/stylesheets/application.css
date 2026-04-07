@@ -175,12 +175,18 @@
   margin: 0;
 }
 
-.admin-posts-list {
+.admin-dashboard-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.admin-list {
   display: grid;
   gap: 1rem;
 }
 
-.admin-posts-search-section {
+.admin-search-section {
   margin: 0 0 1.5rem;
 }
 
@@ -206,30 +212,30 @@
   margin-bottom: 0;
 }
 
-.admin-post-card {
+.admin-card {
   margin: 0;
 }
 
-.admin-post-card-body {
+.admin-card-body {
   padding: 1rem;
 }
 
-.admin-post-preview-row {
+.admin-preview-row {
   align-items: center;
   display: flex;
   gap: 1rem;
   justify-content: space-between;
 }
 
-.admin-post-preview-row header {
+.admin-preview-row header {
   min-width: 0;
 }
 
-.admin-post-preview-row h2 {
+.admin-preview-row h2 {
   margin: 0;
 }
 
-.admin-post-meta {
+.admin-meta {
   color: var(--secondary-color);
   margin: 0.5rem 0 0;
 }
@@ -238,7 +244,7 @@
   font-weight: 700;
 }
 
-.admin-post-meta-block {
+.admin-meta-block {
   margin: 1rem 0 1.5rem;
 }
 
@@ -274,7 +280,7 @@
   text-decoration: underline;
 }
 
-.admin-post-fieldset {
+.admin-fieldset {
   border: 1px solid var(--secondary-color);
   display: grid;
   gap: 1rem;
@@ -297,7 +303,7 @@
   margin-bottom: 1rem;
 }
 
-.admin-post-actions {
+.admin-actions {
   align-items: center;
   display: flex;
   flex-wrap: wrap;
@@ -305,11 +311,11 @@
   margin-top: 1rem;
 }
 
-.admin-post-actions form {
+.admin-actions form {
   margin: 0;
 }
 
-.admin-post-actions .admin-post-action-form {
+.admin-actions .admin-action-form {
   display: inline-flex;
   margin: 0;
   width: auto;
@@ -320,7 +326,7 @@
   margin-top: 0;
 }
 
-.admin-post-preview-actions {
+.admin-preview-actions {
   margin-top: 0;
 }
 
@@ -348,12 +354,12 @@
     grid-template-columns: 1fr;
   }
 
-  .admin-post-preview-row {
+  .admin-preview-row {
     align-items: stretch;
     flex-direction: column;
   }
 
-  .admin-post-preview-actions {
+  .admin-preview-actions {
     margin-top: 1rem;
   }
 

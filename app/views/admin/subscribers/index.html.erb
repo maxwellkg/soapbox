@@ -1,0 +1,26 @@
+<% content_for :title, "(Admin) Subscribers" %>
+
+<section class="admin-actions page-actions">
+  <%= link_to "New subscriber", new_admin_subscriber_path, class: "btn btn-primary" %>
+  <%= link_to "Manage posts", admin_posts_path, class: "btn" %>
+</section>
+
+<header class="admin-header">
+  <h1>Subscribers</h1>
+</header>
+
+<section class="admin-search-section">
+  <%= render "admin/subscribers/search_form" %>
+</section>
+
+<section class="admin-list">
+  <% if admin_subscribers_searching? %>
+    <p><%= admin_num_matching_subscribers_text %></p>
+  <% end %>
+
+  <% if @subscribers.any? %>
+    <%= render partial: "admin/subscribers/preview", collection: @subscribers, as: :subscriber %>
+  <% else %>
+    <p>No subscribers yet.</p>
+  <% end %>
+</section>

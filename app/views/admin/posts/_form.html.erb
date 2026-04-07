@@ -1,16 +1,16 @@
-<%= form_with(model: [ :admin, post ]) do |form| %>
-  <% if post.errors.any? %>
+<%= form_with(model: [ :admin, @post ]) do |form| %>
+  <% if @post.errors.any? %>
     <section class="admin-form-errors" role="alert">
-      <p><%= pluralize(post.errors.count, "error") %> prevented this post from being saved:</p>
+      <p><%= pluralize(@post.errors.count, "error") %> prevented this post from being saved:</p>
       <ul>
-        <% post.errors.full_messages.each do |message| %>
+        <% @post.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
       </ul>
     </section>
   <% end %>
 
-  <fieldset class="admin-post-fieldset">
+  <fieldset class="admin-fieldset">
     <div class="admin-form-row">
       <%= form.label :title %>
       <%= form.text_field :title, required: true, autofocus: true %>
@@ -37,8 +37,8 @@
     </div>
   </fieldset>
 
-  <div class="admin-post-actions">
-    <%= form.submit(post.persisted? ? "update post" : "create post", class: "btn btn-primary") %>
-    <%= link_to "cancel", post.persisted? ? admin_post_path(post) : admin_posts_path, class: "btn" %>
+  <div class="admin-actions">
+    <%= form.submit admin_post_form_submit_text, class: "btn btn-primary" %>
+    <%= link_to "cancel", admin_post_form_cancel_path, class: "btn" %>
   </div>
 <% end %>

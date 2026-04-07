@@ -1,13 +1,11 @@
-<% note_style_class = post.draft? ? "admin-status-note-draft" : "admin-status-note-published" %>
-
-<section id="post-admin-notice" class="admin-status-note terminal-card <%= note_style_class %>">
+<section id="post-admin-notice" class="admin-status-note terminal-card <%= admin_post_status_note_style_class %>">
   <div class="admin-status-note-body">
-    <% if post.draft? %>
+    <% if @post.draft? %>
       <p>Note: This post is currently a draft.</p>
     <% else %>
       <p>
         Note: This post has been published.
-        <%= link_to "View public post", post_path(post) %>.
+        <%= link_to "View public post", post_path(@post) %>.
       </p>
     <% end %>
   </div>

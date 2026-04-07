@@ -11,12 +11,19 @@ Rails.application.routes.draw do
   post "signup", to: "subscribers/signups#create", as: :signups
 
   namespace :admin do
-    root "posts#index"
+    root "dashboards#show"
 
     resources :posts, param: :slug do
       member do
         patch :publish, to: "posts/statuses#publish"
         patch :unpublish, to: "posts/statuses#unpublish"
+      end
+    end
+
+    resources :subscribers, only: %i[ index show new create edit update ] do
+      member do
+        patch :activate, to: "subscribers/statuses#activate"
+        patch :deactivate, to: "subscribers/statuses#deactivate"
       end
     end
   end

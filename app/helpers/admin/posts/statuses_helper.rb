@@ -9,7 +9,7 @@ module Admin::Posts::StatusesHelper
                 publish_admin_post_path(@post),
                 method: :patch,
                 class: "btn btn-primary",
-                form_class: "admin-post-action-form"
+                form_class: "admin-action-form"
     end
 
     def admin_post_unpublish_button
@@ -17,6 +17,6 @@ module Admin::Posts::StatusesHelper
                 unpublish_admin_post_path(@post),
                 method: :patch,
                 class: "btn",
-                form_class: "admin-post-action-form"
+                form_class: "admin-action-form"
     end
 end

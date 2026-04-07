@@ -1,4 +1,12 @@
 module Admin::PostsHelper
+  def admin_post_form_submit_text
+    @post.persisted? ? "update post" : "create post"
+  end
+
+  def admin_post_form_cancel_path
+    @post.persisted? ? admin_post_path(@post) : admin_posts_path
+  end
+
   def admin_post_status_text(post)
     post.published? ? "Published" : "Draft"
   end
@@ -11,12 +19,16 @@ module Admin::PostsHelper
     post.published? ? standard_formatted_date(post.published_at) : "Not published"
   end
 
+  def admin_post_status_note_style_class
+    @post.draft? ? "admin-status-note-draft" : "admin-status-note-published"
+  end
+
   def admin_post_delete_button
     button_to "delete",
               admin_post_path(@post),
               method: :delete,
               class: "btn btn-error",
-              form_class: "admin-post-action-form",
+              form_class: "admin-action-form",
               data: { turbo_confirm: "delete this post?" }
   end
 
@@ -29,6 +41,6 @@ module Admin::PostsHelper
   end
 
   def admin_num_matching_posts_text
-    "#{@posts.count} matching posts"
+    pluralize(@posts.count, "matching post")
   end
 end

@@ -1,6 +1,6 @@
 <% content_for :title, @post.title %>
 
-<section class="admin-post-actions page-actions">
+<section class="admin-actions page-actions">
   <%= link_to "see all posts", root_path, class: "btn" %>
   <% if authenticated? %>
     <%= link_to "edit post", edit_admin_post_path(@post), class: "btn" %>

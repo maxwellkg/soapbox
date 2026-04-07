@@ -60,6 +60,10 @@ class Admin::PostsControllerTest < ActionDispatch::IntegrationTest
     get admin_posts_path, params: { search: "foobar" }
     assert_select "h2", count: 0
     assert_select "p", text: "0 matching posts"
+
+    get admin_posts_path, params: { search: "pinned newer" }
+    assert_select "h2", count: 1
+    assert_select "p", text: "1 matching post"
   end
 
   test "index filters posts by status" do

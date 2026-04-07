@@ -1,0 +1,24 @@
+<%= form_with(model: [ :admin, @subscriber ]) do |form| %>
+  <% if @subscriber.errors.any? %>
+    <section class="admin-form-errors" role="alert">
+      <p><%= pluralize(@subscriber.errors.count, "error") %> prevented this subscriber from being saved:</p>
+      <ul>
+        <% @subscriber.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </section>
+  <% end %>
+
+  <fieldset class="admin-fieldset">
+    <div class="admin-form-row">
+      <%= form.label :email_address %>
+      <%= form.email_field :email_address, required: true, autofocus: true %>
+    </div>
+  </fieldset>
+
+  <div class="admin-actions">
+    <%= form.submit admin_subscriber_form_submit_text, class: "btn btn-primary" %>
+    <%= link_to "cancel", admin_subscriber_form_cancel_path, class: "btn" %>
+  </div>
+<% end %>

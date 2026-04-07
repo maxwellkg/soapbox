@@ -1,8 +1,8 @@
 <% content_for :title, "Edit Post" %>
 
-<%= render "admin/posts/status_note", post: @post %>
+<%= render "admin/posts/status_note" %>
 
-<section class="admin-post-actions page-actions">
+<section class="admin-actions page-actions">
   <%= link_to "back to posts", admin_posts_path, class: "btn" %>
   <%= link_to "show", admin_post_path(@post), class: "btn" %>
   <%= admin_post_status_change_button %>
@@ -13,4 +13,4 @@
   <h1>Edit Post</h1>
 </header>
 
-<%= render "admin/posts/form", post: @post %>
+<%= render "admin/posts/form" %>
