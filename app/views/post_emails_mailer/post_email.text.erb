@@ -1,7 +1,21 @@
+<%= @blog.title %>
+<% if @blog.subtitle.present? %>
+  <%= @blog.subtitle %>
+<% end %>
+
+---
+
 <%= @post.title %>
+By <%= @post.author.full_name %>
+
+<% if @post.published_at.present? %>
+  <%= standard_formatted_date(@post.published_at) %>
+<% end %>
 
 <%= @post.content.to_plain_text %>
 
 ---
+
+Read online: <%= post_url(@post) %>
 
 Unsubscribe: <%= subscriber_unsubscribe_url(@subscriber) %>

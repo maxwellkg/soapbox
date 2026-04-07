@@ -1,0 +1,140 @@
+.blog-title-link {
+  text-decoration: none;
+}
+
+.blog-title-link,
+.blog-title-link:visited {
+  color: var(--font-color);
+}
+
+.blog-title {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.blog-subtitle {
+  font-size: 1.2rem;
+  margin-top: 2rem;
+}
+
+.blog-title-link:hover {
+  background-color: transparent;
+  color: var(--primary-color);
+}
+
+.signup-section {
+  margin: 2.5rem 0 2rem;
+}
+
+.signup-fieldset {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.signup-row {
+  align-items: end;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 1fr auto;
+}
+
+.signup-actions {
+  margin-top: 0;
+}
+
+.signup-errors {
+  margin-bottom: 0.75rem;
+}
+
+.signup-rss-note {
+  margin: 0;
+}
+
+.posts-search-section {
+  margin: 2rem 0 2.5rem;
+}
+
+.post-email-shell {
+  margin: 0 auto;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  max-width: 60rem;
+}
+
+.post-title {
+  margin-top: 0;
+}
+
+.post-title-link {
+  text-decoration: none;
+  color: #fff;
+}
+
+.search-fieldset {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.search-row {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 1fr auto;
+}
+
+.post {
+  margin-top: 2rem;
+}
+
+.post-byline,
+.post-published-at {
+  color: var(--secondary-color);
+  margin: 0;
+}
+
+.post-content {
+  margin-top: 1.5rem;
+}
+
+.post-email-title-header {
+  padding-bottom: 1.5rem;
+}
+
+.post-mailer-wrapper {
+  padding-top: 1rem;
+  padding-bottom: 3rem;
+}
+
+.post-preview {
+  border: 1px solid #fff;
+  margin: 2.25rem 0;
+  padding: 1rem;
+}
+
+.post-preview h2 {
+  margin-bottom: 0.15rem;
+  margin-top: 0.5rem;
+}
+
+.post-preview-meta {
+  color: var(--secondary-color);
+  margin: 0;
+}
+
+.post-preview-date {
+  margin-bottom: 0.85rem;
+}
+
+.post-preview-summary {
+  margin-top: 1.5rem;
+}
+
+.post-preview-read-more {
+  margin-bottom: 0;
+}
+
+@media (max-width: 640px) {
+  .search-row,
+  .signup-row {
+    grid-template-columns: 1fr;
+  }
+}

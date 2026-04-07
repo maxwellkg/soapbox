@@ -11,6 +11,10 @@ module Admin::PostsHelper
     post.published? ? "Published" : "Draft"
   end
 
+  def admin_post_email_status_text(post)
+    post.email_status.humanize
+  end
+
   def admin_post_updated_at_text(post)
     standard_formatted_date(post.updated_at)
   end

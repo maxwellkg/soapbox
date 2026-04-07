@@ -1,4 +1,12 @@
 module PostsHelper
+  def post_title_tag(for_email: false)
+    tag_type = for_email ? :h2 : :h1
+
+    content_tag tag_type, class: "post-title" do
+      link_to @post.title, @post, class: "post-title-link"
+    end
+  end
+
   def post_preview_content(post)
     post.summary.presence || post_preview_content_from_post_content(post)
   end

@@ -1,8 +1,7 @@
 <% content_for :title, "(Admin) Posts" %>
 
-<section class="admin-actions page-actions">
-  <%= link_to "New post", new_admin_post_path, class: "btn btn-primary" %>
-  <%= link_to "Manage subscribers", admin_subscribers_path, class: "btn" %>
+<section class="page-actions">
+  <%= back_to_admin_link %>
 </section>
 
 <header class="admin-header">

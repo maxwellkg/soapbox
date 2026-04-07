@@ -17,6 +17,8 @@ Rails.application.routes.draw do
       member do
         patch :publish, to: "posts/statuses#publish"
         patch :unpublish, to: "posts/statuses#unpublish"
+        patch "emails/start", to: "posts/email_statuses#start", as: :start_emails
+        patch "emails/stop", to: "posts/email_statuses#stop", as: :stop_emails
       end
     end
 

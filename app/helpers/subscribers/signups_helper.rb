@@ -7,14 +7,14 @@ module Subscribers::SignupsHelper
     "signup-errors"
   end
 
-  def signup_email_field_options(signup)
+  def signup_email_field_options
     options = {
       placeholder: "your email address",
       required: true,
       autocomplete: "email"
     }
 
-    options[:aria] = { describedby: signup_errors_id } if signup.errors.any?
+    options[:aria] = { describedby: signup_errors_id } if @signup.errors.any?
     options
   end
 end

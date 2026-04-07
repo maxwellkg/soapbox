@@ -13,6 +13,7 @@ class CreatePosts < ActiveRecord::Migration[8.1]
     end
 
     add_index :posts, :slug, unique: true
+    add_index :posts, :start_emails_job_key, unique: true
     add_check_constraint :posts, "status IN ('draft', 'published')", name: "posts_status_check"
     add_check_constraint :posts,
                          "((status = 'published' AND published_at IS NOT NULL) OR (status = 'draft' AND published_at IS NULL))",
@@ -23,5 +24,8 @@ class CreatePosts < ActiveRecord::Migration[8.1]
     add_check_constraint :posts,
                          "(email_status = 'not_started' AND start_emails_job_key IS NULL) OR start_emails_job_key IS NOT NULL",
                          name: "posts_email_status_job_key_consistency"
+    add_check_constraint :posts,
+                         "NOT (email_status = 'pending' AND status <> 'published')",
+                         name: "posts_pending_email_requires_published"
   end
 end

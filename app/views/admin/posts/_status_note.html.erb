@@ -8,5 +8,13 @@
         <%= link_to "View public post", post_path(@post) %>.
       </p>
     <% end %>
+
+    <% if @post.email_status_pending? %>
+      <p>Emails are pending and can still be stopped.</p>
+    <% elsif @post.email_status_initiated? %>
+      <p>Emails for this post have been initiated.</p>
+    <% else %>
+      <p>Emails have not been started for this post.</p>
+    <% end %>
   </div>
 </section>

@@ -1,8 +1,11 @@
 class PostEmailsMailer < ApplicationMailer
+  helper ApplicationHelper, PostsHelper
+
   default from: "updates@soapbox.com"
 
   def post_email
     post_email = params[:post_email]
+    @blog = Blog.instance!
     @post = post_email.post
     @subscriber = post_email.subscription.subscriber
 

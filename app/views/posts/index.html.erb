@@ -1,11 +1,11 @@
 <% content_for :title, @blog.title %>
 
 <header>
-  <%= render "blog_title", blog: @blog %>
+  <%= render "blog_title" %>
 </header>
 
 <section class="signup-section">
-  <%= render "subscribers/signups/form", signup: @signup %>
+  <%= render "subscribers/signups/form" %>
 </section>
 
 <% if @blog.description? %>

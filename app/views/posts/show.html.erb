@@ -1,6 +1,6 @@
 <% content_for :title, @post.title %>
 
-<section class="admin-actions page-actions">
+<section class="page-actions">
   <%= link_to "see all posts", root_path, class: "btn" %>
   <% if authenticated? %>
     <%= link_to "edit post", edit_admin_post_path(@post), class: "btn" %>
@@ -8,11 +8,13 @@
 </section>
 
 <header>
-  <%= render "posts/blog_title", blog: @blog %>
+  <%= render "posts/blog_title" %>
 </header>
 
 <section class="signup-section">
-  <%= render "subscribers/signups/form", signup: @signup %>
+  <%= render "subscribers/signups/form" %>
 </section>
 
-<%= render "posts/post", post: @post %>
+<div class="post-wrapper">
+  <%= render "posts/post" %>
+</div>

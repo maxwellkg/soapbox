@@ -1,14 +1,16 @@
-<article id="<%= dom_id(post) %>">
-  <header>
-    <h1><%= post.title %></h1>
-    <p>By <%= post.author.full_name %></p>
+<%# locals: (for_email: false) %>
 
-    <% if post.published_at.present? %>
-      <p><%= standard_formatted_date(post.published_at) %></p>
+<article id="<%= dom_id(@post) %>" class="post">
+  <header>
+    <%= post_title_tag for_email: for_email %>
+    <p class="post-byline">By <%= @post.author.full_name %></p>
+
+    <% if @post.published_at.present? %>
+      <p class="post-published-at"><%= standard_formatted_date(@post.published_at) %></p>
     <% end %>
   </header>
 
-  <section>
-    <%= post.content %>
+  <section class="post-content">
+    <%= @post.content %>
   </section>
 </article>

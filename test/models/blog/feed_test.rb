@@ -47,7 +47,7 @@ class Blog::FeedTest < ActiveSupport::TestCase
   end
 
   test "atom_feed updated falls back to current time when no published posts exist" do
-    Post.update_all(status: "draft", published_at: nil)
+    Post.update_all(status: "draft", published_at: nil, email_status: "not_started", start_emails_job_key: nil)
 
     freeze_time do
       atom_feed = Blog::Feed.new(Blog.instance).atom_feed

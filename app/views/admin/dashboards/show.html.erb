@@ -1,10 +1,12 @@
 <% content_for :title, "(Admin) Home" %>
 
+<section class="page-actions">
+  <%= link_to "Manage posts", admin_posts_path, class: "btn btn-primary" %>
+  <%= link_to "Manage subscribers", admin_subscribers_path, class: "btn" %>
+</section>
+
 <header class="admin-header">
   <h1>Admin</h1>
 </header>
 
-<section class="admin-dashboard-links page-actions">
-  <%= link_to "Manage posts", admin_posts_path, class: "btn btn-primary" %>
-  <%= link_to "Manage subscribers", admin_subscribers_path, class: "btn" %>
-</section>
+<p>There's nothing here yet.</p>

@@ -18,7 +18,7 @@ class Admin::DashboardsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "h1", "Admin"
-    assert_select "section.admin-dashboard-links a", count: 2
+    assert_select "section.page-actions a", count: 2
     assert_select "a[href='#{admin_posts_path}']", text: "Manage posts"
     assert_select "a[href='#{admin_subscribers_path}']", text: "Manage subscribers"
   end

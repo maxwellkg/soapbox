@@ -14,100 +14,6 @@
   width: 100%;
 }
 
-.blog-title-link,
-.blog-title-link:visited {
-  color: var(--font-color);
-}
-
-.blog-title {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.blog-subtitle {
-  font-size: 1.2rem;
-  margin-top: 0;
-}
-
-.blog-title-link:hover {
-  background-color: transparent;
-  color: var(--primary-color);
-}
-
-.signup-section {
-  margin: 2.5rem 0 2rem;
-}
-
-.signup-fieldset {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.signup-row {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 0.75rem;
-  align-items: end;
-}
-
-.signup-actions {
-  margin-top: 0;
-}
-
-.signup-errors {
-  margin-bottom: 0.75rem;
-}
-
-.signup-rss-note {
-  margin: 0;
-}
-
-.posts-search-section {
-  margin: 2rem 0 2.5rem;
-}
-
-.search-fieldset {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.search-row {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 0.75rem;
-}
-
-.post-preview {
-  margin: 2.25rem 0;
-  padding: 0.5rem;
-}
-
-.post-preview-body {
-  padding: 1rem 1.1rem;
-}
-
-.post-preview h2 {
-  margin-top: 0.5rem;
-  margin-bottom: 0.15rem;
-}
-
-.post-preview-meta {
-  color: var(--secondary-color);
-  margin: 0;
-}
-
-.post-preview-date {
-  margin-bottom: 0.85rem;
-}
-
-.post-preview-summary {
-  margin-top: 1.5rem;
-}
-
-.post-preview-read-more {
-  margin-bottom: 0;
-}
-
 .flashes-container {
   margin-bottom: 1.25rem;
 }
@@ -253,8 +159,10 @@
 }
 
 .admin-status-note-body {
-  align-items: center;
+  align-items: flex-start;
   display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   min-height: 3.75rem;
   padding: 1rem;
 }
@@ -303,27 +211,37 @@
   margin-bottom: 1rem;
 }
 
-.admin-actions {
+.page-actions,
+.form-actions,
+.preview-actions {
   align-items: center;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: 1rem;
-}
-
-.admin-actions form {
-  margin: 0;
-}
-
-.admin-actions .admin-action-form {
-  display: inline-flex;
-  margin: 0;
-  width: auto;
 }
 
 .page-actions {
   margin-bottom: 1rem;
   margin-top: 0;
+  padding-bottom: 1.5rem;
+}
+
+.form-actions,
+.preview-actions {
+  margin-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.page-actions form,
+.form-actions form,
+.preview-actions form {
+  margin: 0;
+}
+
+.page-actions .admin-action-form {
+  display: inline-flex;
+  margin: 0;
+  width: auto;
 }
 
 .admin-preview-actions {
@@ -344,14 +262,6 @@
 @media (max-width: 640px) {
   .site-shell {
     margin-top: 1.5rem;
-  }
-
-  .search-row {
-    grid-template-columns: 1fr;
-  }
-
-  .signup-row {
-    grid-template-columns: 1fr;
   }
 
   .admin-preview-row {

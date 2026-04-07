@@ -1,5 +1,7 @@
-<h1 class="blog-title"><%= link_to blog.title, root_path, class: "blog-title-link" %></h1>
+<%# locals: (for_email: false) %>
 
-<% if blog.subtitle.present? %>
-  <p class="blog-subtitle"><%= blog.subtitle %></p>
+<h1 class="blog-title"><%= link_to @blog.title, root_url(only_path: !for_email), class: "blog-title-link" %></h1>
+
+<% if @blog.subtitle.present? %>
+  <p class="blog-subtitle"><%= @blog.subtitle %></p>
 <% end %>

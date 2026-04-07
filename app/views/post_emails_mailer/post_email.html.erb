@@ -1,0 +1,21 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "terminal", "posts", media: "all" %>
+<% end %>
+
+<main class="post-email-shell">
+  <header class="post-email-title-header">
+    <%= render "posts/blog_title", for_email: true %>
+  </header>
+
+  <hr>
+
+  <div class="post-mailer-wrapper">
+    <%= render "posts/post", for_email: true %>
+  </div>
+
+  <hr>
+
+  <p>
+    You received this email because you are subscribed to <%= @blog.title %>. If you no longer wish to receive emails, <%= link_to "unsubscribe here", subscriber_unsubscribe_url(@subscriber) %>.
+  </p>
+</main>
