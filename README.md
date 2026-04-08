@@ -13,6 +13,24 @@ Soapbox is built around a few core ActiveRecord classes:
 
 Because Soapbox is designed to be a single blog with a single author, the `Author` and `Blog` models have special logic to enforce a singleton pattern while still using ActiveRecord. This allows us to store the data from these important models in the database and then access it throughout the application more idiomatically than implementing some special storage pattern.
 
+## Production deploy config
+
+Soapbox assumes Kamal deployment. Configure required production environment variables in `config/deploy.yml` under `env.clear` before launching the app:
+
+- `APP_URL` - canonical public URL used for route and mailer URL generation.
+- `MAILER_FROM` - sender address (or formatted sender) used for outbound mail.
+
+Example:
+
+```yaml
+env:
+  clear:
+    APP_URL: https://blog.example.com
+    MAILER_FROM: updates@blog.example.com
+```
+
+Important: `MAILER_FROM` sets the sender identity, but it does not configure actual email delivery by itself. You must also configure Action Mailer delivery settings in production (for example, SMTP credentials in production config/credentials) so emails can actually be sent.
+
 ## Setup and first run
 
 Before setup is complete, visitors will see:
