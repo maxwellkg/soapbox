@@ -5,7 +5,6 @@ class Post < ApplicationRecord
   MAX_SLUG_LENGTH = 50
   STATUSES = %w[ draft published ]
 
-  has_many :emails, class_name: "PostEmail", dependent: :destroy
   has_rich_text :summary, store_if_blank: false
   has_rich_text :content, store_if_blank: false
 
