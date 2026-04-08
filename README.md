@@ -41,7 +41,7 @@ That is expected on a fresh install. Soapbox cannot serve normal content until t
 
 To bootstrap a fresh environment, create the database and then run `bin/rails site:setup`.
 
-`site:setup` will prompt you in the terminal for the details required to create the author and the blog records. Note that the blog's description is rich text and so cannot be collected via the terminal. Once the setup process is complete, you can log into the admin section of your new blog in order to set the full description, if you wish to do so.
+`site:setup` will prompt you in the terminal for the details required to create the author and the blog records. Note that the blog's description is rich text and so cannot be collected via the terminal. Once the setup process is complete, you can log into the admin section of your new blog in order to set the full description at `admin/blog/edit`, if you wish to do so.
 
 ## After setup
 
