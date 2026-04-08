@@ -36,4 +36,19 @@ module FlashesHelper
       "Message"
     end
   end
+
+  def flash_messages_display
+    render partial: "shared/flash_message", collection: flash_collection, as: :flash
+  end
+
+  def update_flashes
+    turbo_stream.update flashes_tf_id do
+      flash_messages_display
+    end
+  end
+
+  private
+    def flash_collection
+      flash.map { |type, message| { type:, message: } }
+    end
 end

@@ -13,6 +13,9 @@ class Subscribers::SignupsControllerTest < ActionDispatch::IntegrationTest
 
       assert_response :success
       assert_equal "#{email_address} is now subscribed!", flash[:success]
+      assert_select "turbo-stream[action='update'][target='flashes']"
+      assert_select "turbo-stream[action='update'][target='flashes'] template .flash-message", /is now subscribed/
+      assert_select "turbo-stream[action='update'][target='flashes'] template turbo-frame", count: 0
     end
   end
 
@@ -58,6 +61,9 @@ class Subscribers::SignupsControllerTest < ActionDispatch::IntegrationTest
 
       assert_response :unprocessable_entity
       assert_equal "Sorry, something went wrong", flash[:alert]
+      assert_select "turbo-stream[action='update'][target='flashes']"
+      assert_select "turbo-stream[action='update'][target='flashes'] template .flash-message", /something went wrong/
+      assert_select "turbo-stream[action='update'][target='flashes'] template turbo-frame", count: 0
       assert_select "turbo-stream[action='replace'][target='signup-form'] template div#signup-errors[role='alert']"
       assert_select "turbo-stream[action='replace'][target='signup-form'] template input[name='subscriber[email_address]'][aria-describedby='signup-errors']"
     end

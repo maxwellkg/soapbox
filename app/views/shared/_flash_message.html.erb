@@ -1,3 +1,3 @@
-<div class="<%= flash_message_class(type) %>" role="<%= flash_message_role(type) %>">
-  <p class="flash-message-text"><span class="invisible"><%= flash_message_prefix(type) %>: </span><%= message %></p>
+<div class="<%= flash_message_class(flash[:type]) %>" role="<%= flash_message_role(flash[:type]) %>">
+  <p class="flash-message-text"><span class="invisible"><%= flash_message_prefix(flash[:type]) %>: </span><%= flash[:message] %></p>
 </div>

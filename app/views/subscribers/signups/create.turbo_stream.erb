@@ -1,6 +1,4 @@
-<%= turbo_stream.replace flashes_tf_id do %>
-  <%= render "shared/flashes" %>
-<% end %>
+<%= update_flashes %>
 
 <%= turbo_stream.replace signup_form_tf_id do %>
   <%= render "subscribers/signups/form" %>

@@ -6,6 +6,15 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   test "new" do
     get new_session_path
     assert_response :success
+
+    assert_select "h1", "Sign in"
+    assert_select "form[action=?][method=?]", session_path, "post" do
+      assert_select "fieldset.admin-fieldset"
+      assert_select "div.admin-form-row input[type=?][name=?][required]", "email", "email_address"
+      assert_select "div.admin-form-row input[type=?][name=?][required]", "password", "password"
+      assert_select ".form-actions button", text: "Sign in"
+      assert_select ".form-actions a[href=?]", new_password_path, text: "Forgot password?"
+    end
   end
 
   test "create with valid credentials" do

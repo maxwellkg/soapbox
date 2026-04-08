@@ -6,6 +6,14 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
   test "new" do
     get new_password_path
     assert_response :success
+
+    assert_select "h1", "Forgot your password?"
+    assert_select "form[action=?][method=?]", passwords_path, "post" do
+      assert_select "fieldset.admin-fieldset"
+      assert_select "div.admin-form-row input[type=?][name=?][required]", "email", "email_address"
+      assert_select ".form-actions button", text: "Email reset instructions"
+      assert_select ".form-actions a[href=?]", new_session_path, text: "Back to sign in"
+    end
   end
 
   test "create" do
@@ -29,6 +37,15 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
   test "edit" do
     get edit_password_path(@author.password_reset_token)
     assert_response :success
+
+    assert_select "h1", "Update your password"
+    assert_select "form" do
+      assert_select "input[type=?][name=?][value=?]", "hidden", "_method", "put"
+      assert_select "fieldset.admin-fieldset"
+      assert_select "div.admin-form-row input[type=?][name=?][required]", "password", "password"
+      assert_select "div.admin-form-row input[type=?][name=?][required]", "password", "password_confirmation"
+      assert_select ".form-actions button", text: "Save"
+    end
   end
 
   test "edit with invalid password reset token" do
