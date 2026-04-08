@@ -30,7 +30,8 @@ Rails.application.routes.draw do
     end
   end
 
-  get "/subscribers/:token/unsubscribe", to: "subscribers/unsubscribes#unsubscribe", as: :unsubscribe
+  get "/subscribers/:token/unsubscribe", to: "subscribers/unsubscribes#show", as: :unsubscribe
+  patch "/subscribers/:token/unsubscribe", to: "subscribers/unsubscribes#update"
 
   direct :subscriber_unsubscribe do |subscriber, **opts|
     unsubscribe_url(subscriber.unsubscribe_token, **opts)

@@ -54,6 +54,21 @@
   margin: 2rem 0 2.5rem;
 }
 
+.unsubscribe-confirmation {
+  margin: 2.5rem 0;
+}
+
+.unsubscribe-confirmation-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.unsubscribe-confirmation-actions form {
+  margin: 0;
+}
+
 .post-email-shell {
   margin: 0 auto;
   padding-top: 1.5rem;

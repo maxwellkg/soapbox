@@ -3,7 +3,10 @@ class Subscribers::UnsubscribesController < ApplicationController
 
   before_action :set_subscriber
 
-  def unsubscribe
+  def show
+  end
+
+  def update
     if @subscriber.unsubscribe
       flash_success "#{@subscriber.email_address} has been unsubscribed"
     else
