@@ -1,0 +1,45 @@
+<% content_for :title, "Edit Blog" %>
+
+<section class="page-actions">
+  <%= link_to "back to blog", admin_blog_path, class: "btn" %>
+  <%= link_to "manage posts", admin_posts_path, class: "btn" %>
+</section>
+
+<header class="admin-header">
+  <h1>Edit Blog</h1>
+</header>
+
+<%= form_with(model: [ :admin, @blog ]) do |form| %>
+  <% if @blog.errors.any? %>
+    <section class="admin-form-errors" role="alert">
+      <p><%= pluralize(@blog.errors.count, "error") %> prevented this blog from being saved:</p>
+      <ul>
+        <% @blog.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </section>
+  <% end %>
+
+  <fieldset class="admin-fieldset">
+    <div class="admin-form-row">
+      <%= form.label :title %>
+      <%= form.text_field :title, required: true, autofocus: true %>
+    </div>
+
+    <div class="admin-form-row">
+      <%= form.label :subtitle %>
+      <%= form.text_field :subtitle %>
+    </div>
+
+    <div class="admin-form-row">
+      <%= form.label :description %>
+      <%= form.rich_text_area :description %>
+    </div>
+  </fieldset>
+
+  <div class="form-actions">
+    <%= form.submit "Update Blog", class: "btn btn-primary" %>
+    <%= link_to "cancel", admin_blog_path, class: "btn" %>
+  </div>
+<% end %>

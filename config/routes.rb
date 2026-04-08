@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   namespace :admin do
     root "dashboards#show"
 
+    resource :blog, only: %i[ show edit update ]
+
     resources :posts, param: :slug do
       member do
         patch :publish, to: "posts/statuses#publish"

@@ -54,6 +54,15 @@
   margin: 2rem 0 2.5rem;
 }
 
+.site-setup-empty-state {
+  margin: 3rem 0;
+  padding: 1.25rem;
+}
+
+.site-setup-empty-state h1 {
+  margin-top: 0;
+}
+
 .unsubscribe-confirmation {
   margin: 2.5rem 0;
 }

@@ -1,0 +1,30 @@
+<% content_for :title, @blog.title %>
+
+<section class="page-actions">
+  <%= link_to "back to admin", admin_root_path, class: "btn" %>
+  <%= link_to "manage posts", admin_posts_path, class: "btn" %>
+  <%= link_to "edit blog", edit_admin_blog_path, class: "btn" %>
+</section>
+
+<header class="admin-header">
+  <h1><%= @blog.title %></h1>
+</header>
+
+<section class="admin-meta-block">
+  <% if @blog.subtitle.present? %>
+    <p><span class="admin-label">Subtitle:</span> <%= @blog.subtitle %></p>
+  <% end %>
+</section>
+
+<section class="admin-post-content">
+  <% if @blog.description.present? %>
+    <p class="admin-label">Description</p>
+    <div>
+      <%= @blog.description %>
+    </div>
+  <% else %>
+    <p>
+      No description yet.
+    </p>
+  <% end %>
+</section>
