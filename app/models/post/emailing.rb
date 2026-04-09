@@ -24,6 +24,7 @@ module Post::Emailing
     before_validation :update_start_emails_job_key, if: -> { will_save_change_to_email_status? && !email_status_initiated? }
 
     after_commit :enqueue_start_emails_job, if: -> { saved_change_to_email_status?(to: "pending") }
+    after_update_commit :broadcast_refresh, if: :saved_change_to_email_status?
   end
 
   def can_start_emails?

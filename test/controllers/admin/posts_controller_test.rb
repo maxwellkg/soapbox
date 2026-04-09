@@ -110,6 +110,7 @@ class Admin::PostsControllerTest < ActionDispatch::IntegrationTest
     get admin_post_path(post_record)
 
     assert_response :success
+    assert_select "turbo-cable-stream-source"
     assert_select "h1", post_record.title
     assert_select "#post-admin-notice"
     assert_includes response.body, post_record.content.body.to_s

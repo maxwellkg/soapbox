@@ -1,5 +1,7 @@
 <% content_for :title, @post.title %>
 
+<%= turbo_stream_from @post %>
+
 <%= render "admin/posts/status_note" %>
 
 <section class="page-actions">
