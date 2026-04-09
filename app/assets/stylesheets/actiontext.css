@@ -438,3 +438,30 @@ trix-editor .attachment__metadata {
   padding: 0 !important;
   max-width: 100% !important;
 }
+
+trix-toolbar .trix-button,
+trix-editor .trix-button {
+  color: var(--foreground, var(--font-color, #d6e8ee));
+}
+
+trix-toolbar .trix-button:disabled {
+  color: color-mix(in srgb, var(--foreground, var(--font-color, #d6e8ee)) 35%, transparent);
+}
+
+trix-toolbar .trix-button.trix-active,
+trix-editor .trix-button.trix-active {
+  color: var(--background, var(--background-color, #0e1923));
+}
+
+trix-toolbar .trix-button--icon::before {
+  filter: invert(1);
+  opacity: 0.85;
+}
+
+trix-toolbar .trix-button--icon.trix-active::before {
+  filter: none;
+}
+
+trix-toolbar .trix-button--icon:disabled::before {
+  opacity: 0.35;
+}
