@@ -41,12 +41,6 @@ env:
   secret:
     - RAILS_MASTER_KEY
   clear:
-    # Required in production. Canonical URL for route and mailer URL generation.
-    # APP_URL: https://blog.example.com
-
-    # Required in production. Sender used for outbound email.
-    # MAILER_FROM: updates@blog.example.com
-
     # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
     # When you start using multiple servers, you should split out job processing to a dedicated machine.
     SOLID_QUEUE_IN_PUMA: true

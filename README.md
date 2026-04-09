@@ -17,21 +17,35 @@ Architecture notes for singleton behavior, subscription lifecycle, and post emai
 
 ## Production deploy config
 
-Soapbox assumes Kamal deployment. Configure required production environment variables in `config/deploy.yml` under `env.clear` before launching the app:
+Soapbox assumes Kamal deployment.
 
-- `APP_URL` - canonical public URL used for route and mailer URL generation.
-- `MAILER_FROM` - sender address (or formatted sender) used for outbound mail.
+Before launching in production, set your canonical URL in `config/environments/production.rb` by updating `default_url_options`:
 
-Example:
-
-```yaml
-env:
-  clear:
-    APP_URL: https://blog.example.com
-    MAILER_FROM: updates@blog.example.com
+```ruby
+default_url_options = { host: "blog.example.com", protocol: "https" }
+config.action_mailer.default_url_options = default_url_options
+routes.default_url_options = default_url_options
 ```
 
-Important: `MAILER_FROM` sets the sender identity, but it does not configure actual email delivery by itself. You must also configure Action Mailer delivery settings in production (for example, SMTP credentials in production config/credentials) so emails can actually be sent.
+In the same file, enable SSL for production traffic:
+
+```ruby
+config.force_ssl = true
+```
+
+If SSL is terminated by a reverse proxy (common with Kamal + proxy), also enable:
+
+```ruby
+config.assume_ssl = true
+```
+
+Also set your sender identity in `app/mailers/application_mailer.rb`:
+
+```ruby
+default from: "updates@blog.example.com"
+```
+
+Important: the `from` address sets sender identity, but it does not configure actual email delivery by itself. You must also configure Action Mailer delivery settings in production (for example, SMTP credentials in production config/credentials) so emails can actually be sent.
 
 ## Setup and first run
 

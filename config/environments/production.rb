@@ -1,5 +1,4 @@
 require "active_support/core_ext/integer/time"
-require Rails.root.join("lib/config/url_settings")
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -28,14 +27,8 @@ Rails.application.configure do
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   # config.assume_ssl = true
 
-  url_settings = Config::URLSettings.new
-
-  raise "MAILER_FROM is required in production" if ENV["MAILER_FROM"].blank?
-
-  default_url_options = url_settings.default_url_options
-
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = url_settings.force_ssl?
+  # config.force_ssl = true
 
   # Skip http-to-https redirect for the default health check endpoint.
   # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
@@ -65,6 +58,8 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Set canonical host and protocol used by links generated in mailers and route helpers.
+  # Update these to your production URL before deploying.
+  default_url_options = { host: "example.com", protocol: "https" }
   config.action_mailer.default_url_options = default_url_options
   routes.default_url_options = default_url_options
 
