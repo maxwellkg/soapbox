@@ -13,6 +13,8 @@ Soapbox is built around a few core ActiveRecord classes:
 
 Because Soapbox is designed to be a single blog with a single author, the `Author` and `Blog` models have special logic to enforce a singleton pattern while still using ActiveRecord. This allows us to store the data from these important models in the database and then access it throughout the application more idiomatically than implementing some special storage pattern.
 
+Architecture notes for singleton behavior, subscription lifecycle, and post email status transitions are documented in `docs/general.md`.
+
 ## Production deploy config
 
 Soapbox assumes Kamal deployment. Configure required production environment variables in `config/deploy.yml` under `env.clear` before launching the app:
@@ -56,3 +58,7 @@ The implementation uses a single-table index approach so different searchable re
 Search architecture and behavior are fully documented in `docs/search.md`.
 
 To rebuild all configured search indexes, run `bin/rails search:reindex_all`.
+
+## Further documentation
+
+More in-depth documentation is written in `docs/general.md`, with some topics given their own separate docs in the `/docs` directory.

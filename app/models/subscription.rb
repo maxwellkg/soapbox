@@ -39,6 +39,8 @@ class Subscription < ApplicationRecord
     end
 
     def will_reactivate?
+      # Ended periods are immutable history. Re-subscribing should create a new
+      # active period instead of reopening one with an `end_date`.
       will_activate? && end_date_in_database.present?
     end
 

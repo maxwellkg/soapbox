@@ -86,6 +86,8 @@ module Post::Emailing
     end
 
     def initiate_emails_using_key(key:)
+      # The job key works as a cancellation token so stale delayed jobs no-op
+      # after a stop/restart cycle changes `start_emails_job_key`.
       initiate_emails if email_job_key_matches?(key)
     end
 
