@@ -119,6 +119,11 @@
   margin-top: 1.5rem;
 }
 
+pre.highlight {
+  padding: 10px;
+  overflow: auto;
+}
+
 .post-email-title-header {
   padding-bottom: 1.5rem;
 }

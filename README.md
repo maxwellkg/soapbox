@@ -13,7 +13,7 @@ Soapbox is built around a few core ActiveRecord classes:
 
 Because Soapbox is designed to be a single blog with a single author, the `Author` and `Blog` models have special logic to enforce a singleton pattern while still using ActiveRecord. This allows us to store the data from these important models in the database and then access it throughout the application more idiomatically than implementing some special storage pattern.
 
-Architecture notes for singleton behavior, subscription lifecycle, and post email status transitions are documented in `docs/general.md`.
+Architecture notes for singleton behavior, subscription lifecycle, post email status transitions, and cross-web/email code highlighting conventions are documented in `docs/general.md`.
 
 ## Production deploy config
 

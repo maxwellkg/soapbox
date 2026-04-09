@@ -25,4 +25,33 @@ module PostsHelper
   def no_matching_posts_text
     search_term.present? ? "No matching posts" : "No posts yet"
   end
+
+  def highlighted_rich_text(rich_text)
+    highlight_code_blocks_rich_text_transform(rich_text).html_safe
+  end
+
+  def highlight_code_blocks_rich_text_transform(rich_text)
+    document = Nokogiri::HTML.fragment(rich_text.to_s)
+
+    document.css("pre").each do |code_block|
+      language, source = code_block.text.split(/\r?\n/, 2)
+      language = language.to_s.strip.downcase
+
+      next if language.blank? || source.blank?
+
+      lexer = Rouge::Lexer.find(language)
+
+      next unless lexer.present?
+
+      formatter = Rouge::Formatters::HTML.new
+      formatted = formatter.format(lexer.lex(source))
+
+      code_block.children.remove
+      code_block.add_child(formatted)
+
+      code_block["class"] = [ code_block["class"], "highlight" ].select(&:present?).join(" ")
+    end
+
+    document.to_html
+  end
 end

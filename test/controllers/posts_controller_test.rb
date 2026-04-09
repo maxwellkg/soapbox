@@ -34,6 +34,19 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, post.content.body.to_s
   end
 
+  test "show renders highlighted code blocks" do
+    post = posts(:published)
+    post.update!(content: "<div><pre>ruby\nputs 'hello'</pre></div>")
+
+    get post_url(post)
+
+    assert_response :success
+    assert_select "pre.highlight"
+    assert_select "pre.highlight", text: /puts 'hello'/
+    assert_no_match(/>\s*ruby\s*</, response.body)
+    assert_match(/\.highlight/, response.body)
+  end
+
   test "show displays edit post action for authenticated author" do
     post = posts(:published)
     sign_in_as(authors(:one))

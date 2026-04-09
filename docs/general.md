@@ -44,4 +44,12 @@ The result is a two-stage fan-out flow: a single post-level callback chain (`pen
 
 As with other domains, model rules are backed by database constraints on `posts` so invalid combinations cannot persist: email status must be valid, job key presence must match status, and `pending` requires a published post.
 
-The app uses the `premailer-rails` gem to style emailed post. This allows for reuse of the same partials that display the posts in the web application.
+## Post code highlighting
+
+Soapbox highlights code blocks on both the web post view and the emailed post view. The important product decision here is consistency: a reader should see the same content and formatting whether they read on the site or in their inbox.
+
+There are excellent frontend syntax highlighters, but they depend on browser-side execution and do not carry over well to email clients. Because Soapbox intentionally reuses as much of the same rendering path as possible between web and email, code highlighting is done on the backend with Rouge. That lets us format once and deliver comparable output in both channels.
+
+Authoring follows a simple convention that works with Trix: the first line of a code block is treated as the language hint (for example, `ruby`), and the remaining lines are treated as source code. During render, the language line is treated as metadata and removed from display, so readers only see the code itself. If the language hint is missing or unknown, the block is left unchanged instead of guessing and risking accidental content loss.
+
+The rendering flow stays intentionally small and shared. Posts are transformed through helper logic that marks highlighted blocks with `.highlight`, then a shared Rouge theme style helper is applied in both the main app layout and the HTML mailer head. `premailer-rails` then inlines the needed styles for delivery. This keeps one coherent formatting story for technical posts across web and email without introducing separate presentation systems.

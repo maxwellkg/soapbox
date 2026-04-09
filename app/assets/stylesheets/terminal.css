@@ -286,7 +286,7 @@ code code {
   margin: 0;
 }
 
-pre {
+pre:not(.highlight) {
   tab-size: 4;
   background: color-mix(in srgb, var(--foreground) 5%, transparent) !important;
   color: color-mix(in srgb, var(--foreground) 5%, var(--accent));
@@ -297,13 +297,14 @@ pre {
   border: 1px solid color-mix(in srgb, var(--foreground) 25%, transparent);
 }
 
-pre code {
+pre:not(.highlight) code {
   background: none !important;
   margin: 0;
   padding: 0;
   font-size: inherit;
   border: none;
 }
+
 
 sup {
   line-height: 0;

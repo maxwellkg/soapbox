@@ -363,7 +363,7 @@ trix-editor .attachment__metadata {
     margin-left: 1em; }
   .trix-content [dir=rtl] li {
     margin-right: 1em; }
-  .trix-content pre {
+  .trix-content pre:not(.highlight) {
     display: inline-block;
     width: 100%;
     vertical-align: top;
