@@ -34,9 +34,9 @@ class Admin::SubscribersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "h1", "Subscribers"
-    assert_select "h2", Subscriber.count
+    assert_select "h2", count: 20
 
-    Subscriber.all.each do |subscriber|
+    Subscriber.order(updated_at: :desc).limit(20).each do |subscriber|
       assert_select "h2", text: subscriber.email_address
     end
   end
@@ -63,15 +63,15 @@ class Admin::SubscribersControllerTest < ActionDispatch::IntegrationTest
 
     get admin_subscribers_path, params: { status: "active" }
     assert_response :success
-    assert_select "h2", count: Subscriber.active.count
+    assert_select "h2", count: 4
 
     get admin_subscribers_path, params: { status: "inactive" }
     assert_response :success
-    assert_select "h2", count: Subscriber.inactive.count
+    assert_select "h2", count: 20
 
     get admin_subscribers_path, params: { status: "" }
     assert_response :success
-    assert_select "h2", count: Subscriber.count
+    assert_select "h2", count: 20
 
     get admin_subscribers_path, params: { status: "foobar" }
     assert_response :success
@@ -193,5 +193,26 @@ class Admin::SubscribersControllerTest < ActionDispatch::IntegrationTest
     assert_select "h1", "Edit Subscriber"
     assert_select ".admin-form-errors"
     assert_equal "Sorry, something went wrong.", flash[:alert]
+  end
+
+  test "index paginates subscribers and keeps filters in links" do
+    sign_in_as(@author)
+
+    get admin_subscribers_path, params: { search: "pagination.subscriber", status: "inactive" }
+
+    assert_response :success
+    assert_select "article.admin-card", count: 20
+    assert_select "p", text: "21 matching subscribers"
+    assert_select ".pagination-page", text: "Page 1 of 2"
+    assert_select "span.pagination-link-disabled", text: "Previous"
+    assert_select "a.pagination-link[href*='search=pagination.subscriber'][href*='status=inactive'][href*='page=2']", text: "Next"
+
+    get admin_subscribers_path, params: { search: "pagination.subscriber", status: "inactive", page: 2 }
+
+    assert_response :success
+    assert_select "article.admin-card", count: 1
+    assert_select ".pagination-page", text: "Page 2 of 2"
+    assert_select "a.pagination-link[href*='search=pagination.subscriber'][href*='status=inactive'][href*='page=1']", text: "Previous"
+    assert_select "span.pagination-link-disabled", text: "Next"
   end
 end

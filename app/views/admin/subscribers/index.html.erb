@@ -19,6 +19,7 @@
 
   <% if @subscribers.any? %>
     <%= render partial: "admin/subscribers/preview", collection: @subscribers, as: :subscriber %>
+    <%= render_pagination_controls %>
   <% else %>
     <p>No subscribers yet.</p>
   <% end %>

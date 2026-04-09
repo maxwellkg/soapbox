@@ -45,6 +45,6 @@ module Admin::PostsHelper
   end
 
   def admin_num_matching_posts_text
-    pluralize(@posts.count, "matching post")
+    pluralize(@page.unpaginated_record_count, "matching post")
   end
 end

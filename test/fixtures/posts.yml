@@ -71,3 +71,150 @@ pending_email:
   published_at: <%= Time.new(2025, 11, 7, 14, 26, 12) %>
   created_at: <%= Time.new(2025, 11, 7, 9, 15, 11) %>
   updated_at: <%= Time.new(2025, 11, 7, 14, 28, 1) %>
+
+pagination_fixture_post_01:
+  status: published
+  title: Pagination Fixture Post 01
+  slug: pagination-fixture-post-01
+  pinned: false
+  published_at: <%= Time.new(2026, 1, 1, 0, 0, 1) %>
+
+pagination_fixture_post_02:
+  status: published
+  title: Pagination Fixture Post 02
+  slug: pagination-fixture-post-02
+  pinned: false
+  published_at: <%= Time.new(2026, 1, 1, 0, 0, 2) %>
+
+pagination_fixture_post_03:
+  status: published
+  title: Pagination Fixture Post 03
+  slug: pagination-fixture-post-03
+  pinned: false
+  published_at: <%= Time.new(2026, 1, 1, 0, 0, 3) %>
+
+pagination_fixture_post_04:
+  status: published
+  title: Pagination Fixture Post 04
+  slug: pagination-fixture-post-04
+  pinned: false
+  published_at: <%= Time.new(2026, 1, 1, 0, 0, 4) %>
+
+pagination_fixture_post_05:
+  status: published
+  title: Pagination Fixture Post 05
+  slug: pagination-fixture-post-05
+  pinned: false
+  published_at: <%= Time.new(2026, 1, 1, 0, 0, 5) %>
+
+pagination_fixture_post_06:
+  status: published
+  title: Pagination Fixture Post 06
+  slug: pagination-fixture-post-06
+  pinned: false
+  published_at: <%= Time.new(2026, 1, 1, 0, 0, 6) %>
+
+pagination_fixture_post_07:
+  status: published
+  title: Pagination Fixture Post 07
+  slug: pagination-fixture-post-07
+  pinned: false
+  published_at: <%= Time.new(2026, 1, 1, 0, 0, 7) %>
+
+pagination_fixture_post_08:
+  status: published
+  title: Pagination Fixture Post 08
+  slug: pagination-fixture-post-08
+  pinned: false
+  published_at: <%= Time.new(2026, 1, 1, 0, 0, 8) %>
+
+pagination_fixture_post_09:
+  status: published
+  title: Pagination Fixture Post 09
+  slug: pagination-fixture-post-09
+  pinned: false
+  published_at: <%= Time.new(2026, 1, 1, 0, 0, 9) %>
+
+pagination_fixture_post_10:
+  status: published
+  title: Pagination Fixture Post 10
+  slug: pagination-fixture-post-10
+  pinned: false
+  published_at: <%= Time.new(2026, 1, 1, 0, 0, 10) %>
+
+pagination_fixture_post_11:
+  status: published
+  title: Pagination Fixture Post 11
+  slug: pagination-fixture-post-11
+  pinned: false
+  published_at: <%= Time.new(2026, 1, 1, 0, 0, 11) %>
+
+pagination_fixture_post_12:
+  status: published
+  title: Pagination Fixture Post 12
+  slug: pagination-fixture-post-12
+  pinned: false
+  published_at: <%= Time.new(2026, 1, 1, 0, 0, 12) %>
+
+pagination_fixture_post_13:
+  status: published
+  title: Pagination Fixture Post 13
+  slug: pagination-fixture-post-13
+  pinned: false
+  published_at: <%= Time.new(2026, 1, 1, 0, 0, 13) %>
+
+pagination_fixture_post_14:
+  status: published
+  title: Pagination Fixture Post 14
+  slug: pagination-fixture-post-14
+  pinned: false
+  published_at: <%= Time.new(2026, 1, 1, 0, 0, 14) %>
+
+pagination_fixture_post_15:
+  status: published
+  title: Pagination Fixture Post 15
+  slug: pagination-fixture-post-15
+  pinned: false
+  published_at: <%= Time.new(2026, 1, 1, 0, 0, 15) %>
+
+pagination_fixture_post_16:
+  status: published
+  title: Pagination Fixture Post 16
+  slug: pagination-fixture-post-16
+  pinned: false
+  published_at: <%= Time.new(2026, 1, 1, 0, 0, 16) %>
+
+pagination_fixture_post_17:
+  status: published
+  title: Pagination Fixture Post 17
+  slug: pagination-fixture-post-17
+  pinned: false
+  published_at: <%= Time.new(2026, 1, 1, 0, 0, 17) %>
+
+pagination_fixture_post_18:
+  status: published
+  title: Pagination Fixture Post 18
+  slug: pagination-fixture-post-18
+  pinned: false
+  published_at: <%= Time.new(2026, 1, 1, 0, 0, 18) %>
+
+pagination_fixture_post_19:
+  status: published
+  title: Pagination Fixture Post 19
+  slug: pagination-fixture-post-19
+  pinned: false
+  published_at: <%= Time.new(2026, 1, 1, 0, 0, 19) %>
+
+pagination_fixture_post_20:
+  status: published
+  title: Pagination Fixture Post 20
+  slug: pagination-fixture-post-20
+  pinned: false
+  published_at: <%= Time.new(2026, 1, 1, 0, 0, 20) %>
+
+pagination_fixture_post_21:
+  status: published
+  title: Pagination Fixture Post 21
+  slug: pagination-fixture-post-21
+  pinned: false
+  published_at: <%= Time.new(2026, 1, 1, 0, 0, 21) %>

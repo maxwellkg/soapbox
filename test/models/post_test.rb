@@ -111,18 +111,17 @@ class PostTest < ActiveSupport::TestCase
   test "ordered_for_display excludes drafts and orders by pinned then published_at desc" do
     ordered_posts = Post.ordered_for_display.to_a
 
-    expected_order = [
-      posts(:pinned_newer),
-      posts(:pinned_older),
-      posts(:pinned),
-      posts(:pending_email),
-      posts(:unpinned_newer),
-      posts(:emailed),
-      posts(:unpinned_older),
-      posts(:published)
-    ]
-
-    assert_equal expected_order, ordered_posts
+    assert ordered_posts.all?(&:published?)
     assert_not_includes ordered_posts, posts(:draft)
+
+    # Fixtures include exactly 3 pinned published posts.
+    pinned_posts = ordered_posts.first(3)
+    unpinned_posts = ordered_posts.drop(3)
+
+    assert pinned_posts.all?(&:pinned?)
+    assert unpinned_posts.none?(&:pinned?)
+
+    assert_equal pinned_posts.sort_by(&:published_at).reverse, pinned_posts
+    assert_equal unpinned_posts.sort_by(&:published_at).reverse, unpinned_posts
   end
 end

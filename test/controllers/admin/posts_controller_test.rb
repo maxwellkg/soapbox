@@ -38,9 +38,9 @@ class Admin::PostsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "h1", "Posts"
 
-    assert_select "h2", Post.count
+    assert_select "h2", count: 20
 
-    Post.all.each do |post|
+    Post.order(updated_at: :desc).limit(20).each do |post|
       assert_select "h2", text: post.title
     end
   end
@@ -71,15 +71,15 @@ class Admin::PostsControllerTest < ActionDispatch::IntegrationTest
 
     get admin_posts_path, params: { status: "draft" }
     assert_response :success
-    assert_select "h2", count: Post.draft.count
+    assert_select "h2", count: 1
 
     get admin_posts_path, params: { status: "published" }
     assert_response :success
-    assert_select "h2", count: Post.published.count
+    assert_select "h2", count: 20
 
     get admin_posts_path, params: { status: "" }
     assert_response :success
-    assert_select "h2", count: Post.count
+    assert_select "h2", count: 20
 
     get admin_posts_path, params: { status: "foobar" }
     assert_response :success
@@ -223,5 +223,27 @@ class Admin::PostsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to admin_posts_path
     assert_equal "Post was successfully deleted.", flash[:success]
+  end
+
+  test "index paginates posts when searching" do
+    sign_in_as(@author)
+    Post.reindex_all!
+
+    get admin_posts_path, params: { search: "pagination fixture" }
+
+    assert_response :success
+    assert_select "article.admin-card", count: 20
+    assert_select "p", text: "21 matching posts"
+    assert_select ".pagination-page", text: "Page 1 of 2"
+    assert_select "span.pagination-link-disabled", text: "Previous"
+    assert_select "a.pagination-link[href*='search=pagination+fixture'][href*='page=2']", text: "Next"
+
+    get admin_posts_path, params: { search: "pagination fixture", page: 2 }
+
+    assert_response :success
+    assert_select "article.admin-card", count: 1
+    assert_select ".pagination-page", text: "Page 2 of 2"
+    assert_select "a.pagination-link[href*='search=pagination+fixture'][href*='page=1']", text: "Previous"
+    assert_select "span.pagination-link-disabled", text: "Next"
   end
 end

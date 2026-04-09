@@ -19,6 +19,7 @@
 
   <% if @posts.any? %>
     <%= render partial: "admin/posts/preview", collection: @posts, as: :post %>
+    <%= render_pagination_controls %>
   <% else %>
     <p>No posts yet.</p>
   <% end %>

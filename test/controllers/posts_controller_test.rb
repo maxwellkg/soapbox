@@ -10,9 +10,12 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_select "form[action='#{signups_path}']"
     assert_select "input[name='subscriber[email_address]']"
 
-    Post.published.each do |post|
+    Post.ordered_for_display.limit(20).each do |post|
       assert_select "h2", text: post.title
     end
+
+    assert_select "h2", count: 20
+    assert_select ".pagination-page", text: "Page 1 of 2"
   end
 
   test "index does not display draft posts" do
@@ -74,5 +77,26 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_equal Blog.instance.as_atom_feed_xml, response.body
+  end
+
+  test "index paginates search results" do
+    Post.reindex_all!
+
+    get root_url, params: { search: "pagination fixture" }
+
+    assert_response :success
+    assert_select "article.post-preview", count: 20
+    assert_select "p", text: "21 matching posts"
+    assert_select ".pagination-page", text: "Page 1 of 2"
+    assert_select "span.pagination-link-disabled", text: "Previous"
+    assert_select "a.pagination-link[href*='search=pagination+fixture'][href*='page=2']", text: "Next"
+
+    get root_url, params: { search: "pagination fixture", page: 2 }
+
+    assert_response :success
+    assert_select "article.post-preview", count: 1
+    assert_select ".pagination-page", text: "Page 2 of 2"
+    assert_select "a.pagination-link[href*='search=pagination+fixture'][href*='page=1']", text: "Previous"
+    assert_select "span.pagination-link-disabled", text: "Next"
   end
 end

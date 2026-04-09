@@ -20,11 +20,12 @@
 
 <section id="posts">
   <% if search_term.present? %>
-    <p><%= pluralize(@posts.count, "matching post") %></p>
+    <p><%= pluralize(@page.unpaginated_record_count, "matching post") %></p>
   <% end %>
 
   <% if @posts.any? %>
     <%= render partial: "posts/preview", collection: @posts, as: :post %>
+    <%= render_pagination_controls %>
   <% else %>
     <p><%= no_matching_posts_text %></p>
   <% end %>

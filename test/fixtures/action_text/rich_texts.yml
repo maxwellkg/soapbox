@@ -52,3 +52,108 @@ pending_email_content:
   record: pending_email (Post)
   name: content
   body: <p>Pending email post content</p>
+
+pagination_fixture_post_01_content:
+  record: pagination_fixture_post_01 (Post)
+  name: content
+  body: <p>Pagination fixture post 01 content.</p>
+
+pagination_fixture_post_02_content:
+  record: pagination_fixture_post_02 (Post)
+  name: content
+  body: <p>Pagination fixture post 02 content.</p>
+
+pagination_fixture_post_03_content:
+  record: pagination_fixture_post_03 (Post)
+  name: content
+  body: <p>Pagination fixture post 03 content.</p>
+
+pagination_fixture_post_04_content:
+  record: pagination_fixture_post_04 (Post)
+  name: content
+  body: <p>Pagination fixture post 04 content.</p>
+
+pagination_fixture_post_05_content:
+  record: pagination_fixture_post_05 (Post)
+  name: content
+  body: <p>Pagination fixture post 05 content.</p>
+
+pagination_fixture_post_06_content:
+  record: pagination_fixture_post_06 (Post)
+  name: content
+  body: <p>Pagination fixture post 06 content.</p>
+
+pagination_fixture_post_07_content:
+  record: pagination_fixture_post_07 (Post)
+  name: content
+  body: <p>Pagination fixture post 07 content.</p>
+
+pagination_fixture_post_08_content:
+  record: pagination_fixture_post_08 (Post)
+  name: content
+  body: <p>Pagination fixture post 08 content.</p>
+
+pagination_fixture_post_09_content:
+  record: pagination_fixture_post_09 (Post)
+  name: content
+  body: <p>Pagination fixture post 09 content.</p>
+
+pagination_fixture_post_10_content:
+  record: pagination_fixture_post_10 (Post)
+  name: content
+  body: <p>Pagination fixture post 10 content.</p>
+
+pagination_fixture_post_11_content:
+  record: pagination_fixture_post_11 (Post)
+  name: content
+  body: <p>Pagination fixture post 11 content.</p>
+
+pagination_fixture_post_12_content:
+  record: pagination_fixture_post_12 (Post)
+  name: content
+  body: <p>Pagination fixture post 12 content.</p>
+
+pagination_fixture_post_13_content:
+  record: pagination_fixture_post_13 (Post)
+  name: content
+  body: <p>Pagination fixture post 13 content.</p>
+
+pagination_fixture_post_14_content:
+  record: pagination_fixture_post_14 (Post)
+  name: content
+  body: <p>Pagination fixture post 14 content.</p>
+
+pagination_fixture_post_15_content:
+  record: pagination_fixture_post_15 (Post)
+  name: content
+  body: <p>Pagination fixture post 15 content.</p>
+
+pagination_fixture_post_16_content:
+  record: pagination_fixture_post_16 (Post)
+  name: content
+  body: <p>Pagination fixture post 16 content.</p>
+
+pagination_fixture_post_17_content:
+  record: pagination_fixture_post_17 (Post)
+  name: content
+  body: <p>Pagination fixture post 17 content.</p>
+
+pagination_fixture_post_18_content:
+  record: pagination_fixture_post_18 (Post)
+  name: content
+  body: <p>Pagination fixture post 18 content.</p>
+
+pagination_fixture_post_19_content:
+  record: pagination_fixture_post_19 (Post)
+  name: content
+  body: <p>Pagination fixture post 19 content.</p>
+
+pagination_fixture_post_20_content:
+  record: pagination_fixture_post_20 (Post)
+  name: content
+  body: <p>Pagination fixture post 20 content.</p>
+
+pagination_fixture_post_21_content:
+  record: pagination_fixture_post_21 (Post)
+  name: content
+  body: <p>Pagination fixture post 21 content.</p>

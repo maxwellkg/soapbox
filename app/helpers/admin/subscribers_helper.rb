@@ -28,6 +28,6 @@ module Admin::SubscribersHelper
   end
 
   def admin_num_matching_subscribers_text
-    pluralize(@subscribers.count, "matching subscriber")
+    pluralize(@page.unpaginated_record_count, "matching subscriber")
   end
 end

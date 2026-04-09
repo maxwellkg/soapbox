@@ -12,3 +12,66 @@ reader_four:
 
 reader_without_subscription:
   email_address: reader.without.subscription@example.com
+
+pagination_subscriber_01:
+  email_address: pagination.subscriber01@example.com
+
+pagination_subscriber_02:
+  email_address: pagination.subscriber02@example.com
+
+pagination_subscriber_03:
+  email_address: pagination.subscriber03@example.com
+
+pagination_subscriber_04:
+  email_address: pagination.subscriber04@example.com
+
+pagination_subscriber_05:
+  email_address: pagination.subscriber05@example.com
+
+pagination_subscriber_06:
+  email_address: pagination.subscriber06@example.com
+
+pagination_subscriber_07:
+  email_address: pagination.subscriber07@example.com
+
+pagination_subscriber_08:
+  email_address: pagination.subscriber08@example.com
+
+pagination_subscriber_09:
+  email_address: pagination.subscriber09@example.com
+
+pagination_subscriber_10:
+  email_address: pagination.subscriber10@example.com
+
+pagination_subscriber_11:
+  email_address: pagination.subscriber11@example.com
+
+pagination_subscriber_12:
+  email_address: pagination.subscriber12@example.com
+
+pagination_subscriber_13:
+  email_address: pagination.subscriber13@example.com
+
+pagination_subscriber_14:
+  email_address: pagination.subscriber14@example.com
+
+pagination_subscriber_15:
+  email_address: pagination.subscriber15@example.com
+
+pagination_subscriber_16:
+  email_address: pagination.subscriber16@example.com
+
+pagination_subscriber_17:
+  email_address: pagination.subscriber17@example.com
+
+pagination_subscriber_18:
+  email_address: pagination.subscriber18@example.com
+
+pagination_subscriber_19:
+  email_address: pagination.subscriber19@example.com
+
+pagination_subscriber_20:
+  email_address: pagination.subscriber20@example.com
+
+pagination_subscriber_21:
+  email_address: pagination.subscriber21@example.com

@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   include Searchable::Controller
+  include Pagination::Controller
 
   before_action :set_blog, :set_signup
 
@@ -26,10 +27,12 @@ class PostsController < ApplicationController
     end
 
     def set_posts
-      @posts = Post
-                .search_title_summary_and_content(search_term)
-                .with_rich_text_summary
-                .with_rich_text_content
-                .ordered_for_display
+      @posts =  paginate(
+                  Post
+                    .search_title_summary_and_content(search_term)
+                    .with_rich_text_summary
+                    .with_rich_text_content
+                    .ordered_for_display
+                )
     end
 end

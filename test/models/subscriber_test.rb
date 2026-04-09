@@ -95,15 +95,16 @@ class SubscriberTest < ActiveSupport::TestCase
   end
 
   test "scopes to active subscribers" do
-    active = %i[reader_one reader_two reader_three reader_four].map { |key| subscribers(key) }
+    active = %i[ reader_one reader_two reader_three reader_four ].map { |key| subscribers(key) }
 
     assert_equal active.map(&:id).sort, Subscriber.active.pluck(:id).sort
   end
 
   test "scopes to inactive subscribers" do
-    inactive = %i[reader_without_subscription].map { |key| subscribers(key) }
+    active = %i[ reader_one reader_two reader_three reader_four ].map { |key| subscribers(key) }
+    not_active = Subscriber.where.not(id: active.map(&:id))
 
-    assert_equal inactive.map(&:id).sort, Subscriber.inactive.pluck(:id).sort
+    assert_equal not_active.pluck(:id).sort, Subscriber.inactive.pluck(:id).sort
   end
 
   test "for_status returns matching scope" do

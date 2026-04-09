@@ -1,14 +1,17 @@
 class Admin::SubscribersController < Admin::ApplicationController
   include Searchable::Controller
+  include Pagination::Controller
 
   before_action :set_subscriber, only: %i[ show edit update ]
 
   def index
-    @subscribers =  Subscriber
-                      .includes(:active_subscription)
-                      .search_email_address(search_term)
-                      .for_status(filter_params[:status])
-                      .order(updated_at: :desc)
+    @subscribers =  paginate(
+                      Subscriber
+                        .includes(:active_subscription)
+                        .search_email_address(search_term)
+                        .for_status(filter_params[:status])
+                        .order(updated_at: :desc)
+                    )
   end
 
   def show

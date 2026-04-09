@@ -1,14 +1,17 @@
 class Admin::PostsController < Admin::ApplicationController
   include Searchable::Controller
+  include Pagination::Controller
 
   before_action :set_post, only: %i[ show edit update destroy ]
 
   def index
-    @posts = Post
-             .with_rich_text_summary
-             .search_title_summary_and_content(search_term)
-             .where(filter_conditions)
-             .order(updated_at: :desc)
+    @posts =  paginate(
+                Post
+                  .with_rich_text_summary
+                  .search_title_summary_and_content(search_term)
+                  .where(filter_conditions)
+                  .order(updated_at: :desc)
+              )
   end
 
   def show
