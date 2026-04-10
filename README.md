@@ -76,3 +76,5 @@ To rebuild all configured search indexes, run `bin/rails search:reindex_all`.
 ## Further documentation
 
 More in-depth documentation is written in `docs/general.md`, with some topics given their own separate docs in the `/docs` directory.
+
+For an author-focused walkthrough of the UI and setup flow, see `docs/user-guide.md`.
