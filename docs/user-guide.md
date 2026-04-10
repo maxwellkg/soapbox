@@ -64,17 +64,17 @@ On the homepage, readers see the blog title, any configured subtitle and descrip
 
 ![Public homepage](user-guide/screenshots/public-home.png)
 
+Path: `/`
+
 Each post page shows the full post content for a single entry. The signup form appears there as well, so a reader who discovers the site through one post can still subscribe easily.
 
 ![Public post page](user-guide/screenshots/public-post.png)
 
-For you as the author, this means the public side of Soapbox stays calm and uncluttered. Most of the decisions that shape what readers see happen in the admin area.
+Path: `/posts/:slug`
 
 ## The Admin Home Page
 
-The admin home page is deliberately simple. It is a starting point rather than a dashboard full of metrics.
-
-From this page, you can:
+The admin home page is deliberately simple. It is a starting point rather than a dashboard full of metrics. From this page, you can:
 
 - go back to the public blog
 - manage your account
@@ -82,23 +82,25 @@ From this page, you can:
 - manage posts
 - manage subscribers
 
-If you think of Soapbox as a handful of small jobs rather than one large system, the admin home page reflects that idea clearly.
-
 ![Admin home page](user-guide/screenshots/admin-home.png)
+
+Path: `/admin`
 
 ## Managing Blog Settings
 
-The blog settings area controls the publication's identity. This is where you set or update the blog title, subtitle, and description.
+The blog settings area controls the publication's identity.
 
 The title is the main name of the publication. The subtitle adds a short secondary line when you want one. The description gives you a richer introduction on the public homepage and supports rich text, so it can be more expressive than a plain text tagline.
 
-This is also where you finish part of the setup that `bin/rails site:setup` cannot complete. Because the description is rich text, it is edited here in the browser instead of being collected in the terminal.
-
 ![Blog settings overview](user-guide/screenshots/admin-blog-show.png)
 
-When you choose to edit the blog, Soapbox shows a focused form with just the fields that matter.
+Path: `/admin/blog`
+
+You can set or update the blog title, subtitle, and description by editing the blog. This is also where you finish part of the setup that `bin/rails site:setup` cannot complete. Because the description is rich text, it is edited here in the browser instead of being collected in the terminal.
 
 ![Edit blog settings](user-guide/screenshots/admin-blog-edit.png)
+
+Path: `/admin/blog/edit`
 
 ## Managing Posts
 
@@ -106,57 +108,62 @@ Posts are at the center of the application. The posts index shows your existing 
 
 ![Posts index](user-guide/screenshots/admin-posts-index.png)
 
+Path: `/admin/posts`
+
 Creating a post begins with a small form:
 
 - `title` is the post title readers will see
-- `slug` is the URL path for the post
-- `pinned` lets you keep an important post prominent
-- `summary` is the shorter preview used in listings
+- `slug` is the URL path for the post (on a new post, the slug will automatically be set from the title if it is not specifically given)
+- `pinned` lets you keep an important post prominent; pinned posts appear first in the list of posts on the home page of the public blog
+- `summary` is an optional, shorter preview used in listings; posts without a given summary will be summarized using the first 80 words of their content
 - `content` is the full post body
 
 New posts begin as drafts. That gives you room to write, revise, and preview your work before making it public.
 
 ![New post form](user-guide/screenshots/admin-post-new.png)
 
-The post editor uses rich text fields for summary and content, which makes it practical to do normal writing directly in the browser. Soapbox keeps the writing workflow narrow on purpose: the goal is to help you publish clearly, not to bury the act of writing under a large editorial system.
+Path: `/admin/posts/new`
+
 
 ## Reviewing A Post
 
-Each post has a detail page in the admin area. This page brings together the information and actions that matter once a draft starts becoming a finished piece.
-
-Here you can review the post title, slug, publication status, email status, and published date. You can also read the summary and full content in one place before deciding what to do next.
+Each post has a detail page in the admin area where you can review the post.
 
 ![Post detail page](user-guide/screenshots/admin-post-show.png)
 
-In practice, this page becomes the post's control center. It is where you check whether the post is still a draft, whether it has already been published, and whether email delivery has begun.
+Path: `/admin/posts/:slug`
 
 ## Publishing And Emailing Posts
+
+The post detail page also acts as the post's control center. You can view and change the post's publishing status and email status.
 
 Soapbox treats publication and email delivery as related but separate decisions.
 
 Publishing a post makes it visible on the public site. Unpublishing removes it from public view. This lets you control when a post appears on the blog itself.
 
-Email delivery is a separate step. A post must be published before emails can begin, but publishing alone does not automatically send anything. That separation is useful because it lets you make the post public first, confirm that everything looks right, and then deliberately start email delivery.
+Email delivery is a separate step. A post must be published before emails can begin, but publishing alone does not automatically send anything. This separation makes it less likely for email delivery (which is irreversible) to accidentally be performed prematurely.
 
-When you start emails for a post, Soapbox moves the post into a pending email state. While the post is pending, email delivery can still be stopped. This pending state will last ~1 minute. Once delivery has been initiated, that status is preserved as part of the post's history.
-
-This small distinction matters in everyday use. If you publish a post and then notice something you want to fix before it goes out by email, you still have a short, explicit point of control.
+When you start emails for a post, Soapbox moves the post into a pending email state. This pending state will last about one minute. While the post is pending, email delivery can still be stopped and the email status will return to `not started`. Once delivery has been initiated, that status is preserved as part of the post's history.
 
 ## Managing Subscribers
 
-The subscribers area shows the people who have signed up to receive your posts by email. Like the posts area, it stays intentionally small and focused.
-
-The subscribers index shows each subscriber's email address, current status, and last update time. If you need to find someone quickly, you can search by email address. This page is also the starting point for adding someone manually.
+The subscribers area shows the people who have signed up to receive your posts by email. The subscribers index shows each subscriber's email address, current status, and last update time. If you need to find someone quickly, you can search by email address. This page is also the starting point for adding someone manually.
 
 ![Subscribers index](user-guide/screenshots/admin-subscribers-index.png)
 
-If you choose `add subscriber`, Soapbox takes you to a small form that asks only for the subscriber's email address. New subscribers created from the admin area are activated as part of creation, which keeps the normal path short.
+Path: `/admin/subscribers`
+
+If you choose `add subscriber`, Soapbox takes you to a small form that asks only for the subscriber's email address. New subscribers created from the admin area are activated as part of creation.
 
 ![New subscriber form](user-guide/screenshots/admin-subscriber-new.png)
+
+Path: `/admin/subscribers/new`
 
 Each subscriber has a detail page where you can review their current status and take action.
 
 ![Subscriber detail page](user-guide/screenshots/admin-subscriber-show.png)
+
+Path: `/admin/subscribers/:id`
 
 Subscribers can be activated or deactivated. In practical terms, that controls whether the subscriber is currently part of the mailing list.
 
@@ -164,15 +171,4 @@ If you need to correct or update an address, the subscriber's edit page gives yo
 
 ![Edit subscriber](user-guide/screenshots/admin-subscriber-edit.png)
 
-## A Simple Day-To-Day Workflow
-
-Once Soapbox is set up, the normal routine is short:
-
-1. Sign in at `/admin`.
-2. Create a new post or continue editing a draft.
-3. Review the post on its admin page.
-4. Publish it when it is ready to appear on the site.
-5. Start emails when you want the post delivered to subscribers.
-6. Review subscribers or blog settings as needed.
-
-That small loop is the point of the product. Soapbox is built to keep the mechanics of running a blog close at hand without turning them into a larger publishing system than a single author needs.
+Path: `/admin/subscribers/:id/edit`
