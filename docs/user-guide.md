@@ -74,7 +74,7 @@ Path: `/posts/:slug`
 
 ## The Admin Home Page
 
-The admin home page is deliberately simple. It is a starting point rather than a dashboard full of metrics. From this page, you can:
+The admin home page is the starting point for managing the blog. From here, you can:
 
 - go back to the public blog
 - manage your account
