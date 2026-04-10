@@ -2,6 +2,7 @@
 
 <section class="page-actions">
   <%= link_to "Back to blog", root_path, class: "btn" %>
+  <%= link_to "Manage account", admin_author_path, class: "btn" %>
   <%= link_to "Manage blog", admin_blog_path, class: "btn" %>
   <%= link_to "Manage posts", admin_posts_path, class: "btn" %>
   <%= link_to "Manage subscribers", admin_subscribers_path, class: "btn" %>
@@ -11,4 +12,4 @@
   <h1>Admin</h1>
 </header>
 
-<p>There's nothing here yet.</p>
+<p>Welcome, <%= Current.author&.full_name || "Author" %>.</p>

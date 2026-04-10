@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   namespace :admin do
     root "dashboards#show"
 
+    resource :author, only: %i[ show edit update ]
     resource :blog, only: %i[ show edit update ]
 
     resources :posts, param: :slug do

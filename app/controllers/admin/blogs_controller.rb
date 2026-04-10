@@ -13,7 +13,7 @@ class Admin::BlogsController < Admin::ApplicationController
       redirect_to admin_blog_path
     else
       flash_error "Something went wrong"
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 

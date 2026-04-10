@@ -34,6 +34,7 @@ class Admin::SubscribersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "h1", "Subscribers"
+    assert_select "a[href='#{new_admin_subscriber_path}']", text: "add subscriber"
     assert_select "h2", count: 20
 
     Subscriber.order(updated_at: :desc).limit(20).each do |subscriber|

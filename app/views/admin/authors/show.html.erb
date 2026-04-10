@@ -1,0 +1,17 @@
+<% content_for :title, @author.full_name %>
+
+<section class="page-actions">
+  <%= link_to "back to admin", admin_root_path, class: "btn" %>
+  <%= link_to "manage blog", admin_blog_path, class: "btn" %>
+  <%= link_to "edit account", edit_admin_author_path, class: "btn" %>
+</section>
+
+<header class="admin-header">
+  <h1><%= @author.full_name %></h1>
+</header>
+
+<section class="admin-meta-block">
+  <p><span class="admin-label">First name:</span> <%= @author.first_name %></p>
+  <p><span class="admin-label">Last name:</span> <%= @author.last_name %></p>
+  <p><span class="admin-label">Email address:</span> <%= @author.email_address %></p>
+</section>

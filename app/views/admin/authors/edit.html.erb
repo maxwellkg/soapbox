@@ -1,0 +1,45 @@
+<% content_for :title, "Edit Account" %>
+
+<section class="page-actions">
+  <%= link_to "back to account", admin_author_path, class: "btn" %>
+  <%= link_to "back to admin", admin_root_path, class: "btn" %>
+</section>
+
+<header class="admin-header">
+  <h1>Edit Account</h1>
+</header>
+
+<%= form_with(model: [ :admin, @author ], url: admin_author_path) do |form| %>
+  <% if @author.errors.any? %>
+    <section class="admin-form-errors" role="alert">
+      <p><%= pluralize(@author.errors.count, "error") %> prevented this account from being saved:</p>
+      <ul>
+        <% @author.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </section>
+  <% end %>
+
+  <fieldset class="admin-fieldset">
+    <div class="admin-form-row">
+      <%= form.label :first_name %>
+      <%= form.text_field :first_name, required: true, autofocus: true %>
+    </div>
+
+    <div class="admin-form-row">
+      <%= form.label :last_name %>
+      <%= form.text_field :last_name, required: true %>
+    </div>
+
+    <div class="admin-form-row">
+      <%= form.label :email_address, "Email address" %>
+      <%= form.email_field :email_address, required: true %>
+    </div>
+  </fieldset>
+
+  <div class="form-actions">
+    <%= form.submit "Update Account", class: "btn btn-primary" %>
+    <%= link_to "cancel", admin_author_path, class: "btn" %>
+  </div>
+<% end %>
