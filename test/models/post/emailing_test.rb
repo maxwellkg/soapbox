@@ -165,9 +165,11 @@ class Post::EmailingTest < ActiveSupport::TestCase
   test "initiate_emails_using_key raises when key matches and status is not pending" do
     post = posts(:emailed)
 
-    assert_raises(RuntimeError, /'pending'/) do
+    error = assert_raises(RuntimeError) do
       post.send(:initiate_emails_using_key, key: post.start_emails_job_key)
     end
+
+    assert_match /'pending'/, error.message
   end
 
   test "cannot initiate emails when status is not pending" do
