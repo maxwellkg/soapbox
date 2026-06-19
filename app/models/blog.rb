@@ -44,7 +44,7 @@ class Blog < ApplicationRecord
       self.should_remove_site_image = false
       self
     end
-  
+
     def single_instance_only
       if self.class.instance?
         errors.add(:base, :singleton_violation, message: "Only one blog is allowed")
