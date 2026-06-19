@@ -189,17 +189,19 @@ pre.highlight {
 
 @media (max-width: 640px) {
   .blog-title-header {
+    justify-items: center;
     grid-template-columns: 1fr;
   }
 
   .blog-title-image {
     grid-row: 1;
-    justify-self: start;
+    justify-self: center;
     max-width: min(100%, 18rem);
   }
 
   .blog-title-copy {
     grid-row: 2;
+    text-align: center;
   }
 
   .search-row,
