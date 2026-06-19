@@ -7,6 +7,7 @@ module ActiveSupport
   class TestCase
     include Rails.application.routes.url_helpers
     include ActionMailer::TestHelper
+    include ActionDispatch::TestProcess::FixtureFile
 
     parallelize(workers: :number_of_processors)
 
@@ -22,6 +23,12 @@ module ActiveSupport
       yield
     ensure
       klass.define_method(method_name, original_method)
+    end
+
+    def attach_site_image(record)
+      file_fixture("site_image.png").open do |file|
+        record.site_image.attach(io: file, filename: "site_image.png", content_type: "image/png")
+      end
     end
   end
 end

@@ -40,6 +40,19 @@ class Admin::BlogsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_select "input[name='blog[title]'][value=?]", @blog.title
     assert_select "input[name='blog[subtitle]'][value=?]", @blog.subtitle
+    assert_select "input[type='file'][name='blog[site_image]']"
+    assert_select "input[name='blog[should_remove_site_image]']", count: 0
+  end
+
+  test "edit shows remove site image checkbox when image is attached" do
+    sign_in_as(@author)
+
+    attach_site_image(@blog)
+
+    get edit_admin_blog_path
+
+    assert_response :success
+    assert_select "input[type='checkbox'][name='blog[should_remove_site_image]']"
   end
 
   test "update changes blog fields" do
@@ -58,6 +71,38 @@ class Admin::BlogsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "New Soapbox Title", @blog.reload.title
     assert_equal "Dispatches from the terminal", @blog.subtitle
     assert_includes @blog.description.body.to_s, "Welcome to the new description."
+  end
+
+  test "update attaches site image" do
+    sign_in_as(@author)
+
+    patch admin_blog_path, params: {
+      blog: {
+        title: @blog.title,
+        subtitle: @blog.subtitle,
+        site_image: fixture_file_upload("site_image.png", "image/png")
+      }
+    }
+
+    assert_redirected_to admin_blog_path
+    assert @blog.reload.site_image.attached?
+  end
+
+  test "update removes site image when requested" do
+    sign_in_as(@author)
+
+    attach_site_image(@blog)
+
+    patch admin_blog_path, params: {
+      blog: {
+        title: @blog.title,
+        subtitle: @blog.subtitle,
+        should_remove_site_image: "1"
+      }
+    }
+
+    assert_redirected_to admin_blog_path
+    assert_not @blog.reload.site_image.attached?
   end
 
   test "update re-renders when invalid" do

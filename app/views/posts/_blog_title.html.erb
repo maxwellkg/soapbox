@@ -1,7 +1,17 @@
 <%# locals: (for_email: false) %>
 
-<h1 class="blog-title"><%= link_to @blog.title, root_url(only_path: !for_email), class: "blog-title-link" %></h1>
+<div class="blog-title-header">
+  <div class="blog-title-copy">
+    <h1 class="blog-title"><%= link_to @blog.title, root_url(only_path: !for_email), class: "blog-title-link" %></h1>
 
-<% if @blog.subtitle.present? %>
-  <p class="blog-subtitle"><%= @blog.subtitle %></p>
-<% end %>
+    <% if @blog.subtitle.present? %>
+      <p class="blog-subtitle"><%= @blog.subtitle %></p>
+    <% end %>
+  </div>
+
+  <% if @blog.site_image.attached? %>
+    <div class="blog-title-image">
+      <%= image_tag @blog.site_image.variant(resize_to_fill: [ 480, 480 ]), alt: "#{@blog.title} site image" %>
+    </div>
+  <% end %>
+</div>

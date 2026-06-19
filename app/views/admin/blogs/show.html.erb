@@ -10,6 +10,13 @@
   <h1><%= @blog.title %></h1>
 </header>
 
+<% if @blog.site_image.attached? %>
+  <section class="admin-meta-block">
+    <p class="admin-label">Site image</p>
+    <%= image_tag @blog.site_image.variant(resize_to_limit: [ 160, 160 ]), alt: "#{@blog.title} site image", class: "admin-site-image-preview" %>
+  </section>
+<% end %>
+
 <section class="admin-meta-block">
   <% if @blog.subtitle.present? %>
     <p><span class="admin-label">Subtitle:</span> <%= @blog.subtitle %></p>

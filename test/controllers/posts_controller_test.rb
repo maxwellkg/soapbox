@@ -16,6 +16,19 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
 
     assert_select "h2", count: 20
     assert_select ".pagination-page", text: "Page 1 of 2"
+    assert_select "link[rel='icon'][href='/icon.png']"
+  end
+
+  test "index renders blog site image and uses it for the favicon when attached" do
+    blog = blogs(:instance)
+    attach_site_image(blog)
+
+    get root_url
+
+    assert_response :success
+    assert_select ".blog-title-image img[alt='#{blog.title} site image']"
+    assert_select "link[rel='icon'][href*='active_storage']"
+    assert_select "link[rel='apple-touch-icon'][href*='active_storage']"
   end
 
   test "index does not display draft posts" do

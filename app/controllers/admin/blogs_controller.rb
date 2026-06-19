@@ -23,6 +23,6 @@ class Admin::BlogsController < Admin::ApplicationController
     end
 
     def blog_params
-      params.expect(blog: [ :title, :subtitle, :description ])
+      params.expect(blog: [ :title, :subtitle, :description, :site_image, :should_remove_site_image ])
     end
 end

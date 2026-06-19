@@ -36,6 +36,21 @@
       <%= form.label :description %>
       <%= form.rich_text_area :description %>
     </div>
+
+    <div class="admin-form-row">
+      <%= form.label :site_image, "Site image" %>
+      <%= form.file_field :site_image, accept: "image/*" %>
+      <p class="admin-form-hint">Used in the blog header and favicon.</p>
+
+      <% if @blog.site_image.attached? %>
+        <%= image_tag @blog.site_image.variant(resize_to_limit: [ 160, 160 ]), alt: "#{@blog.title} site image", class: "admin-site-image-preview" %>
+
+        <div class="admin-form-row-checkbox">
+          <%= form.check_box :should_remove_site_image %>
+          <%= form.label :should_remove_site_image, "Remove current site image" %>
+        </div>
+      <% end %>
+    </div>
   </fieldset>
 
   <div class="form-actions">

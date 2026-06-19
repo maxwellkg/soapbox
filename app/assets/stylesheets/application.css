@@ -202,6 +202,15 @@
   gap: 0.5rem;
 }
 
+.admin-form-hint {
+  color: var(--secondary-color);
+  margin: 0;
+}
+
+.admin-site-image-preview {
+  max-width: 10rem;
+}
+
 .admin-form-row-checkbox {
   align-items: center;
   display: flex;
