@@ -17,6 +17,16 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_select "h2", count: 20
     assert_select ".pagination-page", text: "Page 1 of 2"
     assert_select "link[rel='icon'][href='/icon.png']"
+    assert_select "a[href='#{admin_root_path}']", text: "go to admin", count: 0
+  end
+
+  test "index displays go to admin action for authenticated author" do
+    sign_in_as(authors(:one))
+
+    get root_url
+
+    assert_response :success
+    assert_select "a[href='#{admin_root_path}']", text: "go to admin"
   end
 
   test "index renders blog site image and uses it for the favicon when attached" do

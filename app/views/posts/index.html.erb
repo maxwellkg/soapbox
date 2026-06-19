@@ -1,5 +1,11 @@
 <% content_for :title, @blog.title %>
 
+<% if authenticated? %>
+  <section class="page-actions">
+    <%= link_to "go to admin", admin_root_path, class: "btn" %>
+  </section>
+<% end %>
+
 <header>
   <%= render "blog_title" %>
 </header>
