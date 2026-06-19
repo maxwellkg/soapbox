@@ -1,10 +1,6 @@
 .blog-title-link {
+  color: var(--accent);
   text-decoration: none;
-}
-
-.blog-title-link,
-.blog-title-link:visited {
-  color: var(--font-color);
 }
 
 .blog-title-header {
@@ -45,7 +41,6 @@
 
 .blog-title-link:hover {
   background-color: transparent;
-  color: var(--primary-color);
 }
 
 .signup-section {
@@ -160,9 +155,14 @@ pre.highlight {
 }
 
 .post-preview {
-  border: 1px solid #fff;
-  margin: 2.25rem 0;
-  padding: 1rem;
+  border: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--foreground) 22%, transparent);
+  margin: 0;
+  padding: 1.75rem 0;
+}
+
+.post-preview:first-of-type {
+  border-top: 1px solid color-mix(in srgb, var(--foreground) 22%, transparent);
 }
 
 .post-preview h2 {
