@@ -10,15 +10,15 @@
   <%= render "blog_title" %>
 </header>
 
-<section class="signup-section">
-  <%= render "subscribers/signups/form" %>
-</section>
-
 <% if @blog.description? %>
   <section id="description">
     <%= @blog.description %>
   </section>
 <% end %>
+
+<section class="signup-section">
+  <%= render "subscribers/signups/form" %>
+</section>
 
 <section class="posts-search-section">
   <%= render "search_form" %>
