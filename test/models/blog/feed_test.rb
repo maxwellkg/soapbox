@@ -26,7 +26,7 @@ class Blog::FeedTest < ActiveSupport::TestCase
   test "atom_feed includes published posts only in published_at descending order" do
     atom_feed = Blog::Feed.new(Blog.instance).atom_feed
 
-    expected_posts = Post.published.with_rich_text_content.order(published_at: :desc).to_a
+    expected_posts = Post.published.with_markdown_content.order(published_at: :desc).to_a
 
     expected_post_entry_ids = expected_posts.map do |post|
                                 expected_entry_id(post)

@@ -57,12 +57,12 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_select "h1", text: post.title
     assert_select "a[href='#{root_path}']", text: "see all posts"
     assert_select "a[href='#{edit_admin_post_path(post)}']", text: "edit post", count: 0
-    assert_includes response.body, post.content.body.to_s
+    assert_includes response.body, post.content.to_html
   end
 
   test "show renders highlighted code blocks" do
     post = posts(:published)
-    post.update!(content: "<div><pre>ruby\nputs 'hello'</pre></div>")
+    post.update!(content: "```ruby\nputs 'hello'\n```")
 
     get post_url(post)
 

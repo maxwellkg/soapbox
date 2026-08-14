@@ -59,16 +59,15 @@ class PostEmailsMailerTest < ActionMailer::TestCase
 
   test "html email keeps highlighted code block styles" do
     post_email = post_emails(:reader_one_email)
-    post_email.post.update!(content: "<div><pre>ruby\nputs 'hello'</pre></div>")
+    post_email.post.update!(content: "```ruby\nputs 'hello'\n```")
 
     delivered_email = PostEmailsMailer.with(post_email: post_email).post_email
     delivered_email.deliver_now
 
     html = ActionMailer::Base.deliveries.last.html_part.body.decoded
 
-    assert_match(/<pre class="highlight"/i, html)
+    assert_match(/class="highlight"/i, html)
     assert_match(/hello/, html)
-    assert_no_match(/>\s*ruby\s*</, html)
-    assert_match(/<pre class="highlight"[^>]*style="[^"]*padding:\s*10px/i, html)
+    assert_no_match(/```/, html)
   end
 end

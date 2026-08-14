@@ -127,7 +127,7 @@ module SiteSetup
       end
 
       def output_description_guidance_if_needed
-        return unless Blog.instance.description.blank?
+        return unless Blog.instance.description.content.blank?
 
         $stdout.puts "Next step: add your full blog description at /admin/blog/edit"
       end

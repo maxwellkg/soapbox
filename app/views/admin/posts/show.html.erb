@@ -5,8 +5,8 @@
 <%= render "admin/posts/status_note" %>
 
 <section class="page-actions">
-  <%= link_to "back to posts", admin_posts_path, class: "btn" %>
-  <%= link_to "edit", edit_admin_post_path(@post), class: "btn" %>
+  <%= link_to "Back to posts", admin_posts_path, class: "btn" %>
+  <%= link_to "Edit", edit_admin_post_path(@post), class: "btn" %>
   <%= admin_post_status_change_button %>
   <%= admin_post_email_status_change_button %>
   <%= admin_post_delete_button %>
@@ -17,22 +17,24 @@
 </header>
 
 <section class="admin-meta-block">
-  <p><span class="admin-label">Slug:</span> <code><%= @post.slug %></code></p>
+  <p><span class="admin-label">Slug:</span> <%= @post.slug %></p>
   <p><span class="admin-label">Status:</span> <%= admin_post_status_text(@post) %></p>
   <p><span class="admin-label">Email status:</span> <%= admin_post_email_status_text(@post) %></p>
   <p><span class="admin-label">Published:</span> <%= admin_post_published_at_text(@post) %></p>
 </section>
 
-<section class="admin-post-content">
-  <% if @post.summary.present? %>
-    <h2>Summary</h2>
-    <div>
-      <%= @post.summary %>
+<section>
+  <% if @post.summary? %>
+    <p class="admin-label">Summary</p>
+    <div class="admin-rich-text-box">
+      <%= sanitize_content(@post.summary.to_html) %>
     </div>
   <% end %>
 
-  <h2>Content</h2>
-  <div>
-    <%= highlighted_rich_text(@post.content) %>
-  </div>
+  <% if @post.content? %>
+    <p class="admin-label">Content</p>
+    <div class="admin-rich-text-box">
+      <%= sanitize_content(@post.content.to_html) %>
+    </div>
+  <% end %>
 </section>

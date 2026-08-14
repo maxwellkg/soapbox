@@ -12,13 +12,13 @@
 
   <fieldset class="admin-fieldset">
     <div class="admin-form-row">
-      <%= form.label :email_address %>
+      <%= form.label :email_address, class: "admin-form-label" %>
       <%= form.email_field :email_address, required: true, autofocus: true %>
     </div>
   </fieldset>
 
   <div class="form-actions">
     <%= form.submit admin_subscriber_form_submit_text, class: "btn btn-primary" %>
-    <%= link_to "cancel", admin_subscriber_form_cancel_path, class: "btn" %>
+    <%= link_to "Cancel", admin_subscriber_form_cancel_path, class: "btn" %>
   </div>
 <% end %>

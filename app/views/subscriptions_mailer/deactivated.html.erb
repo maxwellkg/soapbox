@@ -1,0 +1,17 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "application", "posts", media: "all" %>
+<% end %>
+
+<main class="post-email-shell">
+  <header class="post-email-title-header">
+    <%= render "posts/blog_title", for_email: true %>
+  </header>
+
+  <hr>
+
+  <div class="post-mailer-wrapper">
+    <p>
+      <%= @subscriber.email_address %> has been unsubscribed from <%= @blog.title %>. You will no longer receive new posts by email.
+    </p>
+  </div>
+</main>

@@ -5,8 +5,8 @@ class Post < ApplicationRecord
   MAX_SLUG_LENGTH = 50
   STATUSES = %w[ draft published ]
 
-  has_rich_text :summary, store_if_blank: false
-  has_rich_text :content, store_if_blank: false
+  has_markdown :summary
+  has_markdown :content
 
   enum :status, STATUSES.index_with(&:itself), validate: true
 
@@ -25,7 +25,7 @@ class Post < ApplicationRecord
             unless: :published?
 
   with_options if: :published? do
-    validates :content, presence: true
+    validate :published_posts_must_have_content
     validates :published_at, presence: { message: "must be set when the post is published" }
   end
 
@@ -49,6 +49,12 @@ class Post < ApplicationRecord
   end
 
   private
+    def published_posts_must_have_content
+      if content.content.blank?
+        errors.add(:content, :blank)
+      end
+    end
+
     def set_published_at
       self.published_at = published? ? Time.current : nil
     end

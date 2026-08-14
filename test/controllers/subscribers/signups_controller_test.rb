@@ -5,11 +5,13 @@ class Subscribers::SignupsControllerTest < ActionDispatch::IntegrationTest
     email_address = "new.subscriber@example.com"
 
     assert_difference [ -> { Subscriber.count }, -> { Subscription.active.count } ], 1 do
-      post signups_url(format: :turbo_stream), params: {
-        subscriber: {
-          email_address:
+      assert_enqueued_emails 1 do
+        post signups_url(format: :turbo_stream), params: {
+          subscriber: {
+            email_address:
+          }
         }
-      }
+      end
 
       assert_response :success
       assert_equal "#{email_address} is now subscribed!", flash[:success]
@@ -23,11 +25,13 @@ class Subscribers::SignupsControllerTest < ActionDispatch::IntegrationTest
     subscriber = subscribers(:reader_one)
 
     assert_no_difference [ -> { Subscriber.count }, -> { Subscription.count } ] do
-      post signups_url(format: :turbo_stream), params: {
-        subscriber: {
-          email_address: subscriber.email_address
+      assert_no_enqueued_emails do
+        post signups_url(format: :turbo_stream), params: {
+          subscriber: {
+            email_address: subscriber.email_address
+          }
         }
-      }
+      end
 
       assert_response :success
       assert_equal "#{subscriber.email_address} is now subscribed!", flash[:success]
@@ -39,11 +43,13 @@ class Subscribers::SignupsControllerTest < ActionDispatch::IntegrationTest
 
     assert_changes -> { subscriber.reload.active? }, from: false, to: true do
       assert_difference -> { Subscription.active.count }, 1 do
-        post signups_url(format: :turbo_stream), params: {
-          subscriber: {
-            email_address: subscriber.email_address
+        assert_enqueued_emails 1 do
+          post signups_url(format: :turbo_stream), params: {
+            subscriber: {
+              email_address: subscriber.email_address
+            }
           }
-        }
+        end
 
         assert_response :success
         assert_equal "#{subscriber.email_address} is now subscribed!", flash[:success]
@@ -53,11 +59,13 @@ class Subscribers::SignupsControllerTest < ActionDispatch::IntegrationTest
 
   test "create re-renders form for invalid email address" do
     assert_no_difference [ -> { Subscriber.count }, -> { Subscription.count } ] do
-      post signups_url(format: :turbo_stream), params: {
-        subscriber: {
-          email_address: "not-an-email"
+      assert_no_enqueued_emails do
+        post signups_url(format: :turbo_stream), params: {
+          subscriber: {
+            email_address: "not-an-email"
+          }
         }
-      }
+      end
 
       assert_response :unprocessable_entity
       assert_equal "Sorry, something went wrong", flash[:alert]

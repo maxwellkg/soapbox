@@ -43,7 +43,7 @@ class Blog::Feed::Entry
     end
 
     def content
-      post.content.body.to_html
+      post.content.to_html
     end
 
     def post_url

@@ -4,7 +4,9 @@
     <div class="search-row">
       <%= form.label :search, "Search posts", class: "invisible" %>
       <%= form.search_field :search, value: search_term, placeholder: "search for a post" %>
-      <%= form.button "Search", class: "btn btn-primary" %>
+      <div class="search-actions">
+        <%= form.button "Search", class: "btn btn-primary" %>
+      </div>
     </div>
   </fieldset>
 <% end %>

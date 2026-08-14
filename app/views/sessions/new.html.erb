@@ -5,12 +5,12 @@
 <%= form_with url: session_path do |form| %>
   <fieldset class="admin-fieldset">
     <div class="admin-form-row">
-      <%= form.label :email_address, "Email address" %>
+      <%= form.label :email_address, "Email address", class: "admin-form-label" %>
       <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address] %>
     </div>
 
     <div class="admin-form-row">
-      <%= form.label :password, "Password" %>
+      <%= form.label :password, "Password", class: "admin-form-label" %>
       <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72 %>
     </div>
   </fieldset>

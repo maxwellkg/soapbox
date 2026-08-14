@@ -5,18 +5,18 @@ module Admin::Subscribers::StatusesHelper
 
   private
     def admin_subscriber_activate_button
-      button_to "activate",
+      button_to "Activate",
                 activate_admin_subscriber_path(@subscriber),
                 method: :patch,
-                class: "btn btn-primary",
+                class: "btn btn-publish",
                 form_class: "admin-action-form"
     end
 
     def admin_subscriber_deactivate_button
-      button_to "deactivate",
+      button_to "Deactivate",
                 deactivate_admin_subscriber_path(@subscriber),
                 method: :patch,
-                class: "btn",
+                class: "btn btn-unpublish",
                 form_class: "admin-action-form"
     end
 end

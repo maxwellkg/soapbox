@@ -21,7 +21,9 @@ class Subscribers::UnsubscribesControllerTest < ActionDispatch::IntegrationTest
     subscription = subscriber.active_subscription
 
     assert_changes -> { subscription.reload.active? }, from: true, to: false do
-      patch unsubscribe_path(subscriber.unsubscribe_token)
+      assert_enqueued_emails 1 do
+        patch unsubscribe_path(subscriber.unsubscribe_token)
+      end
       assert_redirected_to root_url
     end
 
@@ -31,7 +33,9 @@ class Subscribers::UnsubscribesControllerTest < ActionDispatch::IntegrationTest
   test "update succeeds for inactive subscriber" do
     subscriber = subscribers(:reader_without_subscription)
 
-    patch unsubscribe_path(subscriber.unsubscribe_token)
+    assert_no_enqueued_emails do
+      patch unsubscribe_path(subscriber.unsubscribe_token)
+    end
     assert_redirected_to root_url
 
     assert_equal "#{subscriber.email_address} has been unsubscribed", flash[:success]
@@ -41,7 +45,9 @@ class Subscribers::UnsubscribesControllerTest < ActionDispatch::IntegrationTest
     subscriber = subscribers(:reader_three)
 
     temporarily_redefine_method(Subscriber, :unsubscribe, -> { false }) do
-      patch unsubscribe_path(subscriber.unsubscribe_token)
+      assert_no_enqueued_emails do
+        patch unsubscribe_path(subscriber.unsubscribe_token)
+      end
       assert_redirected_to root_url
     end
 

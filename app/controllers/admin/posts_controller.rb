@@ -7,7 +7,7 @@ class Admin::PostsController < Admin::ApplicationController
   def index
     @posts =  paginate(
                 Post
-                  .with_rich_text_summary
+                  .with_markdown_summary
                   .search_title_summary_and_content(search_term)
                   .where(filter_conditions)
                   .order(updated_at: :desc)
@@ -22,11 +22,11 @@ class Admin::PostsController < Admin::ApplicationController
   end
 
   def create
-    @post = Post.new(post_params)
+    @post = Post.new(post_creation_params)
 
     if @post.save
       flash_success "Post was successfully created."
-      redirect_to admin_post_path(@post)
+      redirect_to edit_admin_post_path(@post)
     else
       render :new, status: :unprocessable_entity
     end
@@ -36,7 +36,7 @@ class Admin::PostsController < Admin::ApplicationController
   end
 
   def update
-    if @post.update(post_params)
+    if @post.update(post_update_params)
       flash_success "Post was successfully updated."
       redirect_to admin_post_path(@post)
     else
@@ -55,7 +55,11 @@ class Admin::PostsController < Admin::ApplicationController
       @post = Post.find_by!(slug: params.expect(:slug))
     end
 
-    def post_params
+    def post_creation_params
+      params.expect(post: [ :title, :slug ])
+    end
+
+    def post_update_params
       params.expect(post: [ :title, :slug, :summary, :content, :pinned ])
     end
 

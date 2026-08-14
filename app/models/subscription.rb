@@ -13,6 +13,9 @@ class Subscription < ApplicationRecord
   before_validation :set_start_date_today, if: :missing_start_date_on_activation?
   before_validation :set_end_date_today, if: :missing_end_date_on_deactivation?
 
+  after_commit :deliver_activation_email, if: -> { saved_change_to_active?(to: true) }
+  after_commit :deliver_deactivation_email, if: -> { saved_change_to_active?(from: true, to: false) }
+
   def inactive?
     !active?
   end
@@ -66,5 +69,13 @@ class Subscription < ApplicationRecord
 
     def set_start_date_today
       self.start_date = Date.current
+    end
+
+    def deliver_activation_email
+      SubscriptionsMailer.activated(self).deliver_later
+    end
+
+    def deliver_deactivation_email
+      SubscriptionsMailer.deactivated(self).deliver_later
     end
 end

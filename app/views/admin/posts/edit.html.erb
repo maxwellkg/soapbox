@@ -3,8 +3,9 @@
 <%= render "admin/posts/status_note" %>
 
 <section class="page-actions">
-  <%= link_to "back to posts", admin_posts_path, class: "btn" %>
-  <%= link_to "show", admin_post_path(@post), class: "btn" %>
+  <%= link_to "Back to posts", admin_posts_path, class: "btn" %>
+  <%= link_to "Show post", admin_post_path(@post), class: "btn" %>
+  <%= back_to_admin_link %>
 </section>
 
 <header class="admin-header">

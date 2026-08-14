@@ -1,8 +1,8 @@
 <% content_for :title, "Edit Blog" %>
 
 <section class="page-actions">
-  <%= link_to "back to blog", admin_blog_path, class: "btn" %>
-  <%= link_to "manage posts", admin_posts_path, class: "btn" %>
+  <%= link_to "Back to blog", admin_blog_path, class: "btn" %>
+  <%= back_to_admin_link %>
 </section>
 
 <header class="admin-header">
@@ -23,22 +23,23 @@
 
   <fieldset class="admin-fieldset">
     <div class="admin-form-row">
-      <%= form.label :title %>
+      <%= form.label :title, class: "admin-form-label" %>
       <%= form.text_field :title, required: true, autofocus: true %>
     </div>
 
     <div class="admin-form-row">
-      <%= form.label :subtitle %>
+      <%= form.label :subtitle, class: "admin-form-label" %>
       <%= form.text_field :subtitle %>
     </div>
 
     <div class="admin-form-row">
-      <%= form.label :description %>
-      <%= form.rich_text_area :description %>
+      <%= form.label :description, class: "admin-form-label" %>
+      <%= render "shared/house_toolbar", toolbar_id: "blog-description-toolbar" %>
+      <%= form.markdown_area :description, toolbar: "blog-description-toolbar" %>
     </div>
 
     <div class="admin-form-row">
-      <%= form.label :site_image, "Site image" %>
+      <%= form.label :site_image, "Site image", class: "admin-form-label" %>
       <%= form.file_field :site_image, accept: "image/*" %>
       <p class="admin-form-hint">Used in the blog header and favicon.</p>
 
@@ -46,15 +47,15 @@
         <%= image_tag @blog.site_image.variant(resize_to_limit: [ 160, 160 ]), alt: "#{@blog.title} site image", class: "admin-site-image-preview" %>
 
         <div class="admin-form-row-checkbox">
+          <%= form.label :should_remove_site_image, "Remove current site image", class: "admin-form-label" %>
           <%= form.check_box :should_remove_site_image %>
-          <%= form.label :should_remove_site_image, "Remove current site image" %>
         </div>
       <% end %>
     </div>
   </fieldset>
 
   <div class="form-actions">
-    <%= form.submit "Update Blog", class: "btn btn-primary" %>
-    <%= link_to "cancel", admin_blog_path, class: "btn" %>
+    <%= form.submit "Update blog", class: "btn btn-primary" %>
+    <%= link_to "Cancel", admin_blog_path, class: "btn" %>
   </div>
 <% end %>

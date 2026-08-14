@@ -1,11 +1,13 @@
 <% content_for :title, "New Post" %>
 
 <section class="page-actions">
-  <%= link_to "back to posts", admin_posts_path, class: "btn" %>
+  <%= link_to "Back to posts", admin_posts_path, class: "btn" %>
+  <%= back_to_admin_link %>
 </section>
 
 <header class="admin-header">
   <h1>New Post</h1>
+  <p>Start with a title and slug. You can write the post after it has been created.</p>
 </header>
 
 <%= render "admin/posts/form" %>

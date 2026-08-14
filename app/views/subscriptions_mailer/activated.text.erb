@@ -1,0 +1,12 @@
+<%= @blog.title %>
+<% if @blog.subtitle.present? %>
+  <%= @blog.subtitle %>
+<% end %>
+
+---
+
+You are now subscribed to <%= @blog.title %> at <%= @subscriber.email_address %>. If this was not you, please unsubscribe here: <%= subscriber_unsubscribe_url(@subscriber) %>
+
+---
+
+Read online: <%= root_url %>

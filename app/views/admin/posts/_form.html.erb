@@ -12,33 +12,37 @@
 
   <fieldset class="admin-fieldset">
     <div class="admin-form-row">
-      <%= form.label :title %>
+      <%= form.label :title, class: "admin-form-label" %>
       <%= form.text_field :title, required: true, autofocus: true %>
     </div>
 
     <div class="admin-form-row">
-      <%= form.label :slug %>
+      <%= form.label :slug, class: "admin-form-label" %>
       <%= form.text_field :slug %>
     </div>
 
-    <div class="admin-form-row admin-form-row-checkbox">
-      <%= form.check_box :pinned %>
-      <%= form.label :pinned, "Pin post" %>
-    </div>
+    <% if @post.persisted? %>
+      <div class="admin-form-row admin-form-row-checkbox">
+        <%= form.label :pinned, "Pin post", class: "admin-form-label" %>
+        <%= form.check_box :pinned %>
+      </div>
 
-    <div class="admin-form-row">
-      <%= form.label :summary %>
-      <%= form.rich_text_area :summary %>
-    </div>
+      <div class="admin-form-row">
+        <%= form.label :summary, class: "admin-form-label" %>
+        <%= render "shared/house_toolbar", toolbar_id: "post-summary-toolbar" %>
+        <%= form.markdown_area :summary, toolbar: "post-summary-toolbar", class: "post-summary-editor" %>
+      </div>
 
-    <div class="admin-form-row">
-      <%= form.label :content %>
-      <%= form.rich_text_area :content %>
-    </div>
+      <div class="admin-form-row">
+        <%= form.label :content, class: "admin-form-label" %>
+        <%= render "shared/house_toolbar", toolbar_id: "post-content-toolbar" %>
+        <%= form.markdown_area :content, toolbar: "post-content-toolbar" %>
+      </div>
+    <% end %>
   </fieldset>
 
   <div class="form-actions">
     <%= form.submit admin_post_form_submit_text, class: "btn btn-primary" %>
-    <%= link_to "cancel", admin_post_form_cancel_path, class: "btn" %>
+    <%= link_to "Cancel", admin_post_form_cancel_path, class: "btn" %>
   </div>
 <% end %>

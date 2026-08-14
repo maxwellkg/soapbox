@@ -1,6 +1,6 @@
 module Admin::PostsHelper
   def admin_post_form_submit_text
-    @post.persisted? ? "update post" : "create post"
+    @post.persisted? ? "Update post" : "Create post"
   end
 
   def admin_post_form_cancel_path
@@ -28,7 +28,7 @@ module Admin::PostsHelper
   end
 
   def admin_post_delete_button
-    button_to "delete",
+    button_to "Delete",
               admin_post_path(@post),
               method: :delete,
               class: "btn btn-error",

@@ -15,6 +15,10 @@ module ApplicationHelper
     date.strftime("%d %B %Y")
   end
 
+  def sanitize_content(content)
+    sanitize content, scrubber: HtmlScrubber.new
+  end
+
   private
     def blog_has_icon?
       Blog.instance? && Blog.instance.site_image.attached?

@@ -14,7 +14,7 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = Post.published.with_rich_text_content.find_by!(slug: params.expect(:slug))
+    @post = Post.published.with_markdown_content.find_by!(slug: params.expect(:slug))
   end
 
   private
@@ -30,8 +30,8 @@ class PostsController < ApplicationController
       @posts =  paginate(
                   Post
                     .search_title_summary_and_content(search_term)
-                    .with_rich_text_summary
-                    .with_rich_text_content
+                    .with_markdown_summary
+                    .with_markdown_content
                     .ordered_for_display
                 )
     end

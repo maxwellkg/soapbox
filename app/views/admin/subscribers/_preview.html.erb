@@ -1,4 +1,4 @@
-<article id="<%= dom_id(subscriber) %>" class="terminal-card admin-card">
+<article id="<%= dom_id(subscriber) %>" class="admin-card">
   <div class="admin-card-body">
     <div class="admin-preview-row">
       <header>
@@ -10,7 +10,7 @@
       </header>
 
       <div class="preview-actions admin-preview-actions">
-        <%= link_to "edit", edit_admin_subscriber_path(subscriber), class: "btn" %>
+        <%= link_to "Edit", edit_admin_subscriber_path(subscriber), class: "btn" %>
       </div>
     </div>
   </div>

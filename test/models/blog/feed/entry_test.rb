@@ -11,7 +11,7 @@ class Blog::Feed::EntryTest < ActiveSupport::TestCase
     assert_equal "tag:www.example.com,#{post.created_at.to_date}:Post/#{post.id}", item.id.content
     assert_equal post.title, item.title.content
     assert_equal post.updated_at.utc, item.updated.content
-    assert_equal post.content.body.to_html, item.content.content
+    assert_equal post.content.to_html, item.content.content
     assert_equal "html", item.content.type
     assert_equal Author.instance.full_name, item.author.name.content
   end

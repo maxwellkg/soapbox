@@ -21,7 +21,9 @@ class Admin::Subscribers::StatusesControllerTest < ActionDispatch::IntegrationTe
     subscriber = subscribers(:reader_without_subscription)
 
     assert_changes -> { subscriber.reload.active? }, from: false, to: true do
-      patch activate_admin_subscriber_path(subscriber)
+      assert_enqueued_emails 1 do
+        patch activate_admin_subscriber_path(subscriber)
+      end
     end
 
     assert_redirected_to admin_subscriber_path(subscriber)
@@ -33,7 +35,9 @@ class Admin::Subscribers::StatusesControllerTest < ActionDispatch::IntegrationTe
     subscriber = subscribers(:reader_three)
 
     assert_changes -> { subscriber.reload.active? }, from: true, to: false do
-      patch deactivate_admin_subscriber_path(subscriber)
+      assert_enqueued_emails 1 do
+        patch deactivate_admin_subscriber_path(subscriber)
+      end
     end
 
     assert_redirected_to admin_subscriber_path(subscriber)
@@ -45,7 +49,9 @@ class Admin::Subscribers::StatusesControllerTest < ActionDispatch::IntegrationTe
     subscriber = subscribers(:reader_three)
 
     assert_no_changes -> { subscriber.reload.active? } do
-      patch activate_admin_subscriber_path(subscriber)
+      assert_no_enqueued_emails do
+        patch activate_admin_subscriber_path(subscriber)
+      end
     end
 
     assert_redirected_to admin_subscriber_path(subscriber)
@@ -57,7 +63,9 @@ class Admin::Subscribers::StatusesControllerTest < ActionDispatch::IntegrationTe
     subscriber = subscribers(:reader_without_subscription)
 
     assert_no_changes -> { subscriber.reload.active? } do
-      patch deactivate_admin_subscriber_path(subscriber)
+      assert_no_enqueued_emails do
+        patch deactivate_admin_subscriber_path(subscriber)
+      end
     end
 
     assert_redirected_to admin_subscriber_path(subscriber)

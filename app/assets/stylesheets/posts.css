@@ -16,6 +16,7 @@
 
 .blog-title-image {
   justify-self: end;
+  max-width: 12rem;
   width: 100%;
 }
 
@@ -48,19 +49,57 @@
 }
 
 .signup-fieldset {
+  background-color: #f7fbfd;
+  border: 1px solid #d6e4ea;
+  border-radius: 0.9rem;
   display: grid;
   gap: 0.75rem;
+  padding: 1rem;
+}
+
+.signup-fieldset legend,
+.search-fieldset legend {
+  color: #6c8290;
+  font-family: var(--font-family-headings);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0 0.35rem;
+  text-transform: uppercase;
 }
 
 .signup-row {
-  align-items: end;
-  display: grid;
+  align-items: center;
+  display: flex;
+  flex-wrap: nowrap;
   gap: 0.75rem;
-  grid-template-columns: 1fr auto;
 }
 
 .signup-actions {
+  display: flex;
+  flex: 0 0 8.5rem;
+  justify-content: flex-end;
   margin-top: 0;
+}
+
+.search-actions {
+  display: flex;
+  flex: 0 0 8.5rem;
+  justify-content: flex-end;
+  margin-top: 0;
+}
+
+.signup-row input,
+.search-row input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.signup-actions .btn,
+.search-actions .btn {
+  flex: 0 0 auto;
+  width: 100%;
+  white-space: nowrap;
 }
 
 .signup-errors {
@@ -110,20 +149,37 @@
   margin-top: 0;
 }
 
+.post-wrapper .post-title {
+  font-size: clamp(2.5rem, 5vw, 3.25rem);
+}
+
+.post-wrapper .post-content {
+  margin-top: 2rem;
+}
+
 .post-title-link {
   text-decoration: none;
-  color: #fff;
+  color: #22313a;
+}
+
+.post-title-link:visited {
+  color: #22313a;
 }
 
 .search-fieldset {
+  background-color: #f7fbfd;
+  border: 1px solid #d6e4ea;
+  border-radius: 0.9rem;
   display: grid;
   gap: 0.75rem;
+  padding: 1rem;
 }
 
 .search-row {
-  display: grid;
+  align-items: end;
+  display: flex;
+  flex-wrap: nowrap;
   gap: 0.75rem;
-  grid-template-columns: 1fr auto;
 }
 
 .post {
@@ -140,11 +196,6 @@
   margin-top: 1.5rem;
 }
 
-pre.highlight {
-  padding: 10px;
-  overflow: auto;
-}
-
 .post-email-title-header {
   padding-bottom: 1.5rem;
 }
@@ -156,13 +207,13 @@ pre.highlight {
 
 .post-preview {
   border: 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--foreground) 22%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--secondary-color) 35%, transparent);
   margin: 0;
   padding: 1.75rem 0;
 }
 
 .post-preview:first-of-type {
-  border-top: 1px solid color-mix(in srgb, var(--foreground) 22%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--secondary-color) 35%, transparent);
 }
 
 .post-preview h2 {
@@ -196,7 +247,7 @@ pre.highlight {
   .blog-title-image {
     grid-row: 1;
     justify-self: center;
-    max-width: min(100%, 18rem);
+    max-width: min(100%, 12rem);
   }
 
   .blog-title-copy {
@@ -206,6 +257,19 @@ pre.highlight {
 
   .search-row,
   .signup-row {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+
+  .signup-row input,
+  .search-row input {
+    text-align: center;
+  }
+
+  .signup-actions,
+  .search-actions,
+  .signup-actions .btn,
+  .search-actions .btn {
+    flex-basis: auto;
+    width: 100%;
   }
 }

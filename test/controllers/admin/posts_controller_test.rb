@@ -113,7 +113,7 @@ class Admin::PostsControllerTest < ActionDispatch::IntegrationTest
     assert_select "turbo-cable-stream-source"
     assert_select "h1", post_record.title
     assert_select "#post-admin-notice"
-    assert_includes response.body, post_record.content.body.to_s
+    assert_includes response.body, post_record.content.to_html
   end
 
   test "new renders a form" do
@@ -124,6 +124,10 @@ class Admin::PostsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "h1", "New Post"
     assert_select "form[action=?][method=?]", admin_posts_path, "post"
+    assert_select "input[name='post[title]']"
+    assert_select "input[name='post[slug]']"
+    assert_select "input[name='post[pinned]']", count: 0
+    assert_select "house-md", count: 0
   end
 
   test "edit renders a form" do
@@ -137,6 +141,9 @@ class Admin::PostsControllerTest < ActionDispatch::IntegrationTest
     assert_select "form[action=?]", admin_post_path(post_record) do
       assert_select "input[type=?][name=?][value=?]", "hidden", "_method", "patch"
     end
+    assert_select "input[name='post[pinned]']"
+    assert_select "house-md.post-summary-editor", count: 1
+    assert_select "house-md", count: 2
   end
 
   test "create creates a post" do
@@ -146,19 +153,16 @@ class Admin::PostsControllerTest < ActionDispatch::IntegrationTest
       post admin_posts_path, params: {
         post: {
           title: "A New Admin Post",
-          slug: "a-new-admin-post",
-          pinned: "1",
-          summary: "<div>Summary text</div>",
-          content: "<div>New content</div>"
+          slug: "a-new-admin-post"
         }
       }
     end
 
     created = Post.order(:id).last
-    assert_redirected_to admin_post_path(created)
+    assert_redirected_to edit_admin_post_path(created)
     assert_equal "Post was successfully created.", flash[:success]
     assert_equal "a-new-admin-post", created.slug
-    assert created.pinned?
+    assert_not created.pinned?
   end
 
   test "create re-renders when invalid" do
@@ -167,8 +171,7 @@ class Admin::PostsControllerTest < ActionDispatch::IntegrationTest
     assert_no_difference -> { Post.count } do
       post admin_posts_path, params: {
         post: {
-          slug: "missing-title",
-          content: "<div>Content without a title</div>"
+          slug: "missing-title"
         }
       }
     end

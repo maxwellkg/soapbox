@@ -82,7 +82,9 @@ class SubscriberTest < ActiveSupport::TestCase
     subscriber = subscribers(:reader_one)
 
     assert_no_changes -> { Subscription.where(subscriber_id: subscriber.id).count } do
-      assert subscriber.activate
+      assert_no_enqueued_emails do
+        assert subscriber.activate
+      end
     end
   end
 
@@ -127,7 +129,9 @@ class SubscriberTest < ActiveSupport::TestCase
 
     assert_changes -> { subscriber.active? }, from: false, to: true do
       assert_difference -> { Subscription.where(subscriber_id: subscriber.id).count }, 1 do
-        assert subscriber.activate
+        assert_enqueued_emails 1 do
+          assert subscriber.activate
+        end
       end
     end
   end

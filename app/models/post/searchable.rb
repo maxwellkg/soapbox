@@ -11,18 +11,18 @@ module Post::Searchable
   end
 
   def plain_text_summary
-    summary.body&.to_plain_text
+    ActionText::Content.new(summary.to_html).to_plain_text
   end
 
   def saved_change_to_plain_text_summary?
-    summary.saved_change_to_body?
+    summary.saved_change_to_content?
   end
 
   def plain_text_content
-    content.body&.to_plain_text
+    ActionText::Content.new(content.to_html).to_plain_text
   end
 
   def saved_change_to_plain_text_content?
-    content.saved_change_to_body?
+    content.saved_change_to_content?
   end
 end

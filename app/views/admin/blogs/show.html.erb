@@ -1,9 +1,8 @@
 <% content_for :title, @blog.title %>
 
 <section class="page-actions">
-  <%= link_to "back to admin", admin_root_path, class: "btn" %>
-  <%= link_to "manage posts", admin_posts_path, class: "btn" %>
-  <%= link_to "edit blog", edit_admin_blog_path, class: "btn" %>
+  <%= back_to_admin_link %>
+  <%= link_to "Edit blog", edit_admin_blog_path, class: "btn" %>
 </section>
 
 <header class="admin-header">
@@ -23,11 +22,11 @@
   <% end %>
 </section>
 
-<section class="admin-post-content">
-  <% if @blog.description.present? %>
+<section>
+  <% if @blog.description? %>
     <p class="admin-label">Description</p>
-    <div>
-      <%= @blog.description %>
+    <div class="admin-rich-text-box">
+      <%= sanitize_content(@blog.description.to_html) %>
     </div>
   <% else %>
     <p>

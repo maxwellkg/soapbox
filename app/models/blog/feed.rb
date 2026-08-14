@@ -84,7 +84,7 @@ class Blog::Feed
     end
 
     def posts
-      Post.published.with_rich_text_content.order(published_at: :desc)
+      Post.published.with_markdown_content.order(published_at: :desc)
     end
 
     def updated_at

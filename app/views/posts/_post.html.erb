@@ -11,6 +11,6 @@
   </header>
 
   <section class="post-content">
-    <%= highlighted_rich_text(@post.content) %>
+    <%= sanitize_content(@post.content.to_html) %>
   </section>
 </article>

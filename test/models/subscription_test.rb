@@ -136,6 +136,51 @@ class SubscriptionTest < ActiveSupport::TestCase
     assert_not replacement.errors.of_kind?(:active, "cannot reactivate an ended subscription")
   end
 
+  test "creating an active subscription enqueues an activation email" do
+    subscription = Subscription.new(subscriber: subscribers(:reader_without_subscription), active: true)
+
+    assert_enqueued_emails 1 do
+      subscription.save!
+    end
+  end
+
+  test "activating enqueues an activation email" do
+    subscription = Subscription.create!(
+      subscriber: subscribers(:reader_without_subscription),
+      active: false,
+      start_date: Date.new(2025, 1, 1)
+    )
+    subscription.active = true
+
+    assert_enqueued_emails 1 do
+      subscription.save!
+    end
+  end
+
+  test "deactivating enqueues a deactivation email" do
+    subscription = subscriptions(:reader_one_active)
+
+    assert_enqueued_emails 1 do
+      subscription.deactivate
+    end
+  end
+
+  test "creating an inactive subscription enqueues no email" do
+    subscription = Subscription.new(subscriber: subscribers(:reader_without_subscription), active: false)
+
+    assert_no_enqueued_emails do
+      subscription.save!
+    end
+  end
+
+  test "an unrelated update enqueues no email" do
+    subscription = subscriptions(:reader_one_active)
+
+    assert_no_enqueued_emails do
+      subscription.update!(start_date: subscription.start_date + 1.day)
+    end
+  end
+
   test "scope for active" do
     active_subscriptions = [
       subscriptions(:reader_one_active),

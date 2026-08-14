@@ -62,7 +62,7 @@ class Admin::BlogsControllerTest < ActionDispatch::IntegrationTest
       blog: {
         title: "New Soapbox Title",
         subtitle: "Dispatches from the terminal",
-        description: "<div>Welcome to the new description.</div>"
+        description: "Welcome to the new description."
       }
     }
 
@@ -70,7 +70,7 @@ class Admin::BlogsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Blog was successfully updated", flash[:success]
     assert_equal "New Soapbox Title", @blog.reload.title
     assert_equal "Dispatches from the terminal", @blog.subtitle
-    assert_includes @blog.description.body.to_s, "Welcome to the new description."
+    assert_includes @blog.description.content, "Welcome to the new description."
   end
 
   test "update attaches site image" do

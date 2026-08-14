@@ -12,7 +12,7 @@ By <%= @post.author.full_name %>
   <%= standard_formatted_date(@post.published_at) %>
 <% end %>
 
-<%= @post.content.to_plain_text %>
+<%= ActionText::Content.new(@post.content.to_html).to_plain_text %>
 
 ---
 

@@ -1,0 +1,17 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "application", "posts", media: "all" %>
+<% end %>
+
+<main class="post-email-shell">
+  <header class="post-email-title-header">
+    <%= render "posts/blog_title", for_email: true %>
+  </header>
+
+  <hr>
+
+  <div class="post-mailer-wrapper">
+    <p>
+      This email confirms that <%= @subscriber.email_address %> has subscribed to <%= link_to @blog.title, root_url %>. If this was not you, <%= link_to "unsubscribe here", subscriber_unsubscribe_url(@subscriber) %>.
+    </p>
+  </div>
+</main>

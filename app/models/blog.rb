@@ -1,5 +1,5 @@
 class Blog < ApplicationRecord
-  has_rich_text :description, store_if_blank: false
+  has_markdown :description
   has_one_attached :site_image
   attribute :should_remove_site_image, :boolean, default: false
 
