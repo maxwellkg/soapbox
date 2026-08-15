@@ -1,6 +1,6 @@
 <%= @blog.title %>
 <% if @blog.subtitle.present? %>
-  <%= @blog.subtitle %>
+<%= @blog.subtitle %>
 <% end %>
 
 ---
@@ -9,10 +9,10 @@
 By <%= @post.author.full_name %>
 
 <% if @post.published_at.present? %>
-  <%= standard_formatted_date(@post.published_at) %>
+<%= standard_formatted_date(@post.published_at) %>
 <% end %>
 
-<%= ActionText::Content.new(@post.content.to_html).to_plain_text %>
+<%= @post.content.content.to_s %>
 
 ---
 
