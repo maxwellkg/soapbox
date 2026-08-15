@@ -70,7 +70,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_select "pre.highlight"
     assert_select "pre.highlight", text: /puts 'hello'/
     assert_no_match(/>\s*ruby\s*</, response.body)
-    assert_match(/\.highlight/, response.body)
+    assert_select "link[href*='syntax']"
   end
 
   test "show displays edit post action for authenticated author" do

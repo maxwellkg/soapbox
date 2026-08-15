@@ -66,8 +66,10 @@ class PostEmailsMailerTest < ActionMailer::TestCase
 
     html = ActionMailer::Base.deliveries.last.html_part.body.decoded
 
-    assert_match(/class="highlight"/i, html)
+    assert_match(/class="highlight[^"]*"/i, html)
     assert_match(/hello/, html)
     assert_no_match(/```/, html)
+    assert_match(/class="nb"[^>]*style="[^"]*color:/i, html)
+    assert_match(/class="s1"[^>]*style="[^"]*color:/i, html)
   end
 end

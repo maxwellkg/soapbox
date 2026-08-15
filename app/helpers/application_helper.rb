@@ -1,12 +1,6 @@
 module ApplicationHelper
   DEFAULT_ICON = "/icon.png"
 
-  def rouge_highlight_theme_style_tag
-    tag.style do
-      Rouge::Themes::Gruvbox.mode(:light).render(scope: ".highlight")
-    end
-  end
-
   def site_icon_url
     blog_has_icon? ? url_for_blog_icon_from_site_image : DEFAULT_ICON
   end
