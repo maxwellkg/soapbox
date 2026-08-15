@@ -19,11 +19,11 @@ class Admin::DashboardsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "h1", "Admin"
     assert_select "section.page-actions a", count: 5
-    assert_select "a[href='#{root_path}']", text: "Back to blog"
-    assert_select "a[href='#{admin_author_path}']", text: "Manage account"
-    assert_select "a[href='#{admin_blog_path}']", text: "Manage blog"
-    assert_select "a[href='#{admin_posts_path}']", text: "Manage posts"
-    assert_select "a[href='#{admin_subscribers_path}']", text: "Manage subscribers"
+    assert_select "a[href='#{root_path}']", text: "back to blog"
+    assert_select "a[href='#{admin_author_path}']", text: "manage account"
+    assert_select "a[href='#{admin_blog_path}']", text: "manage blog"
+    assert_select "a[href='#{admin_posts_path}']", text: "manage posts"
+    assert_select "a[href='#{admin_subscribers_path}']", text: "manage subscribers"
     assert_select "p", text: /Welcome,\s+#{Regexp.escape(@author.full_name)}/
   end
 end

@@ -11,8 +11,8 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
     assert_select "form[action=?][method=?]", passwords_path, "post" do
       assert_select "fieldset.admin-fieldset"
       assert_select "div.admin-form-row input[type=?][name=?][required]", "email", "email_address"
-      assert_select ".form-actions button", text: "Email reset instructions"
-      assert_select ".form-actions a[href=?]", new_session_path, text: "Back to sign in"
+      assert_select ".form-actions button", text: "email reset instructions"
+      assert_select ".form-actions a[href=?]", new_session_path, text: "back to sign in"
     end
   end
 
@@ -44,7 +44,7 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
       assert_select "fieldset.admin-fieldset"
       assert_select "div.admin-form-row input[type=?][name=?][required]", "password", "password"
       assert_select "div.admin-form-row input[type=?][name=?][required]", "password", "password_confirmation"
-      assert_select ".form-actions button", text: "Save"
+      assert_select ".form-actions button", text: "save"
     end
   end
 

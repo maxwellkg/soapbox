@@ -5,8 +5,8 @@
 <%= render "admin/posts/status_note" %>
 
 <section class="page-actions">
-  <%= link_to "Back to posts", admin_posts_path, class: "btn" %>
-  <%= link_to "Edit", edit_admin_post_path(@post), class: "btn" %>
+  <%= link_to "back to posts", admin_posts_path, class: "btn" %>
+  <%= link_to "edit", edit_admin_post_path(@post), class: "btn" %>
   <%= admin_post_status_change_button %>
   <%= admin_post_email_status_change_button %>
   <%= admin_post_delete_button %>

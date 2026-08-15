@@ -12,8 +12,8 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
       assert_select "fieldset.admin-fieldset"
       assert_select "div.admin-form-row input[type=?][name=?][required]", "email", "email_address"
       assert_select "div.admin-form-row input[type=?][name=?][required]", "password", "password"
-      assert_select ".form-actions button", text: "Sign in"
-      assert_select ".form-actions a[href=?]", new_password_path, text: "Forgot password?"
+      assert_select ".form-actions button", text: "sign in"
+      assert_select ".form-actions a[href=?]", new_password_path, text: "forgot password?"
     end
   end
 

@@ -5,7 +5,7 @@ module Admin::Subscribers::StatusesHelper
 
   private
     def admin_subscriber_activate_button
-      button_to "Activate",
+      button_to "activate",
                 activate_admin_subscriber_path(@subscriber),
                 method: :patch,
                 class: "btn btn-publish",
@@ -13,7 +13,7 @@ module Admin::Subscribers::StatusesHelper
     end
 
     def admin_subscriber_deactivate_button
-      button_to "Deactivate",
+      button_to "deactivate",
                 deactivate_admin_subscriber_path(@subscriber),
                 method: :patch,
                 class: "btn btn-unpublish",

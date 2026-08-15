@@ -5,7 +5,7 @@ module Admin::Posts::StatusesHelper
 
   private
     def admin_post_publish_button
-      button_to "Publish",
+      button_to "publish",
                 publish_admin_post_path(@post),
                 method: :patch,
                 class: "btn btn-publish",
@@ -13,7 +13,7 @@ module Admin::Posts::StatusesHelper
     end
 
     def admin_post_unpublish_button
-      button_to "Unpublish",
+      button_to "unpublish",
                 unpublish_admin_post_path(@post),
                 method: :patch,
                 class: "btn btn-unpublish",

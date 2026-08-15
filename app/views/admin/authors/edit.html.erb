@@ -1,7 +1,7 @@
 <% content_for :title, "Edit Account" %>
 
 <section class="page-actions">
-  <%= link_to "Back to account", admin_author_path, class: "btn" %>
+  <%= link_to "back to account", admin_author_path, class: "btn" %>
   <%= back_to_admin_link %>
 </section>
 
@@ -39,7 +39,7 @@
   </fieldset>
 
   <div class="form-actions">
-    <%= form.submit "Update account", class: "btn btn-primary" %>
-    <%= link_to "Cancel", admin_author_path, class: "btn" %>
+    <%= form.submit "update account", class: "btn btn-primary" %>
+    <%= link_to "cancel", admin_author_path, class: "btn" %>
   </div>
 <% end %>

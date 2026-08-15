@@ -11,7 +11,7 @@ module Admin::Posts::EmailStatusesHelper
 
   private
     def admin_post_start_emails_button
-      button_to "Start emails",
+      button_to "start emails",
                 start_emails_admin_post_path(@post),
                 method: :patch,
                 class: "btn btn-publish",
@@ -19,7 +19,7 @@ module Admin::Posts::EmailStatusesHelper
     end
 
     def admin_post_stop_emails_button
-      button_to "Stop emails",
+      button_to "stop emails",
                 stop_emails_admin_post_path(@post),
                 method: :patch,
                 class: "btn btn-unpublish",

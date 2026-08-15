@@ -1,6 +1,6 @@
 module Admin::SubscribersHelper
   def admin_subscriber_form_submit_text
-    @subscriber.persisted? ? "Update subscriber" : "Create subscriber"
+    @subscriber.persisted? ? "update subscriber" : "create subscriber"
   end
 
   def admin_subscriber_form_cancel_path
