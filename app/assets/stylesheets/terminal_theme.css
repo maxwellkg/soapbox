@@ -1,0 +1,370 @@
+/* Cascadia Code via Google Fonts in the layout. */
+
+:root {
+  --background-color: #0e1923;
+  --surface-color: #132330;
+  --surface-muted-color: #11202b;
+  --font-color: #d6e8ee;
+  --invert-font-color: #0e1923;
+  --primary-color: #5accf0;
+  --secondary-color: #8eaab3;
+  --color-negative: #ff7b88;
+  --code-bg-color: #11212d;
+  --font-family-body: "Cascadia Code", "Fira Code", "JetBrains Mono", Monaco, Consolas, "Ubuntu Mono", monospace;
+  --font-family-headings: var(--font-family-body);
+  --control-height: 2.75rem;
+  --border-width: 2px;
+  --radius: 0;
+  --accent: var(--primary-color);
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--font-color);
+  font-family: var(--font-family-body);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.54;
+  margin: 0;
+  min-height: 100vh;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -webkit-overflow-scrolling: touch;
+  -webkit-text-size-adjust: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.blog-title,
+.post-title {
+  font-family: var(--font-family-headings);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.25;
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 2.6rem);
+}
+
+h2 {
+  font-size: clamp(1.55rem, 4vw, 2rem);
+}
+
+h3 {
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+}
+
+h4,
+h5,
+h6 {
+  font-size: 1rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+figure,
+table,
+pre,
+blockquote {
+  margin: 1.5rem 0;
+}
+
+a,
+a:visited {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+a:hover,
+a:focus-visible {
+  background-color: color-mix(in srgb, var(--primary-color) 14%, transparent);
+  color: var(--primary-color);
+}
+
+img,
+video {
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+
+img {
+  border: var(--border-width) solid var(--primary-color);
+  padding: 0.5rem;
+}
+
+figure img,
+figure video {
+  margin-bottom: 0;
+}
+
+figure figcaption {
+  background: var(--primary-color);
+  color: var(--invert-font-color);
+  margin-top: 0;
+  padding: 0.5rem 0.75rem;
+}
+
+ul,
+ol {
+  margin-left: 3ch;
+  padding: 0;
+}
+
+li::marker {
+  color: var(--primary-color);
+}
+
+code,
+kbd {
+  background: color-mix(in srgb, var(--font-color) 8%, var(--background-color));
+  color: color-mix(in srgb, var(--font-color) 20%, var(--primary-color));
+  font-family: var(--font-family-body);
+  font-size: 0.95em;
+  margin: 0 0.15rem;
+  padding: 0 0.4rem;
+}
+
+code {
+  border: 1px solid color-mix(in srgb, var(--font-color) 25%, transparent);
+}
+
+kbd {
+  border: 1px solid var(--primary-color);
+  border-bottom-width: 3px;
+}
+
+code code {
+  background: transparent;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+pre,
+pre.highlight {
+  background: var(--code-bg-color);
+  border: 1px solid color-mix(in srgb, var(--font-color) 25%, transparent);
+  color: var(--font-color);
+  font-size: 0.95em;
+  overflow: auto;
+  padding: 1rem;
+  tab-size: 4;
+}
+
+pre code,
+pre.highlight code {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+blockquote {
+  border-bottom: 1px solid var(--primary-color);
+  border-top: 1px solid var(--primary-color);
+  margin-left: 0;
+  margin-right: 0;
+  padding: 1.25rem 1.5rem;
+  position: relative;
+}
+
+blockquote::before {
+  color: var(--primary-color);
+  content: ">";
+  left: 0.5rem;
+  position: absolute;
+}
+
+blockquote > :first-child {
+  margin-top: 0;
+}
+
+blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+table {
+  border-collapse: collapse;
+  table-layout: auto;
+  width: 100%;
+}
+
+table,
+th,
+td {
+  border: 1px solid color-mix(in srgb, var(--font-color) 35%, transparent);
+}
+
+th,
+td {
+  padding: 0.75rem;
+  text-align: left;
+}
+
+th {
+  color: var(--font-color);
+  text-transform: uppercase;
+}
+
+hr {
+  background: var(--primary-color);
+  border: 0;
+  height: 2px;
+  width: 100%;
+}
+
+mark {
+  background: color-mix(in srgb, var(--primary-color) 38%, transparent);
+  color: var(--font-color);
+}
+
+fieldset {
+  border: var(--border-width) solid var(--secondary-color);
+  margin: 0;
+  padding: 1rem;
+}
+
+label {
+  display: inline-block;
+}
+
+:where(
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  textarea,
+  select,
+  house-md
+) {
+  appearance: none;
+  background-color: var(--surface-color);
+  border: 1px solid var(--secondary-color);
+  border-radius: var(--radius);
+  box-sizing: border-box;
+  color: var(--font-color);
+  font: inherit;
+  min-height: var(--control-height);
+  padding: 0.55rem 0.8rem;
+  transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+}
+
+:where(
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  select
+) {
+  height: var(--control-height);
+  line-height: 1.2;
+}
+
+textarea {
+  line-height: 1.5;
+  min-height: 7rem;
+  resize: vertical;
+}
+
+select {
+  background-image: linear-gradient(45deg, transparent 50%, var(--font-color) 50%),
+    linear-gradient(135deg, var(--font-color) 50%, transparent 50%);
+  background-position: calc(100% - 1.1rem) calc(50% - 0.15rem), calc(100% - 0.8rem) calc(50% - 0.15rem);
+  background-repeat: no-repeat;
+  background-size: 0.35rem 0.35rem, 0.35rem 0.35rem;
+  padding-right: 2.5rem;
+}
+
+select option {
+  background: var(--background-color);
+  color: var(--font-color);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: color-mix(in srgb, var(--secondary-color) 78%, transparent);
+}
+
+:where(
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  textarea,
+  select
+):focus-visible,
+house-md:focus-within {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-color) 18%, transparent);
+  outline: none;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--primary-color);
+}
+
+:where(button:not(house-md-toolbar button):not(.md-close), .btn, input[type="submit"]) {
+  align-items: center;
+  appearance: none;
+  background-color: transparent;
+  border: var(--border-width) solid var(--primary-color);
+  border-radius: var(--radius);
+  box-sizing: border-box;
+  color: var(--primary-color);
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-weight: 600;
+  gap: 0.4rem;
+  justify-content: center;
+  min-height: var(--control-height);
+  line-height: 1.2;
+  padding: 0.45rem 0.9rem;
+  text-decoration: none;
+  text-transform: lowercase;
+  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease, transform 150ms ease;
+}
+
+:where(button:not(house-md-toolbar button):not(.md-close), .btn, input[type="submit"]):visited {
+  color: var(--primary-color);
+}
+
+:where(button:not(house-md-toolbar button):not(.md-close), .btn, input[type="submit"]):hover,
+:where(button:not(house-md-toolbar button):not(.md-close), .btn, input[type="submit"]):focus-visible {
+  background-color: color-mix(in srgb, var(--primary-color) 14%, transparent);
+  color: var(--primary-color);
+}
+
+:where(button:not(house-md-toolbar button):not(.md-close), .btn, input[type="submit"]):focus-visible {
+  outline: 1px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+:where(button:not(house-md-toolbar button):not(.md-close), .btn, input[type="submit"]):active {
+  transform: translateY(1px);
+}

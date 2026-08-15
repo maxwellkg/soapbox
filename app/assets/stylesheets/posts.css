@@ -49,9 +49,9 @@
 }
 
 .signup-fieldset {
-  background-color: #f7fbfd;
-  border: 1px solid #d6e4ea;
-  border-radius: 0.9rem;
+  background-color: var(--surface-muted-color);
+  border: 1px solid var(--secondary-color);
+  border-radius: var(--radius);
   display: grid;
   gap: 0.75rem;
   padding: 1rem;
@@ -59,7 +59,7 @@
 
 .signup-fieldset legend,
 .search-fieldset legend {
-  color: #6c8290;
+  color: var(--secondary-color);
   font-family: var(--font-family-headings);
   font-size: 0.85rem;
   font-weight: 600;
@@ -159,17 +159,17 @@
 
 .post-title-link {
   text-decoration: none;
-  color: #22313a;
+  color: var(--font-color);
 }
 
 .post-title-link:visited {
-  color: #22313a;
+  color: var(--font-color);
 }
 
 .search-fieldset {
-  background-color: #f7fbfd;
-  border: 1px solid #d6e4ea;
-  border-radius: 0.9rem;
+  background-color: var(--surface-muted-color);
+  border: 1px solid var(--secondary-color);
+  border-radius: var(--radius);
   display: grid;
   gap: 0.75rem;
   padding: 1rem;
