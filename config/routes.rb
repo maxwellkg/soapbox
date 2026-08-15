@@ -1,19 +1,21 @@
 Rails.application.routes.draw do
-  namespace :action_text, path: nil do
-    get "/u/*slug" => "markdown/uploads#show", as: :markdown_upload
-    post "/uploads" => "markdown/uploads#create", as: :markdown_uploads
-  end
-
-  resource :session
-  resources :passwords, param: :token
-
   get "up" => "rails/health#show", as: :rails_health_check
 
   root "posts#index"
 
-  get "feed", to: "posts#index", defaults: { format: :atom }, constraints: lambda { |req| req.format == :atom }
+  resource :session
+  resources :passwords, param: :token
+
   resources :posts, only: :show, param: :slug
+  get "feed", to: "posts#index", defaults: { format: :atom }, constraints: lambda { |req| req.format == :atom }
+
   post "signup", to: "subscribers/signups#create", as: :signups
+  get "/subscribers/:token/unsubscribe", to: "subscribers/unsubscribes#show", as: :unsubscribe
+  patch "/subscribers/:token/unsubscribe", to: "subscribers/unsubscribes#update"
+
+  direct :subscriber_unsubscribe do |subscriber, **opts|
+    unsubscribe_url(subscriber.unsubscribe_token, **opts)
+  end
 
   namespace :admin do
     root "dashboards#show"
@@ -30,7 +32,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :subscribers, only: %i[ index show new create edit update ] do
+    resources :subscribers, except: :destroy do
       member do
         patch :activate, to: "subscribers/statuses#activate"
         patch :deactivate, to: "subscribers/statuses#deactivate"
@@ -38,10 +40,8 @@ Rails.application.routes.draw do
     end
   end
 
-  get "/subscribers/:token/unsubscribe", to: "subscribers/unsubscribes#show", as: :unsubscribe
-  patch "/subscribers/:token/unsubscribe", to: "subscribers/unsubscribes#update"
-
-  direct :subscriber_unsubscribe do |subscriber, **opts|
-    unsubscribe_url(subscriber.unsubscribe_token, **opts)
-  end
+  namespace :action_text, path: nil do
+    get "/u/*slug" => "markdown/uploads#show", as: :markdown_upload
+    post "/uploads" => "markdown/uploads#create", as: :markdown_uploads
+  end  
 end
