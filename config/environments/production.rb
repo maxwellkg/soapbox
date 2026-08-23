@@ -59,7 +59,6 @@ Rails.application.configure do
   # Set canonical host and protocol used by links generated in mailers and route helpers.
   # Update these to your production URL before deploying.
   # default_url_options = { host: "example.com", protocol: "https" }
-  default_url_options = { host: "example.com", protocol: "https" }
   config.action_mailer.default_url_options = default_url_options
   routes.default_url_options = default_url_options
 
