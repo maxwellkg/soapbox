@@ -1,28 +1,33 @@
 class Admin::Subscribers::StatusesController < Admin::ApplicationController
   before_action :set_subscriber
 
-  def activate
-    apply_status_change(:activate)
+  def subscribe
+    apply_status_change(:subscribe)
   end
 
-  def deactivate
-    apply_status_change(:deactivate)
+  def unsubscribe
+    apply_status_change(:unsubscribe)
   end
 
   private
     DEFAULT_ERROR_MESSAGE = "Sorry, something went wrong."
+
+    SUCCESS_MESSAGES = {
+      subscribe: "Subscriber was successfully updated. Confirmation is pending.",
+      unsubscribe: "Subscriber was successfully unsubscribed."
+    }
 
     def set_subscriber
       @subscriber = Subscriber.find(params.expect(:id))
     end
 
     def apply_status_change(command)
-      if @subscriber.public_send(command)
-        flash_success "Subscriber was successfully #{command}d."
+      if apply_status_change_command(command)
+        flash_success success_message_for(command)
         redirect_to admin_subscriber_path(@subscriber)
       else
-        flash_alert(status_change_error_message, now: true)
-        render "admin/subscribers/edit", status: :unprocessable_entity
+        flash_alert status_change_error_message
+        redirect_to admin_subscriber_path(@subscriber)
       end
     end
 
@@ -35,6 +40,14 @@ class Admin::Subscribers::StatusesController < Admin::ApplicationController
     end
 
     def status_change_errors
-      [ @subscriber.errors, @subscriber.active_subscription&.errors ].compact_blank.flatten
+      [ @subscriber.errors, @subscriber.latest_subscription&.errors ].compact_blank.flatten
+    end
+
+    def apply_status_change_command(command)
+      @subscriber.public_send(command)
+    end
+
+    def success_message_for(command)
+      SUCCESS_MESSAGES[command]
     end
 end

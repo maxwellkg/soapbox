@@ -10,8 +10,10 @@ Rails.application.routes.draw do
   get "feed", to: "posts#index", defaults: { format: :atom }, constraints: lambda { |req| req.format == :atom }
 
   post "signup", to: "subscribers/signups#create", as: :signups
+  get "/subscriptions/:token/confirm", to: "subscriptions/confirmations#show", as: :subscription_confirmation
+  patch "/subscriptions/:token/confirm", to: "subscriptions/confirmations#update"
   get "/subscribers/:token/unsubscribe", to: "subscribers/unsubscribes#show", as: :unsubscribe
-  patch "/subscribers/:token/unsubscribe", to: "subscribers/unsubscribes#update"
+  patch "/subscribers/:token/unsubscribe", to: "subscribers/unsubscribes#complete"
 
   direct :subscriber_unsubscribe do |subscriber, **opts|
     unsubscribe_url(subscriber.unsubscribe_token, **opts)
@@ -34,8 +36,8 @@ Rails.application.routes.draw do
 
     resources :subscribers, except: :destroy do
       member do
-        patch :activate, to: "subscribers/statuses#activate"
-        patch :deactivate, to: "subscribers/statuses#deactivate"
+        patch :subscribe, to: "subscribers/statuses#subscribe"
+        patch :unsubscribe, to: "subscribers/statuses#unsubscribe"
       end
     end
   end

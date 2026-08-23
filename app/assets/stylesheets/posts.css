@@ -68,6 +68,15 @@
   text-transform: uppercase;
 }
 
+.signup-secondary-field {
+  left: -10000px;
+  position: absolute;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .signup-row {
   align-items: center;
   display: flex;
@@ -201,7 +210,6 @@
 }
 
 .post-mailer-wrapper {
-  padding-top: 1rem;
   padding-bottom: 3rem;
 }
 

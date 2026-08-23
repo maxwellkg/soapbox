@@ -6,18 +6,10 @@ class PostEmail < ApplicationRecord
 
   after_create_commit :enqueue_email
 
-  def email_to
-    subscription.subscriber.email_address
-  end
-
-  def email_subject
-    post.title
-  end
-
   private
     def enqueue_email
-      PostEmailsMailer
-        .with(post_email: self)
+      PostMailer
+        .with(post:, subscriber: subscription.subscriber)
         .post_email
         .deliver_later
     end

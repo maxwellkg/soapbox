@@ -1,0 +1,13 @@
+<%= @blog.title %>
+<% if @blog.subtitle.present? %>
+  <%= @blog.subtitle %>
+<% end %>
+
+---
+
+Confirm your subscription here:
+<%= subscription_confirmation_url(@subscription.confirmation_token) %>
+
+---
+
+Read online: <%= root_url %>

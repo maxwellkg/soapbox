@@ -9,7 +9,6 @@ class SubscriberTest < ActiveSupport::TestCase
 
     subscriber.email_address = "foo@bar.com"
     assert subscriber.valid?
-
     assert_not subscriber.errors.of_kind?(:email_address, :blank)
   end
 
@@ -21,7 +20,6 @@ class SubscriberTest < ActiveSupport::TestCase
 
     subscriber.email_address = "foo@bar.com"
     assert subscriber.valid?
-
     assert_not subscriber.errors.of_kind?(:email_address, :taken)
   end
 
@@ -33,7 +31,6 @@ class SubscriberTest < ActiveSupport::TestCase
 
     subscriber.email_address = "foobar@example.com"
     assert subscriber.valid?
-
     assert_not subscriber.errors.of_kind?(:email_address, :invalid)
   end
 
@@ -50,150 +47,141 @@ class SubscriberTest < ActiveSupport::TestCase
     assert_equal [], Subscriber.search_email_address("no-such-subscriber").to_a
   end
 
-  test "knows whether it has an active subscription" do
-    active = subscribers(:reader_three)
+  test "derives its status from its subscription" do
+    pending_subscriber = subscribers(:reader_pending)
+    active_subscriber = subscribers(:reader_one)
+    unsubscribed_subscriber = subscribers(:reader_four)
 
-    assert active.active?
-    assert_not active.inactive?
+    assert_equal "pending_confirmation", pending_subscriber.status
+    assert pending_subscriber.pending_confirmation?
+    assert_not pending_subscriber.active?
+    assert_not pending_subscriber.unsubscribed?
 
-    inactive = subscribers(:reader_without_subscription)
+    assert_equal "active", active_subscriber.status
+    assert active_subscriber.active?
+    assert_not active_subscriber.pending_confirmation?
+    assert_not active_subscriber.unsubscribed?
 
-    assert_not inactive.active?
-    assert inactive.inactive?
+    assert_equal "unsubscribed", unsubscribed_subscriber.status
+    assert unsubscribed_subscriber.unsubscribed?
+    assert_not unsubscribed_subscriber.active?
+    assert_not unsubscribed_subscriber.pending_confirmation?
   end
 
-  test "deactivates" do
-    active = subscribers(:reader_three)
+  test "builds a pending confirmation subscription by default for new records" do
+    subscriber = Subscriber.new(email_address: "new@example.com")
 
-    assert_changes -> { active.active? }, from: true, to: false do
-      assert_changes -> { active.active_subscription }, to: nil do
-        assert active.deactivate
-      end
-    end
-
-    inactive = subscribers(:reader_without_subscription)
-
-    assert_no_changes -> { inactive.updated_at } do
-      assert inactive.deactivate
-    end
+    assert subscriber.pending_confirmation?
   end
 
-  test "active subscriber activate is idempotent" do
-    subscriber = subscribers(:reader_one)
+  test "latest subscription returns the newest persisted subscription" do
+    subscriber = subscribers(:reader_four)
 
-    assert_no_changes -> { Subscription.where(subscriber_id: subscriber.id).count } do
-      assert_no_enqueued_emails do
-        assert subscriber.activate
-      end
-    end
+    assert_equal subscriptions(:reader_four_ended_history), subscriber.latest_subscription
   end
 
-  test "inactive subscriber deactivate is idempotent" do
-    subscriber = subscribers(:reader_without_subscription)
-
-    assert_no_changes -> { subscriber.updated_at } do
-      assert subscriber.deactivate
-    end
-  end
-
-  test "scopes to active subscribers" do
-    active = %i[ reader_one reader_two reader_three reader_four ].map { |key| subscribers(key) }
+  test "scopes to active subscribers by latest subscription" do
+    active = %i[ reader_one reader_two ].map { |key| subscribers(key) }
 
     assert_equal active.map(&:id).sort, Subscriber.active.pluck(:id).sort
   end
 
-  test "scopes to inactive subscribers" do
-    active = %i[ reader_one reader_two reader_three reader_four ].map { |key| subscribers(key) }
-    not_active = Subscriber.where.not(id: active.map(&:id))
+  test "scopes to pending confirmation subscribers by latest subscription" do
+    subscription = Subscription.create!(subscriber: subscribers(:reader_without_subscription), status: "pending_confirmation")
 
-    assert_equal not_active.pluck(:id).sort, Subscriber.inactive.pluck(:id).sort
+    pending = [ subscribers(:reader_pending), subscription.subscriber ]
+
+    assert_equal pending.map(&:id).sort, Subscriber.pending_confirmation.pluck(:id).sort
   end
 
-  test "for_status returns matching scope" do
+  test "scopes to unsubscribed subscribers by latest subscription" do
+    unsubscribed = %i[ reader_three reader_four reader_unsubscribed ].map { |key| subscribers(key) }
+
+    assert_equal unsubscribed.map(&:id).sort, Subscriber.unsubscribed.pluck(:id).sort
+  end
+
+  test "for_status returns the matching scope" do
     assert_equal Subscriber.active.to_a, Subscriber.for_status(:active).to_a
-    assert_equal Subscriber.inactive.to_a, Subscriber.for_status("inactive").to_a
+    assert_equal Subscriber.pending_confirmation.to_a, Subscriber.for_status("pending_confirmation").to_a
+    assert_equal Subscriber.unsubscribed.to_a, Subscriber.for_status("unsubscribed").to_a
     assert_equal [], Subscriber.for_status("unknown").to_a
     assert_equal Subscriber.all.to_a, Subscriber.for_status(nil).to_a
   end
 
-  test "finds related subscriptions" do
-    subscriber = subscribers(:reader_three)
-    subscriptions = [ subscriptions(:reader_three_active), subscriptions(:reader_three_inactive_history) ]
+  test "subscribe sends a confirmation email again for a pending subscriber" do
+    subscriber = subscribers(:reader_pending)
 
-    assert_equal subscriptions(:reader_three_active), subscriber.active_subscription
-    assert_equal subscriptions.map(&:id).sort, subscriber.subscriptions.pluck(:id).sort
+    assert_no_changes -> { subscriber.reload.subscriptions.count } do
+      assert_enqueued_emails 1 do
+        assert subscriber.subscribe
+      end
+    end
   end
 
-  test "activates an inactive subscriber" do
-    subscriber = subscribers(:reader_without_subscription)
+  test "subscribe is idempotent for an active subscriber" do
+    subscriber = subscribers(:reader_one)
 
-    assert_changes -> { subscriber.active? }, from: false, to: true do
-      assert_difference -> { Subscription.where(subscriber_id: subscriber.id).count }, 1 do
-        assert_enqueued_emails 1 do
-          assert subscriber.activate
+    assert_no_changes -> { subscriber.reload.subscriptions.count } do
+      assert_no_enqueued_emails do
+        assert subscriber.subscribe
+      end
+    end
+  end
+
+  test "subscribe creates a new pending subscription for an unsubscribed subscriber" do
+    subscriber = subscribers(:reader_unsubscribed)
+
+    assert_changes -> { subscriber.reload.pending_confirmation? }, from: false, to: true do
+      assert_difference -> { subscriber.reload.subscriptions.count }, 1 do
+        assert_enqueued_emails 2 do
+          assert subscriber.subscribe
         end
       end
     end
   end
 
-  test "can re-subscribe after deactivation by creating a new subscription period" do
-    subscriber = subscribers(:reader_without_subscription)
+  test "unsubscribe moves a pending subscriber to unsubscribed" do
+    subscriber = subscribers(:reader_pending)
 
-    assert_difference -> { Subscription.where(subscriber_id: subscriber.id).count }, 1 do
-      assert subscriber.activate
+    assert_changes -> { subscriber.reload.unsubscribed? }, from: false, to: true do
+      assert subscriber.unsubscribe
     end
-
-    first_active_subscription = subscriber.reload.active_subscription
-
-    assert subscriber.deactivate
-
-    first_active_subscription.reload
-    assert_not first_active_subscription.active?
-    assert_not_nil first_active_subscription.end_date
-
-    assert_difference -> { Subscription.where(subscriber_id: subscriber.id).count }, 1 do
-      assert subscriber.activate
-    end
-
-    second_active_subscription = subscriber.reload.active_subscription
-
-    assert second_active_subscription.active?
-    assert_not_nil second_active_subscription.start_date
-    assert_nil second_active_subscription.end_date
-    assert_not_equal first_active_subscription.id, second_active_subscription.id
-    assert_not first_active_subscription.reload.active?
   end
 
-  test "activate returns false and stays inactive when subscriber is invalid" do
-    subscriber = subscribers(:reader_without_subscription).reload
-    subscriber.email_address = nil
+  test "unsubscribe moves an active subscriber to unsubscribed" do
+    subscriber = subscribers(:reader_one)
 
-    assert_no_changes -> { Subscription.where(subscriber_id: subscriber.id, active: true).count } do
-      assert_not subscriber.activate
+    assert_changes -> { subscriber.reload.unsubscribed? }, from: false, to: true do
+      assert subscriber.unsubscribe
     end
-
-    assert_not subscriber.reload.active?
   end
 
-  test "supports unsubscribe token finder methods" do
+  test "unsubscribe is idempotent for an unsubscribed subscriber" do
+    subscriber = subscribers(:reader_four)
+
+    assert_no_changes -> { subscriber.reload.latest_subscription } do
+      assert_no_enqueued_emails do
+        assert subscriber.unsubscribe
+      end
+    end
+  end
+
+  test "find_by_unsubscribe_token returns the subscriber for a valid token and nil for an invalid token" do
     subscriber = subscribers(:reader_one)
     token = subscriber.unsubscribe_token
 
     assert_equal subscriber, Subscriber.find_by_unsubscribe_token(token)
-    assert_equal subscriber, Subscriber.find_by_unsubscribe_token!(token)
+    assert_nil Subscriber.find_by_unsubscribe_token("invalid-token")
   end
 
-  test "raises when unsubscribe token is invalid" do
+  test "find_by_unsubscribe_token! returns the subscriber for a valid token and raises for an invalid token" do
+    subscriber = subscribers(:reader_one)
+    token = subscriber.unsubscribe_token
+
+    assert_equal subscriber, Subscriber.find_by_unsubscribe_token!(token)
+
     assert_raises(ActiveRecord::RecordNotFound) do
       Subscriber.find_by_unsubscribe_token!("invalid-token")
-    end
-  end
-
-  test "unsubscribe deactivates subscriber" do
-    subscriber = subscribers(:reader_three)
-
-    assert_changes -> { subscriber.reload.active? }, from: true, to: false do
-      assert subscriber.unsubscribe
     end
   end
 end

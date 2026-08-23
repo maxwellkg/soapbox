@@ -119,17 +119,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_31_120000) do
   end
 
   create_table "subscriptions", force: :cascade do |t|
-    t.boolean "active", default: false, null: false
+    t.datetime "confirmed_at"
     t.datetime "created_at", null: false
-    t.date "end_date"
-    t.date "start_date"
+    t.string "status", null: false
     t.integer "subscriber_id", null: false
+    t.datetime "unsubscribed_at"
     t.datetime "updated_at", null: false
     t.index ["subscriber_id"], name: "index_subscriptions_on_subscriber_id"
-    t.index ["subscriber_id"], name: "index_subscriptions_on_subscriber_id_when_active", unique: true, where: "active = 1"
-    t.check_constraint "active = 0 OR end_date IS NULL", name: "subscriptions_active_requires_blank_end_date"
-    t.check_constraint "active = 0 OR start_date IS NOT NULL", name: "subscriptions_active_requires_start_date"
-    t.check_constraint "end_date IS NULL OR start_date IS NULL OR end_date >= start_date", name: "subscriptions_end_date_after_start_date"
+    t.index ["subscriber_id"], name: "index_subscriptions_on_subscriber_id_when_current", unique: true, where: "status IN ('pending_confirmation', 'active')"
+    t.check_constraint "(confirmed_at IS NULL OR status IN ('active', 'unsubscribed')) AND (unsubscribed_at IS NULL OR status = 'unsubscribed')", name: "subscriptions_lifecycle_timestamps_match_status"
+    t.check_constraint "status <> 'active' OR (confirmed_at IS NOT NULL AND unsubscribed_at IS NULL)", name: "subscriptions_active_timestamps_check"
+    t.check_constraint "status <> 'pending_confirmation' OR (confirmed_at IS NULL AND unsubscribed_at IS NULL)", name: "subscriptions_pending_confirmation_timestamps_check"
+    t.check_constraint "status <> 'unsubscribed' OR unsubscribed_at IS NOT NULL", name: "subscriptions_unsubscribed_timestamps_check"
+    t.check_constraint "status IN ('pending_confirmation', 'active', 'unsubscribed')", name: "subscriptions_status_check"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

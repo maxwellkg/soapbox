@@ -25,10 +25,10 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
-  # config.assume_ssl = true
+  config.assume_ssl = true
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  config.force_ssl = true
 
   # Skip http-to-https redirect for the default health check endpoint.
   # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
@@ -53,12 +53,12 @@ Rails.application.configure do
   config.active_job.queue_adapter = :solid_queue
   config.solid_queue.connects_to = { database: { writing: :queue } }
 
-  # Ignore bad email addresses and do not raise email delivery errors.
-  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
+  # Raise delivery errors so production mail failures are visible.
+  config.action_mailer.raise_delivery_errors = true
 
   # Set canonical host and protocol used by links generated in mailers and route helpers.
   # Update these to your production URL before deploying.
+  # default_url_options = { host: "example.com", protocol: "https" }
   default_url_options = { host: "example.com", protocol: "https" }
   config.action_mailer.default_url_options = default_url_options
   routes.default_url_options = default_url_options
@@ -71,6 +71,10 @@ Rails.application.configure do
   #   port: 587,
   #   authentication: :plain
   # }
+
+  config.action_mailer.delivery_method = :postmark
+  config.action_mailer.postmark_settings = { api_token: Rails.application.credentials.postmark_api_token }
+  config.action_mailer.perform_deliveries = true
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

@@ -62,17 +62,31 @@ class Admin::SubscribersControllerTest < ActionDispatch::IntegrationTest
   test "index filters subscribers by status" do
     sign_in_as(@author)
 
+    active = subscribers(:reader_one)
+    pending = subscribers(:reader_pending)
+    unsubscribed = subscribers(:reader_unsubscribed)
+
     get admin_subscribers_path, params: { status: "active" }
     assert_response :success
-    assert_select "h2", count: 4
+    assert_includes response.body, active.email_address
+    assert_not_includes response.body, pending.email_address
+    assert_not_includes response.body, unsubscribed.email_address
 
-    get admin_subscribers_path, params: { status: "inactive" }
+    get admin_subscribers_path, params: { status: "pending_confirmation" }
     assert_response :success
-    assert_select "h2", count: 20
+    assert_includes response.body, pending.email_address
+    assert_not_includes response.body, active.email_address
+    assert_not_includes response.body, unsubscribed.email_address
+
+    get admin_subscribers_path, params: { status: "unsubscribed" }
+    assert_response :success
+    assert_includes response.body, unsubscribed.email_address
+    assert_not_includes response.body, active.email_address
+    assert_not_includes response.body, pending.email_address
 
     get admin_subscribers_path, params: { status: "" }
     assert_response :success
-    assert_select "h2", count: 20
+    assert_includes response.body, active.email_address
 
     get admin_subscribers_path, params: { status: "foobar" }
     assert_response :success
@@ -82,27 +96,39 @@ class Admin::SubscribersControllerTest < ActionDispatch::IntegrationTest
   test "index combines search and status filter" do
     sign_in_as(@author)
 
-    get admin_subscribers_path, params: { search: "reader", status: "inactive" }
+    get admin_subscribers_path, params: { search: "reader", status: "unsubscribed" }
 
     assert_response :success
-    assert_select "h2", count: 1
-    assert_select "h2", text: subscribers(:reader_without_subscription).email_address
+    assert_includes response.body, subscribers(:reader_unsubscribed).email_address
+    assert_not_includes response.body, subscribers(:reader_pending).email_address
+    assert_not_includes response.body, subscribers(:reader_one).email_address
 
     get admin_subscribers_path, params: { search: "reader", status: "active" }
 
     assert_response :success
-    assert_select "h2", count: 4
+    assert_includes response.body, subscribers(:reader_one).email_address
+    assert_not_includes response.body, subscribers(:reader_unsubscribed).email_address
   end
 
   test "show displays the subscriber" do
     sign_in_as(@author)
-    subscriber = subscribers(:reader_three)
+    subscriber = subscribers(:reader_one)
 
     get admin_subscriber_path(subscriber)
 
     assert_response :success
     assert_select "h1", subscriber.email_address
     assert_select "p", text: /Status:\s+Active/
+  end
+
+  test "show displays pending confirmation status" do
+    sign_in_as(@author)
+    subscriber = subscribers(:reader_pending)
+
+    get admin_subscriber_path(subscriber)
+
+    assert_response :success
+    assert_select "p", text: /Status:\s+Pending confirmation/
   end
 
   test "new renders a form" do
@@ -128,10 +154,10 @@ class Admin::SubscribersControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "create creates and activates a subscriber" do
+  test "create creates a subscriber" do
     sign_in_as(@author)
 
-    assert_difference [ -> { Subscriber.count }, -> { Subscription.active.count } ], 1 do
+    assert_difference -> { Subscriber.count }, 1 do
       post admin_subscribers_path, params: {
         subscriber: {
           email_address: "new.admin.subscriber@example.com"
@@ -140,7 +166,6 @@ class Admin::SubscribersControllerTest < ActionDispatch::IntegrationTest
     end
 
     created = Subscriber.order(:id).last
-    assert created.active?
     assert_redirected_to admin_subscriber_path(created)
     assert_equal "Subscriber was successfully created.", flash[:success]
   end
@@ -199,21 +224,21 @@ class Admin::SubscribersControllerTest < ActionDispatch::IntegrationTest
   test "index paginates subscribers and keeps filters in links" do
     sign_in_as(@author)
 
-    get admin_subscribers_path, params: { search: "pagination.subscriber", status: "inactive" }
+    get admin_subscribers_path, params: { search: "pagination.subscriber" }
 
     assert_response :success
     assert_select "article.admin-card", count: 20
     assert_select "p", text: "21 matching subscribers"
     assert_select ".pagination-page", text: "Page 1 of 2"
     assert_select "span.pagination-link-disabled", text: "Previous"
-    assert_select "a.pagination-link[href*='search=pagination.subscriber'][href*='status=inactive'][href*='page=2']", text: "Next"
+    assert_select "a.pagination-link[href*='search=pagination.subscriber'][href*='page=2']", text: "Next"
 
-    get admin_subscribers_path, params: { search: "pagination.subscriber", status: "inactive", page: 2 }
+    get admin_subscribers_path, params: { search: "pagination.subscriber", page: 2 }
 
     assert_response :success
     assert_select "article.admin-card", count: 1
     assert_select ".pagination-page", text: "Page 2 of 2"
-    assert_select "a.pagination-link[href*='search=pagination.subscriber'][href*='status=inactive'][href*='page=1']", text: "Previous"
+    assert_select "a.pagination-link[href*='search=pagination.subscriber'][href*='page=1']", text: "Previous"
     assert_select "span.pagination-link-disabled", text: "Next"
   end
 end

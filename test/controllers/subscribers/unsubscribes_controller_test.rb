@@ -2,8 +2,8 @@ require "test_helper"
 
 class Subscribers::UnsubscribesControllerTest < ActionDispatch::IntegrationTest
   test "show renders unsubscribe confirmation without unsubscribing" do
-    subscriber = subscribers(:reader_three)
-    subscription = subscriber.active_subscription
+    subscriber = subscribers(:reader_one)
+    subscription = subscriber.latest_subscription
 
     assert_no_changes -> { subscription.reload.active? } do
       get subscriber_unsubscribe_url(subscriber)
@@ -16,12 +16,12 @@ class Subscribers::UnsubscribesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "update unsubscribes an active subscriber" do
-    subscriber = subscribers(:reader_three)
-    subscription = subscriber.active_subscription
+  test "complete unsubscribes an active subscriber" do
+    subscriber = subscribers(:reader_one)
+    subscription = subscriber.latest_subscription
 
-    assert_changes -> { subscription.reload.active? }, from: true, to: false do
-      assert_enqueued_emails 1 do
+    assert_changes -> { subscription.reload.status }, from: "active", to: "unsubscribed" do
+      assert_no_enqueued_emails do
         patch unsubscribe_path(subscriber.unsubscribe_token)
       end
       assert_redirected_to root_url
@@ -30,8 +30,8 @@ class Subscribers::UnsubscribesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "#{subscriber.email_address} has been unsubscribed", flash[:success]
   end
 
-  test "update succeeds for inactive subscriber" do
-    subscriber = subscribers(:reader_without_subscription)
+  test "complete succeeds for unsubscribed subscriber" do
+    subscriber = subscribers(:reader_unsubscribed)
 
     assert_no_enqueued_emails do
       patch unsubscribe_path(subscriber.unsubscribe_token)
@@ -41,7 +41,7 @@ class Subscribers::UnsubscribesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "#{subscriber.email_address} has been unsubscribed", flash[:success]
   end
 
-  test "update gives alert if unsubscribe fails" do
+  test "complete gives alert if unsubscribe fails" do
     subscriber = subscribers(:reader_three)
 
     temporarily_redefine_method(Subscriber, :unsubscribe, -> { false }) do
@@ -61,7 +61,7 @@ class Subscribers::UnsubscribesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Unsubscribe link is invalid or has expired.", flash[:alert]
   end
 
-  test "update redirects for expired/invalid token" do
+  test "complete redirects for expired/invalid token" do
     patch unsubscribe_path("invalid")
     assert_redirected_to root_url
 

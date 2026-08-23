@@ -47,21 +47,11 @@ class PostEmailTest < ActiveSupport::TestCase
     assert post_email.valid?
   end
 
-  test "determines the correct email address" do
-    post_email = post_emails(:reader_one_email)
-    assert_equal "reader.one@example.com", post_email.email_to
-  end
-
-  test "determines the email subject" do
-    post_email = post_emails(:reader_one_email)
-    assert_equal "An Emailed Post", post_email.email_subject
-  end
-
   test "enqueues the email delivery" do
     post_email = post_emails(:reader_two_email)
     post_email.send(:enqueue_email)
 
-    assert_enqueued_email_with PostEmailsMailer, :post_email, params: { post_email: post_email }
+    assert_enqueued_email_with PostMailer, :post_email, params: { post: post_email.post, subscriber: post_email.subscription.subscriber }
     deliver_enqueued_emails
     assert_emails 1
   end
@@ -72,6 +62,6 @@ class PostEmailTest < ActiveSupport::TestCase
       subscription: subscriptions(:reader_three_active)
     )
 
-    assert_enqueued_email_with PostEmailsMailer, :post_email, params: { post_email: post_email }
+    assert_enqueued_email_with PostMailer, :post_email, params: { post: post_email.post, subscriber: post_email.subscription.subscriber }
   end
 end

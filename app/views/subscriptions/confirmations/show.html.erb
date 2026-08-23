@@ -1,0 +1,16 @@
+<section class="unsubscribe-confirmation">
+  <h1>Confirm your email subscription?</h1>
+
+  <p>
+    You are about to subscribe <%= @subscription.subscriber.email_address %>.
+  </p>
+
+  <p>
+    Once confirmed, you'll start receiving new post updates by email.
+  </p>
+
+  <div class="unsubscribe-confirmation-actions">
+    <%= button_to "yes, confirm subscription", subscription_confirmation_path(@subscription.confirmation_token), method: :patch %>
+    <%= link_to "cancel", root_path, class: "btn" %>
+  </div>
+</section>

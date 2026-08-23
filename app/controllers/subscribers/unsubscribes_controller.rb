@@ -6,7 +6,7 @@ class Subscribers::UnsubscribesController < ApplicationController
   def show
   end
 
-  def update
+  def complete
     if @subscriber.unsubscribe
       flash_success "#{@subscriber.email_address} has been unsubscribed"
     else

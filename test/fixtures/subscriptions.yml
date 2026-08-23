@@ -1,35 +1,46 @@
 reader_one_active:
   subscriber: reader_one
-  active: true
-  start_date: <%= Date.new(2025, 8, 14) %>
+  status: active
+  confirmed_at: <%= Time.utc(2025, 8, 14, 12) %>
 
 reader_two_active:
   subscriber: reader_two
-  active: true
-  start_date: <%= Date.new(2025, 6, 14) %>
+  status: active
+  confirmed_at: <%= Time.utc(2025, 6, 14, 12) %>
 
 reader_three_active:
   subscriber: reader_three
-  active: true
-  start_date: <%= Date.new(2025, 11, 1) %>
+  status: active
+  confirmed_at: <%= Time.utc(2025, 11, 1, 12) %>
 
 reader_three_inactive_history:
   subscriber: reader_three
-  active: false
-  start_date: <%= Date.new(2025, 1, 1) %>
-  end_date: <%= Date.new(2025, 2, 15) %>
+  status: unsubscribed
+  confirmed_at: <%= Time.utc(2025, 1, 1, 12) %>
+  unsubscribed_at: <%= Time.utc(2025, 2, 15, 12) %>
 
 reader_four_active:
   subscriber: reader_four
-  active: true
-  start_date: <%= Date.new(2025, 9, 1) %>
+  status: active
+  confirmed_at: <%= Time.utc(2025, 9, 1, 12) %>
 
 reader_four_inactive:
   subscriber: reader_four
-  active: false
+  status: unsubscribed
+  unsubscribed_at: <%= Time.utc(2025, 4, 1, 12) %>
 
 reader_four_ended_history:
   subscriber: reader_four
-  active: false
-  start_date: <%= Date.new(2025, 3, 1) %>
-  end_date: <%= Date.new(2025, 3, 31) %>
+  status: unsubscribed
+  confirmed_at: <%= Time.utc(2025, 3, 1, 12) %>
+  unsubscribed_at: <%= Time.utc(2025, 3, 31, 12) %>
+
+reader_pending_confirmation:
+  subscriber: reader_pending
+  status: pending_confirmation
+
+reader_unsubscribed_only:
+  subscriber: reader_unsubscribed
+  status: unsubscribed
+  confirmed_at: <%= Time.utc(2025, 5, 1, 12) %>
+  unsubscribed_at: <%= Time.utc(2025, 5, 10, 12) %>

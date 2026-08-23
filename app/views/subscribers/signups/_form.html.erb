@@ -13,6 +13,11 @@
 
     <fieldset class="signup-fieldset">
       <legend>Subscribe to updates by email</legend>
+      <div class="signup-secondary-field" aria-hidden="true">
+        <%= form.label :name, "Name" %>
+        <%= form.text_field :name, tabindex: -1, autocomplete: "off" %>
+      </div>
+
       <div class="signup-row">
         <%= form.label :email_address, "Email address", class: "invisible" %>
         <%= form.email_field :email_address, **signup_email_field_options %>

@@ -11,7 +11,8 @@
 
   <div class="post-mailer-wrapper">
     <p>
-      <%= @subscriber.email_address %> has been unsubscribed from <%= @blog.title %>. You will no longer receive new posts by email.
+      Confirm your subscription to <%= link_to @blog.title, root_url %> by
+      <%= link_to "clicking here", subscription_confirmation_url(@subscription.confirmation_token) %>.
     </p>
   </div>
 </main>

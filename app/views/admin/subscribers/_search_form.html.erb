@@ -11,7 +11,7 @@
       <div class="admin-search-select">
         <%= form.label :status, "status", class: "invisible" %>
         <%= form.select :status,
-                        options_for_select(Subscriber::STATUSES, admin_subscribers_selected_status),
+                        options_for_select(admin_subscribers_status_options, admin_subscribers_selected_status),
                         { include_blank: "all statuses" } %>
       </div>
 

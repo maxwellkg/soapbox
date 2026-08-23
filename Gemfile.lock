@@ -220,6 +220,11 @@ GEM
     parser (3.3.12.0)
       ast (~> 2.4.1)
       racc
+    postmark (1.25.1)
+      json
+    postmark-rails (0.22.1)
+      actionmailer (>= 3.0.0)
+      postmark (>= 1.21.3, < 2.0)
     pp (0.6.4)
       prettyprint
     premailer (1.29.0)
@@ -428,6 +433,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
+  postmark-rails
   premailer-rails
   propshaft
   puma (>= 5.0)
@@ -535,6 +541,8 @@ CHECKSUMS
   ostruct (0.6.3) sha256=95a2ed4a4bd1d190784e666b47b2d3f078e4a9efda2fccf18f84ddc6538ed912
   parallel (2.1.0) sha256=b35258865c2e31134c5ecb708beaaf6772adf9d5efae28e93e99260877b09356
   parser (3.3.12.0) sha256=21a6d7f755d5a24dfbdc6e6b772e4e879a52e7631a88bc5a3a134606052c9828
+  postmark (1.25.1)
+  postmark-rails (0.22.1)
   pp (0.6.4) sha256=dfcb0fce700c41456265922884f9fe195d7fbb0674a3578e6c0f69588e82b570
   premailer (1.29.0) sha256=015f30c520701f3d47fd898886a3eaf4e5171efcc5fd239b872efd1ba61d3da0
   premailer-rails (1.12.0) sha256=c13815d161b9bc7f7d3d81396b0bb0a61a90fa9bd89931548bf4e537c7710400

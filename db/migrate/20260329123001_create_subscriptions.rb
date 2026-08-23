@@ -2,9 +2,9 @@ class CreateSubscriptions < ActiveRecord::Migration[8.1]
   def change
     create_table :subscriptions do |t|
       t.references :subscriber, null: false, foreign_key: true
-      t.boolean :active, null: false, default: false
-      t.date :start_date
-      t.date :end_date
+      t.string :status, null: false
+      t.datetime :confirmed_at
+      t.datetime :unsubscribed_at
 
       t.timestamps
     end
@@ -12,19 +12,27 @@ class CreateSubscriptions < ActiveRecord::Migration[8.1]
     add_index :subscriptions,
               :subscriber_id,
               unique: true,
-              where: "active = 1",
-              name: "index_subscriptions_on_subscriber_id_when_active"
+              where: "status IN ('pending_confirmation', 'active')",
+              name: "index_subscriptions_on_subscriber_id_when_current"
 
     add_check_constraint :subscriptions,
-                         "end_date IS NULL OR start_date IS NULL OR end_date >= start_date",
-                         name: "subscriptions_end_date_after_start_date"
+                         "status IN ('pending_confirmation', 'active', 'unsubscribed')",
+                         name: "subscriptions_status_check"
 
     add_check_constraint :subscriptions,
-                         "active = 0 OR start_date IS NOT NULL",
-                         name: "subscriptions_active_requires_start_date"
+                         "status <> 'pending_confirmation' OR (confirmed_at IS NULL AND unsubscribed_at IS NULL)",
+                         name: "subscriptions_pending_confirmation_timestamps_check"
 
     add_check_constraint :subscriptions,
-                         "active = 0 OR end_date IS NULL",
-                         name: "subscriptions_active_requires_blank_end_date"
+                         "status <> 'active' OR (confirmed_at IS NOT NULL AND unsubscribed_at IS NULL)",
+                         name: "subscriptions_active_timestamps_check"
+
+    add_check_constraint :subscriptions,
+                         "status <> 'unsubscribed' OR unsubscribed_at IS NOT NULL",
+                         name: "subscriptions_unsubscribed_timestamps_check"
+
+    add_check_constraint :subscriptions,
+                         "(confirmed_at IS NULL OR status IN ('active', 'unsubscribed')) AND (unsubscribed_at IS NULL OR status = 'unsubscribed')",
+                         name: "subscriptions_lifecycle_timestamps_match_status"
   end
 end

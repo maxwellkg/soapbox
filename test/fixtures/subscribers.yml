@@ -13,6 +13,12 @@ reader_four:
 reader_without_subscription:
   email_address: reader.without.subscription@example.com
 
+reader_pending:
+  email_address: reader.pending@example.com
+
+reader_unsubscribed:
+  email_address: reader.unsubscribed@example.com
+
 pagination_subscriber_01:
   email_address: pagination.subscriber01@example.com
 

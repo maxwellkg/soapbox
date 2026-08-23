@@ -19,8 +19,4 @@ module Subscriber::Unsubscribable
   def unsubscribe_token
     generate_token_for(:unsubscribe)
   end
-
-  def unsubscribe
-    deactivate
-  end
 end

@@ -7,7 +7,7 @@ class Admin::SubscribersController < Admin::ApplicationController
   def index
     @subscribers =  paginate(
                       Subscriber
-                        .includes(:active_subscription)
+                        .includes(:subscriptions)
                         .search_email_address(search_term)
                         .for_status(filter_params[:status])
                         .order(updated_at: :desc)
@@ -24,7 +24,7 @@ class Admin::SubscribersController < Admin::ApplicationController
   def create
     @subscriber = Subscriber.new(subscriber_params)
 
-    if @subscriber.activate
+    if @subscriber.save
       flash_success "Subscriber was successfully created."
       redirect_to admin_subscriber_path(@subscriber)
     else

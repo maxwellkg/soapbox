@@ -2,7 +2,7 @@ require "test_helper"
 
 class SubscriptionTest < ActiveSupport::TestCase
   test "is invalid without a subscriber" do
-    subscription = Subscription.new(active: false)
+    subscription = Subscription.new(status: "pending_confirmation")
     assert_not subscription.valid?
 
     assert subscription.errors.of_kind?(:subscriber, :blank)
@@ -13,172 +13,31 @@ class SubscriptionTest < ActiveSupport::TestCase
     assert_not subscription.errors.of_kind?(:subscriber, :blank)
   end
 
-  test "only allows one active subscription per subscriber" do
+  test "only allows one current subscription per subscriber" do
     existing = subscriptions(:reader_two_active)
 
-    new_subscription = existing.subscriber.subscriptions.build(active: true)
+    new_subscription = existing.subscriber.subscriptions.build(status: "pending_confirmation")
     assert_not new_subscription.valid?
 
     assert new_subscription.errors.of_kind?(:subscriber_id, :taken)
 
-    new_subscription.active = false
-    assert new_subscription.valid?
+    new_subscription.status = "unsubscribed"
+    new_subscription.unsubscribed_at = Time.current
 
+    assert_not new_subscription.valid?
     assert_not new_subscription.errors.of_kind?(:subscriber_id, :taken)
   end
 
-  test "requires start date if active" do
-    subscription = subscriptions(:reader_one_active)
-    subscription.start_date = nil
-    assert_not subscription.valid?
+  test "scope for current" do
+    current_subscriptions = [
+      subscriptions(:reader_pending_confirmation),
+      subscriptions(:reader_one_active),
+      subscriptions(:reader_two_active),
+      subscriptions(:reader_three_active),
+      subscriptions(:reader_four_active)
+    ]
 
-    assert subscription.errors.of_kind?(:start_date, :blank)
-
-    subscription.start_date = Date.current
-
-    assert subscription.valid?
-    assert_not subscription.errors.of_kind?(:start_date, :blank)
-  end
-
-  test "sets start date when activating" do
-    subscription = subscriptions(:reader_four_inactive)
-    subscription.active = true
-
-    freeze_time do
-      assert_changes -> { subscription.start_date }, from: nil, to: Date.current do
-        subscription.valid?
-      end
-    end
-  end
-
-  test "does not overwrite existing start date when activating" do
-    subscription = subscriptions(:reader_four_inactive)
-    subscription.active = true
-    subscription.start_date = Date.yesterday
-
-    assert_no_changes -> { subscription.start_date } do
-      subscription.valid?
-    end
-  end
-
-  test "sets end date when deactivating" do
-    subscription = subscriptions(:reader_one_active)
-    subscription.active = false
-
-    freeze_time do
-      assert_changes -> { subscription.end_date }, from: nil, to: Date.current do
-        subscription.valid?
-      end
-    end
-  end
-
-  test "does not overwrite existing end date when deactivating" do
-    subscription = subscriptions(:reader_one_active)
-    subscription.active = false
-    subscription.end_date = Date.yesterday
-
-    assert_no_changes -> { subscription.end_date } do
-      subscription.valid?
-    end
-  end
-
-  test "is invalid when end date is before start date" do
-    subscription = Subscription.new(
-      subscriber: subscribers(:reader_without_subscription),
-      active: false,
-      start_date: Date.current,
-      end_date: Date.yesterday
-    )
-
-    assert_not subscription.valid?
-
-    assert subscription.errors.of_kind?(:end_date, "must be greater or equal to start date")
-
-    subscription.end_date = subscription.start_date
-
-    assert subscription.valid?
-    assert_not subscription.errors.of_kind?(:end_date, "must be greater or equal to start date")
-  end
-
-  test "is invalid when active subscription has an end date" do
-    subscription = Subscription.new(
-      subscriber: subscribers(:reader_without_subscription),
-      active: true,
-      end_date: Date.current
-    )
-
-    assert_not subscription.valid?
-
-    assert subscription.errors.of_kind?(:end_date, "must be blank when subscription is active")
-
-    subscription.end_date = nil
-
-    assert subscription.valid?
-    assert_not subscription.errors.of_kind?(:end_date, "must be blank when subscription is active")
-  end
-
-  test "does not allow reactivating an ended subscription" do
-    subscription = subscriptions(:reader_four_ended_history)
-
-    subscription.active = true
-    subscription.end_date = nil
-
-    assert_not subscription.valid?
-    assert subscription.errors.of_kind?(:active, "cannot reactivate an ended subscription")
-
-    replacement = Subscription.new(
-      subscriber: subscribers(:reader_without_subscription),
-      active: true,
-      start_date: Date.current
-    )
-
-    assert replacement.valid?
-    assert_not replacement.errors.of_kind?(:active, "cannot reactivate an ended subscription")
-  end
-
-  test "creating an active subscription enqueues an activation email" do
-    subscription = Subscription.new(subscriber: subscribers(:reader_without_subscription), active: true)
-
-    assert_enqueued_emails 1 do
-      subscription.save!
-    end
-  end
-
-  test "activating enqueues an activation email" do
-    subscription = Subscription.create!(
-      subscriber: subscribers(:reader_without_subscription),
-      active: false,
-      start_date: Date.new(2025, 1, 1)
-    )
-    subscription.active = true
-
-    assert_enqueued_emails 1 do
-      subscription.save!
-    end
-  end
-
-  test "deactivating enqueues a deactivation email" do
-    subscription = subscriptions(:reader_one_active)
-
-    assert_enqueued_emails 1 do
-      subscription.deactivate
-    end
-  end
-
-  test "creating an inactive subscription enqueues no email" do
-    subscription = Subscription.new(subscriber: subscribers(:reader_without_subscription), active: false)
-
-    assert_no_enqueued_emails do
-      subscription.save!
-    end
-  end
-
-  test "an unrelated update enqueues no email" do
-    subscription = subscriptions(:reader_one_active)
-
-    assert_no_enqueued_emails do
-      subscription.update!(start_date: subscription.start_date + 1.day)
-    end
+    assert_equal current_subscriptions.map(&:id).sort, Subscription.current.map(&:id).sort
   end
 
   test "scope for active" do
@@ -192,54 +51,310 @@ class SubscriptionTest < ActiveSupport::TestCase
     assert_equal active_subscriptions.map(&:id).sort, Subscription.active.map(&:id).sort
   end
 
-  test "scope for inactive" do
-    inactive_subscriptions = [
+  test "scope for pending confirmation" do
+    subscription = Subscription.create!(subscriber: subscribers(:reader_without_subscription), status: "pending_confirmation")
+
+    assert_includes Subscription.pending_confirmation, subscription
+  end
+
+  test "scope for unsubscribed" do
+    unsubscribed_subscriptions = [
+      subscriptions(:reader_unsubscribed_only),
       subscriptions(:reader_three_inactive_history),
       subscriptions(:reader_four_inactive),
       subscriptions(:reader_four_ended_history)
     ]
 
-    assert_equal inactive_subscriptions.map(&:id).sort, Subscription.inactive.map(&:id).sort
+    assert_equal unsubscribed_subscriptions.map(&:id).sort, Subscription.unsubscribed.map(&:id).sort
   end
 
-  test "db constraint only allows one active subscription per subscriber" do
+  test "supports confirmation token finder methods while pending confirmation" do
+    subscription = Subscription.create!(subscriber: subscribers(:reader_without_subscription), status: "pending_confirmation")
+    token = subscription.confirmation_token
+
+    assert_equal subscription, Subscription.find_by_confirmation_token(token)
+    assert_equal subscription, Subscription.find_by_confirmation_token!(token)
+  end
+
+  test "confirmation token becomes invalid after confirmation" do
+    subscription = Subscription.create!(subscriber: subscribers(:reader_without_subscription), status: "pending_confirmation")
+    token = subscription.confirmation_token
+
+    assert subscription.confirm
+
+    assert_nil Subscription.find_by_confirmation_token(token)
+    assert_raises(ActiveRecord::RecordNotFound) do
+      Subscription.find_by_confirmation_token!(token)
+    end
+  end
+
+  test "confirmation token becomes invalid after unsubscribe" do
+    subscription = Subscription.create!(subscriber: subscribers(:reader_without_subscription), status: "pending_confirmation")
+    token = subscription.confirmation_token
+
+    assert subscription.unsubscribe
+
+    assert_nil Subscription.find_by_confirmation_token(token)
+  end
+
+  test "confirm activates a pending subscription and sets confirmed at" do
+    subscription = Subscription.create!(subscriber: subscribers(:reader_without_subscription), status: "pending_confirmation")
+
+    freeze_time do
+      assert_changes -> { subscription.reload.status }, from: "pending_confirmation", to: "active" do
+        assert_changes -> { subscription.reload.confirmed_at }, to: Time.current do
+          assert_enqueued_emails 1 do
+            assert subscription.confirm
+          end
+        end
+      end
+    end
+
+    assert_nil subscription.reload.unsubscribed_at
+  end
+
+  test "confirm is idempotent for active subscriptions" do
+    subscription = subscriptions(:reader_one_active)
+
+    assert_no_changes -> { subscription.reload.attributes.slice("status", "confirmed_at", "unsubscribed_at") } do
+      assert_no_enqueued_emails do
+        assert subscription.confirm
+      end
+    end
+  end
+
+  test "confirm fails for unsubscribed subscriptions" do
+    subscription = subscriptions(:reader_four_ended_history)
+
+    assert_not subscription.confirm
+    assert_equal "unsubscribed", subscription.reload.status
+  end
+
+  test "unsubscribe moves pending subscriptions to unsubscribed and sets unsubscribed at" do
+    subscription = Subscription.create!(subscriber: subscribers(:reader_without_subscription), status: "pending_confirmation")
+
+    freeze_time do
+      assert_changes -> { subscription.reload.status }, from: "pending_confirmation", to: "unsubscribed" do
+        assert_changes -> { subscription.reload.unsubscribed_at }, to: Time.current do
+          assert subscription.unsubscribe
+        end
+      end
+    end
+
+    assert_nil subscription.reload.confirmed_at
+  end
+
+  test "unsubscribe moves active subscriptions to unsubscribed and preserves confirmed at" do
+    subscription = subscriptions(:reader_one_active)
+    confirmed_at = subscription.confirmed_at
+
+    freeze_time do
+      assert_changes -> { subscription.reload.status }, from: "active", to: "unsubscribed" do
+        assert_changes -> { subscription.reload.unsubscribed_at }, to: Time.current do
+          assert subscription.unsubscribe
+        end
+      end
+    end
+
+    assert_equal confirmed_at, subscription.reload.confirmed_at
+  end
+
+  test "unsubscribe is idempotent for unsubscribed subscriptions" do
+    subscription = subscriptions(:reader_four_ended_history)
+
+    assert_no_changes -> { subscription.reload.attributes.slice("status", "confirmed_at", "unsubscribed_at") } do
+      assert_no_enqueued_emails do
+        assert subscription.unsubscribe
+      end
+    end
+  end
+
+  test "send confirmation enqueues confirmation email for pending subscriptions" do
+    subscription = Subscription.create!(subscriber: subscribers(:reader_without_subscription), status: "pending_confirmation")
+
+    assert_enqueued_emails 1 do
+      assert subscription.send_confirmation
+    end
+  end
+
+  test "send confirmation is rejected for non-pending subscriptions" do
+    subscription = subscriptions(:reader_one_active)
+
+    assert_no_enqueued_emails do
+      assert_not subscription.send_confirmation
+    end
+  end
+
+  test "creating a pending subscription enqueues a confirmation email and author notification" do
+    subscription = Subscription.new(subscriber: subscribers(:reader_without_subscription), status: "pending_confirmation")
+
+    assert_enqueued_emails 2 do
+      subscription.save!
+    end
+  end
+
+  test "confirming a subscription enqueues a subscribed email" do
+    subscription = Subscription.create!(subscriber: subscribers(:reader_without_subscription), status: "pending_confirmation")
+
+    assert_enqueued_emails 1 do
+      assert subscription.confirm
+    end
+  end
+
+  test "unsubscribing a subscription enqueues no email" do
+    subscription = subscriptions(:reader_one_active)
+
+    assert_no_enqueued_emails do
+      assert subscription.unsubscribe
+    end
+  end
+
+  test "an unrelated update enqueues no email" do
+    subscription = subscriptions(:reader_one_active)
+
+    assert_no_enqueued_emails do
+      subscription.touch
+    end
+  end
+
+  test "new subscriptions must start pending confirmation" do
+    subscription = Subscription.new(subscriber: subscribers(:reader_without_subscription), status: "active")
+    assert_not subscription.valid?
+
+    assert subscription.errors.of_kind?(:status, "must start as 'pending_confirmation'")
+  end
+
+  test "is invalid when pending subscription has lifecycle timestamps" do
+    subscription = Subscription.new(
+      subscriber: subscribers(:reader_without_subscription),
+      status: "pending_confirmation",
+      confirmed_at: Time.current,
+      unsubscribed_at: Time.current
+    )
+
+    assert_not subscription.valid?
+    assert subscription.errors.of_kind?(:confirmed_at, "must be blank while subscription is pending confirmation")
+    assert subscription.errors.of_kind?(:unsubscribed_at, "must be blank while subscription is pending confirmation")
+  end
+
+  test "is invalid when active subscription has unsubscribed at" do
+    subscription = Subscription.new(
+      subscriber: subscribers(:reader_without_subscription),
+      status: "active",
+      confirmed_at: Time.current,
+      unsubscribed_at: Time.current
+    )
+
+    assert_not subscription.valid?
+    assert subscription.errors.of_kind?(:unsubscribed_at, "must be blank while subscription is active")
+  end
+
+  test "confirm overwrites any pre-filled confirmed at with the transition time" do
+    subscription = Subscription.create!(subscriber: subscribers(:reader_without_subscription), status: "pending_confirmation")
+    subscription.confirmed_at = 1.day.ago
+
+    freeze_time do
+      assert_changes -> { subscription.reload.confirmed_at }, to: Time.current do
+        assert subscription.confirm
+      end
+    end
+  end
+
+  test "unsubscribe overwrites any pre-filled unsubscribed at with the transition time" do
+    subscription = subscriptions(:reader_one_active)
+    subscription.unsubscribed_at = 1.day.ago
+
+    freeze_time do
+      assert_changes -> { subscription.reload.unsubscribed_at }, to: Time.current do
+        assert subscription.unsubscribe
+      end
+    end
+  end
+
+  test "does not allow moving active subscriptions back to pending confirmation" do
+    subscription = subscriptions(:reader_one_active)
+    subscription.status = "pending_confirmation"
+    subscription.confirmed_at = nil
+
+    assert_not subscription.valid?
+    assert subscription.errors.of_kind?(:status, "cannot be moved from 'active' to 'pending_confirmation'")
+  end
+
+  test "does not allow reactivating unsubscribed subscriptions" do
+    subscription = subscriptions(:reader_four_ended_history)
+    subscription.status = "active"
+    subscription.unsubscribed_at = nil
+
+    assert_not subscription.valid?
+    assert subscription.errors.of_kind?(:status, "cannot be moved from 'unsubscribed' to 'active'")
+  end
+
+  test "db constraint only allows one current subscription per subscriber" do
     subscriber = subscribers(:reader_one)
 
     assert_db_constraint_violation do
-      Subscription.new(subscriber: subscriber, active: true, start_date: Date.current).save!(validate: false)
+      Subscription.new(subscriber: subscriber, status: "pending_confirmation").save!(validate: false)
     end
   end
 
-  test "db constraint requires start date for active subscriptions" do
+  test "db constraint enforces valid status" do
     subscriber = subscribers(:reader_without_subscription)
 
     assert_db_constraint_violation do
-      Subscription.new(subscriber: subscriber, active: true, start_date: nil).save!(validate: false)
+      Subscription.new(subscriber: subscriber, status: "not-a-status").save!(validate: false)
     end
   end
 
-  test "db constraint requires blank end date for active subscriptions" do
+  test "db constraint requires confirmed at for active subscriptions" do
+    subscriber = subscribers(:reader_without_subscription)
+
+    assert_db_constraint_violation do
+      Subscription.new(subscriber: subscriber, status: "active", confirmed_at: nil).save!(validate: false)
+    end
+  end
+
+  test "db constraint requires blank unsubscribed at for active subscriptions" do
     subscriber = subscribers(:reader_without_subscription)
 
     assert_db_constraint_violation do
       Subscription.new(
         subscriber: subscriber,
-        active: true,
-        start_date: Date.current,
-        end_date: Date.current
+        status: "active",
+        confirmed_at: Time.current,
+        unsubscribed_at: Time.current
       ).save!(validate: false)
     end
   end
 
-  test "db constraint enforces end date is after or equal to start date" do
+  test "db constraint requires blank lifecycle timestamps for pending subscriptions" do
     subscriber = subscribers(:reader_without_subscription)
 
     assert_db_constraint_violation do
       Subscription.new(
         subscriber: subscriber,
-        active: false,
-        start_date: Date.current,
-        end_date: Date.yesterday
+        status: "pending_confirmation",
+        confirmed_at: Time.current,
+        unsubscribed_at: Time.current
+      ).save!(validate: false)
+    end
+  end
+
+  test "db constraint requires unsubscribed at for unsubscribed subscriptions" do
+    subscriber = subscribers(:reader_without_subscription)
+
+    assert_db_constraint_violation do
+      Subscription.new(subscriber: subscriber, status: "unsubscribed", unsubscribed_at: nil).save!(validate: false)
+    end
+  end
+
+  test "db constraint rejects confirmed at for pending subscriptions" do
+    subscriber = subscribers(:reader_without_subscription)
+
+    assert_db_constraint_violation do
+      Subscription.new(
+        subscriber: subscriber,
+        status: "pending_confirmation",
+        confirmed_at: Time.current
       ).save!(validate: false)
     end
   end

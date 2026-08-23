@@ -8,7 +8,7 @@ module Admin::SubscribersHelper
   end
 
   def admin_subscriber_status_text(subscriber)
-    subscriber.active? ? "Active" : "Inactive"
+    subscriber.status.humanize
   end
 
   def admin_subscriber_updated_at_text(subscriber)
@@ -17,6 +17,10 @@ module Admin::SubscribersHelper
 
   def admin_subscribers_selected_status
     params[:status].presence
+  end
+
+  def admin_subscribers_status_options
+    Subscription::STATUSES.map { |status| [ status.humanize, status ] }
   end
 
   def admin_subscribers_filtering?

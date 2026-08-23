@@ -1,6 +1,7 @@
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
+require_relative "test_helpers/flash_test_helper"
 require_relative "test_helpers/session_test_helper"
 
 module ActiveSupport
@@ -30,5 +31,14 @@ module ActiveSupport
         record.site_image.attach(io: file, filename: "site_image.png", content_type: "image/png")
       end
     end
+
+    def after_teardown
+      Rails.cache.clear
+      super
+    end
   end
+end
+
+class ActionDispatch::IntegrationTest
+  include FlashTestHelper
 end
