@@ -35,6 +35,10 @@ module Post::Emailing
     email_status_pending?
   end
 
+  def pending_emails_were_stopped?
+    saved_change_to_email_status?(from: "pending", to: "not_started")
+  end
+
   def start_emails!
     update(email_status: "pending")
   end

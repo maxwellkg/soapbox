@@ -45,7 +45,10 @@ class Post < ApplicationRecord
   end
 
   def unpublish!
-    update(status: "draft")
+    self.status = :draft
+    self.email_status = :not_started if email_status_pending?
+
+    save
   end
 
   private
