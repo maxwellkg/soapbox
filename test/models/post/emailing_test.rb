@@ -195,9 +195,18 @@ class Post::EmailingTest < ActiveSupport::TestCase
     assert_enqueued_emails num_active_subscriptions
   end
 
-  test "can be unpublished after emails are initiated" do
+  test "unpublishing preserves initiated email history" do
     post = posts(:emailed)
 
-    assert_nothing_raised { post.draft! }
+    assert_no_changes -> { post.email_status } do
+      assert_no_changes -> { post.start_emails_job_key } do
+        assert_no_changes -> { post.emails.ids } do
+          assert post.unpublish!
+        end
+      end
+    end
+
+    post.reload
+    assert_predicate post, :draft?
   end
 end

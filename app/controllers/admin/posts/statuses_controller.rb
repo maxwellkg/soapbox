@@ -26,7 +26,9 @@ class Admin::Posts::StatusesController < Admin::ApplicationController
 
     def status_change_message(command)
       if @post.saved_change_to_status?
-        "Post was successfully #{status_change_verb(command)}."
+        message = "Post was successfully #{status_change_verb(command)}."
+        message << " Post emails were successfully stopped." if @post.pending_emails_were_stopped?
+        message
       else
         "Post status was unchanged."
       end

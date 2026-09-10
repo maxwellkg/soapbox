@@ -40,6 +40,20 @@ class Admin::Posts::StatusesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Post was successfully unpublished.", flash[:success]
   end
 
+  test "unpublishes a post and stops its pending emails" do
+    sign_in_as(@author)
+    post_record = posts(:pending_email)
+
+    assert_changes -> { post_record.reload.status }, from: "published", to: "draft" do
+      assert_changes -> { post_record.reload.email_status }, from: "pending", to: "not_started" do
+        patch unpublish_admin_post_path(post_record)
+      end
+    end
+
+    assert_redirected_to admin_post_path(post_record)
+    assert_equal "Post was successfully unpublished. Post emails were successfully stopped.", flash[:success]
+  end
+
   test "shows unchanged message when status is unchanged" do
     sign_in_as(@author)
     published_post = posts(:published)

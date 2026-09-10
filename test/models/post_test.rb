@@ -93,6 +93,18 @@ class PostTest < ActiveSupport::TestCase
     end
   end
 
+  test "unpublishing stops pending emails" do
+    post = posts(:pending_email)
+
+    assert post.unpublish!
+
+    post.reload
+    assert_predicate post, :draft?
+    assert_nil post.published_at
+    assert_predicate post, :email_status_not_started?
+    assert_nil post.start_emails_job_key
+  end
+
   test "uses the slug as the param" do
     post = posts(:published)
 
