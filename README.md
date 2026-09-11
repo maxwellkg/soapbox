@@ -1,6 +1,6 @@
 # Soapbox
 
-![Soapbox Logo](docs/screenshots/soapbox_logo.png)
+<img src="docs/screenshots/soapbox_logo.png" width="150" alt="Soapbox Logo">
 
 Soapbox is a self-hosted, single-author blogging application built with Ruby on Rails. It gives one person a simple way to publish writing on the web, manage subscribers, and send posts to readers by email.
 
