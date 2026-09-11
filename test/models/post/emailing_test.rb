@@ -125,6 +125,25 @@ class Post::EmailingTest < ActiveSupport::TestCase
     end
   end
 
+  test "stopping email delivery prevents the delayed job from sending emails" do
+    post = posts(:published)
+
+    assert post.start_emails!
+    assert post.email_status_pending?
+    job_key = post.start_emails_job_key
+
+    assert post.stop_emails!
+    assert post.email_status_not_started?
+    assert_nil post.start_emails_job_key
+
+    assert_no_difference -> { PostEmail.count } do
+      Post::StartEmailsJob.perform_now(post: post, key: job_key)
+    end
+
+    assert post.reload.email_status_not_started?
+    assert_enqueued_emails 0
+  end
+
   test "enqueues a job to start the emails" do
     post = posts(:published)
     job_key = post.start_emails_job_key
