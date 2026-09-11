@@ -36,15 +36,24 @@ module Admin::PostsHelper
               data: { turbo_confirm: "delete this post?" }
   end
 
-  def admin_posts_selected_status
-    params[:status].presence
+  def admin_posts_searching_or_filtering?
+    admin_posts_searching? || admin_posts_filtering?
   end
 
-  def admin_posts_searching?
-    search_term.present? || admin_posts_selected_status.present?
+  def admin_posts_selected_status
+    params[:status].presence
   end
 
   def admin_num_matching_posts_text
     pluralize(@page.unpaginated_record_count, "matching post")
   end
+
+  private
+    def admin_posts_searching?
+      search_term.present?
+    end
+
+    def admin_posts_filtering?
+      admin_posts_selected_status.present?
+    end
 end

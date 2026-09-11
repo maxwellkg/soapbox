@@ -14,7 +14,7 @@
 </section>
 
 <section class="admin-list">
-  <% if admin_subscribers_searching? %>
+  <% if admin_subscribers_searching_or_filtering? %>
     <p><%= admin_num_matching_subscribers_text %></p>
   <% end %>
 
