@@ -7,8 +7,6 @@ module Admin::Posts::EmailStatusesHelper
     end
   end
 
-
-
   private
     def admin_post_start_emails_button
       button_to "start emails",
