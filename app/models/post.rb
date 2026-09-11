@@ -51,6 +51,10 @@ class Post < ApplicationRecord
     save
   end
 
+  def excerpt
+    Excerpt.new(self).text
+  end
+
   private
     def published_posts_must_have_content
       if content.content.blank?

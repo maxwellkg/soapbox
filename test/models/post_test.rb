@@ -120,6 +120,34 @@ class PostTest < ActiveSupport::TestCase
     assert_equal "this-is-a-really-really-really-really-really-reall", post.send(:default_slug)
   end
 
+  test "excerpt returns opening words without ellipsis when content is short" do
+    post = Post.new(title: "Short")
+    post.content = "Hello world from Soapbox"
+
+    assert_equal "Hello world from Soapbox", post.excerpt
+  end
+
+  test "excerpt returns opening eighty words with ellipsis when content runs longer" do
+    post = Post.new(title: "Long")
+    post.content = ([ "word" ] * 85).join(" ")
+
+    assert_equal "#{([ "word" ] * 80).join(" ")}...", post.excerpt
+  end
+
+  test "excerpt derives plain text from content" do
+    post = Post.new(title: "Rich")
+    post.content = "Some **bold** words and more"
+
+    assert_equal "Some bold words and more", post.excerpt
+  end
+
+  test "excerpt returns nil when content is blank" do
+    post = Post.new(title: "Blank")
+    post.content = ""
+
+    assert_nil post.excerpt
+  end
+
   test "ordered_for_display excludes drafts and orders by pinned then published_at desc" do
     ordered_posts = Post.ordered_for_display.to_a
 

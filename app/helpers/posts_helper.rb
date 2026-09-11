@@ -8,18 +8,15 @@ module PostsHelper
   end
 
   def post_preview_content(post)
-    post.summary? ? sanitize_content(post.summary.to_html) : post_preview_content_from_post_content(post)
+    post.summary? ? post_summary_preview(post) : post_excerpt_preview(post)
   end
 
-  def post_preview_content_from_post_content(post)
-    tag.p(post_summary_from_content(post))
+  def post_summary_preview(post)
+    sanitize_content(post.summary.to_html)
   end
 
-  def post_summary_from_content(post)
-    summary_words = ActionText::Content.new(post.content.to_html).to_plain_text.to_s.split
-    summary_text = summary_words.first(80).join(" ")
-
-    summary_words.count > 80 ? "#{summary_text}..." : summary_text
+  def post_excerpt_preview(post)
+    tag.p(post.excerpt)
   end
 
   def no_matching_posts_text
