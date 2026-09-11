@@ -29,7 +29,7 @@ class Post < ApplicationRecord
     validates :published_at, presence: { message: "must be set when the post is published" }
   end
 
-  before_validation :set_default_slug, if: :title_present_and_slug_blank?
+  before_validation :set_default_slug, if: -> { title.present? && slug.blank? }
   before_validation :set_published_at, if: :will_save_change_to_status?
 
   def to_param
@@ -60,10 +60,6 @@ class Post < ApplicationRecord
 
     def set_published_at
       self.published_at = published? ? Time.current : nil
-    end
-
-    def title_present_and_slug_blank?
-      title.present? && slug.blank?
     end
 
     def set_default_slug
