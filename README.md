@@ -13,3 +13,7 @@ Soapbox is still in active development.
 For setup, deployment, author guidance, and architecture documentation, see:
 
 https://docs.mgove.dev/2/soapbox
+
+## License
+
+Soapbox is licensed under the MIT License. See [LICENSE](LICENSE) for the full terms.
