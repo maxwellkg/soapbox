@@ -3,6 +3,9 @@ module Subscription::Notifications
 
   included do
     after_create_commit :send_new_subscriber_author_notification
+
+    # New subscriptions always start as pending_confirmation (enforced by validation),
+    # so the confirmation email is always sent on create.
     after_create_commit :send_confirmation_email
     after_commit :send_subscribed_email, if: -> { saved_change_to_status?(to: "active") }
   end
