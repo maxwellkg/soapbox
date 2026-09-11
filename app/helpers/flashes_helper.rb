@@ -4,34 +4,16 @@ module FlashesHelper
   end
 
   def flash_message_class(type)
-    case type.to_sym
-    when :success
-      "flash-message flash-success"
-    when :error
-      "flash-message flash-error"
-    when :notice
-      "flash-message flash-notice"
-    when :alert
-      "flash-message flash-alert"
-    else
-      "flash-message flash-neutral"
-    end
+    "flash-message flash-#{normalized_flash_type(type)}"
   end
 
   def flash_message_role(type)
-    type.to_sym.in?([ :alert, :error ]) ? "alert" : "status"
+    flash_message_alert_role?(type) ? "alert" : "status"
   end
 
   def flash_message_prefix(type)
-    case type.to_sym
-    when :success
-      "Success"
-    when :error
-      "Error"
-    when :alert
-      "Alert"
-    when :notice
-      "Notice"
+    if recognized_flash_type?(type)
+      type.to_s.titleize
     else
       "Message"
     end
@@ -48,6 +30,18 @@ module FlashesHelper
   end
 
   private
+    def normalized_flash_type(type)
+      recognized_flash_type?(type) ? type.to_s : "neutral"
+    end
+
+    def recognized_flash_type?(type)
+      type.to_sym.in?(%i[ success error notice alert ])
+    end
+
+    def flash_message_alert_role?(type)
+      type.to_sym.in?(%i[ alert error ])
+    end
+
     def flash_collection
       flash.map { |type, message| { type:, message: } }
     end
