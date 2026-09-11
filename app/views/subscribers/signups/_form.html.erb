@@ -1,4 +1,4 @@
-<%= turbo_frame_tag signup_form_tf_id do %>
+<%= turbo_frame_tag signup_frame_id do %>
   <%= form_with model: @signup, url: signups_path do |form| %>
     <% if @signup.errors.any? %>
       <div id="<%= signup_errors_id %>" class="signup-errors" role="alert">

@@ -1,5 +1,5 @@
 module FlashesHelper
-  def flashes_tf_id
+  def flashes_frame_id
     "flashes"
   end
 
@@ -24,7 +24,7 @@ module FlashesHelper
   end
 
   def update_flashes
-    turbo_stream.update flashes_tf_id do
+    turbo_stream.update flashes_frame_id do
       flash_messages_display
     end
   end
