@@ -81,7 +81,7 @@ class SubscriberTest < ActiveSupport::TestCase
   end
 
   test "scopes to active subscribers by latest subscription" do
-    active = %i[ reader_one reader_two ].map { |key| subscribers(key) }
+    active = %i[ reader_one reader_two pagination_subscriber_01 pagination_subscriber_02 pagination_subscriber_03 pagination_subscriber_04 pagination_subscriber_05 pagination_subscriber_06 pagination_subscriber_07 pagination_subscriber_08 pagination_subscriber_09 pagination_subscriber_10 ].map { |key| subscribers(key) }
 
     assert_equal active.map(&:id).sort, Subscriber.active.pluck(:id).sort
   end
@@ -89,13 +89,13 @@ class SubscriberTest < ActiveSupport::TestCase
   test "scopes to pending confirmation subscribers by latest subscription" do
     subscription = Subscription.create!(subscriber: subscribers(:reader_without_subscription), status: "pending_confirmation")
 
-    pending = [ subscribers(:reader_pending), subscription.subscriber ]
+    pending = [ subscribers(:reader_pending), subscription.subscriber ] + %i[ pagination_subscriber_11 pagination_subscriber_12 pagination_subscriber_13 pagination_subscriber_14 pagination_subscriber_15 ].map { |key| subscribers(key) }
 
     assert_equal pending.map(&:id).sort, Subscriber.pending_confirmation.pluck(:id).sort
   end
 
   test "scopes to unsubscribed subscribers by latest subscription" do
-    unsubscribed = %i[ reader_three reader_four reader_unsubscribed ].map { |key| subscribers(key) }
+    unsubscribed = %i[ reader_three reader_four reader_unsubscribed pagination_subscriber_16 pagination_subscriber_17 pagination_subscriber_18 pagination_subscriber_19 pagination_subscriber_20 pagination_subscriber_21 ].map { |key| subscribers(key) }
 
     assert_equal unsubscribed.map(&:id).sort, Subscriber.unsubscribed.pluck(:id).sort
   end

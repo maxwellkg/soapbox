@@ -16,13 +16,25 @@ The request lifecycle also reflects this business rule. Until both singleton rec
 
 Subscriptions are modeled as periods of time, not as a single boolean flag attached to a subscriber forever. This preserves useful business history: a reader can subscribe, unsubscribe, and later re-subscribe, and each period remains auditable as a separate record.
 
-`Subscriber#activate` and `Subscriber#deactivate` are intentionally idempotent. Repeating the same command does not create duplicate active state or produce noisy failures. That behavior supports real entry points such as repeat form submissions, repeated admin actions, and unsubscribe links clicked more than once.
+`Subscriber#subscribe` and `Subscriber#unsubscribe` are intentionally idempotent. Repeating the same command does not create duplicate state or produce noisy failures. That behavior supports real entry points such as repeat form submissions, repeated admin actions, and unsubscribe links clicked more than once.
 
-A subscriber may have many `Subscription` rows over time, but only one active row at once. Active periods require a `start_date` and must not have an `end_date`; deactivation sets `end_date` (defaulting to `Date.current` when missing). The key business rule is that ended periods are historical facts and are not reopened. When someone returns to the list after unsubscribing, the system creates a new active period instead of mutating old history.
+A subscriber may have many `Subscription` rows over time, but only one *current* row — `pending_confirmation` or `active` — at once. Confirming sets `confirmed_at`; unsubscribing sets `unsubscribed_at`, and each status permits only the matching combination of the two. The key business rule is that ended periods are historical facts and are not reopened. When someone returns to the list after unsubscribing, the system creates a new subscription instead of mutating old history.
 
-Unsubscribe behavior is deliberately routed through the same lifecycle. `Subscriber#unsubscribe` delegates to `deactivate`, so public unsubscribe links and admin state changes share one set of domain rules rather than drifting into separate implementations.
+Unsubscribe behavior is deliberately routed through the same lifecycle. `Subscriber#unsubscribe` delegates to the latest subscription's own `unsubscribe`, so public unsubscribe links and admin state changes share one set of domain rules rather than drifting into separate implementations.
 
-These behaviors are enforced in two places. `Subscription` model validations express the domain clearly in code, and the database backs them with a partial unique index (`active = 1`) plus check constraints for start/end date consistency. That dual enforcement keeps the lifecycle trustworthy even if callbacks or validations are bypassed.
+These behaviors are enforced in two places. `Subscription` model validations express the domain clearly in code, and the database backs them with a partial unique index on `subscriber_id` where `status IN ('pending_confirmation', 'active')`, plus check constraints tying each status to its permitted timestamps. That dual enforcement keeps the lifecycle trustworthy even if callbacks or validations are bypassed.
+
+### Why a subscriber reads its status through `subscriptions`
+
+A subscriber has no status column of its own. `Subscriber#status` delegates to `latest_subscription`, and the `active`, `pending_confirmation` and `unsubscribed` scopes select on the newest subscription per subscriber through `with_latest_subscription`. The correlated subquery that scope uses is the least pleasant SQL in the application, and it is deliberate.
+
+The obvious alternative is a dedicated association — `has_one :current_subscription, -> { current }` — which would be preloadable, would drop the subquery in favour of an ordinary join, and would let the database's own definition of "current" be the only one in play. It was tried, and it fails on two independent counts.
+
+The first is replacement. Assigning to a `has_one` nullifies the foreign key on the record it replaces. Ended subscriptions are historical facts, so detaching one is never a correct outcome, and `subscriber_id` is `NOT NULL` in any case. The association's built-in semantics contradict the very invariant this part of the model exists to protect.
+
+The second is subtler and more damaging. `subscriptions` and a `current_subscription` association cache independently over the same rows, and nothing reconciles them. Creating a subscription through the collection leaves the `has_one` returning the previous row, and holding a separate object for it, until something calls `reload`. A reader could be shown their pre-signup status immediately after signing up. Keeping the two in step means remembering an explicit reload at every mutation site, which is precisely the caller discipline the rest of this model is built to make unnecessary.
+
+Reading through the single `subscriptions` association avoids both. There is one cache, and it is the same one that writes go through, so the subscriber's view of itself cannot fall out of step with its own history. The awkward subquery is the price of that guarantee, not an oversight.
 
 ## Post email status transitions
 
@@ -38,7 +50,7 @@ When an editor stops emailing (`stop_emails!`), status returns to `not_started`.
 
 When the delayed start job executes, `Post::StartEmailsJob` calls `initiate_emails_using_key`. That method compares the job's key to the post's current `start_emails_job_key` and proceeds only on a match. The key therefore acts as a version token: if someone started, stopped, and restarted emailing, older enqueued jobs are intentionally ignored.
 
-If the key matches, `initiate_emails` builds one `PostEmail` record for each active subscription and transitions the post to `initiated`. Creating each `PostEmail` then triggers its own `after_create_commit` callback (`enqueue_email`), which enqueues `PostEmailsMailer.post_email.deliver_later`. This second callback layer is what turns one post-level initiation event into many recipient-level delivery jobs.
+If the key matches, `initiate_emails` builds one `PostEmail` record for each active subscription and transitions the post to `initiated`. Creating each `PostEmail` then triggers its own `after_create_commit` callback (`enqueue_email`), which enqueues `PostMailer.post_email.deliver_later`. This second callback layer is what turns one post-level initiation event into many recipient-level delivery jobs.
 
 The result is a two-stage fan-out flow: a single post-level callback chain (`pending` commit -> start job) followed by per-recipient callback chains (`PostEmail` commit -> mail delivery job). A unique index on `[post_id, subscription_id]` guarantees that each subscription receives at most one delivery record for a given post, even if retries or race conditions occur.
 

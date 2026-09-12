@@ -34,7 +34,22 @@ class SubscriptionTest < ActiveSupport::TestCase
       subscriptions(:reader_one_active),
       subscriptions(:reader_two_active),
       subscriptions(:reader_three_active),
-      subscriptions(:reader_four_active)
+      subscriptions(:reader_four_active),
+      subscriptions(:pagination_subscriber_01),
+      subscriptions(:pagination_subscriber_02),
+      subscriptions(:pagination_subscriber_03),
+      subscriptions(:pagination_subscriber_04),
+      subscriptions(:pagination_subscriber_05),
+      subscriptions(:pagination_subscriber_06),
+      subscriptions(:pagination_subscriber_07),
+      subscriptions(:pagination_subscriber_08),
+      subscriptions(:pagination_subscriber_09),
+      subscriptions(:pagination_subscriber_10),
+      subscriptions(:pagination_subscriber_11),
+      subscriptions(:pagination_subscriber_12),
+      subscriptions(:pagination_subscriber_13),
+      subscriptions(:pagination_subscriber_14),
+      subscriptions(:pagination_subscriber_15)
     ]
 
     assert_equal current_subscriptions.map(&:id).sort, Subscription.current.map(&:id).sort
@@ -45,7 +60,17 @@ class SubscriptionTest < ActiveSupport::TestCase
       subscriptions(:reader_one_active),
       subscriptions(:reader_two_active),
       subscriptions(:reader_three_active),
-      subscriptions(:reader_four_active)
+      subscriptions(:reader_four_active),
+      subscriptions(:pagination_subscriber_01),
+      subscriptions(:pagination_subscriber_02),
+      subscriptions(:pagination_subscriber_03),
+      subscriptions(:pagination_subscriber_04),
+      subscriptions(:pagination_subscriber_05),
+      subscriptions(:pagination_subscriber_06),
+      subscriptions(:pagination_subscriber_07),
+      subscriptions(:pagination_subscriber_08),
+      subscriptions(:pagination_subscriber_09),
+      subscriptions(:pagination_subscriber_10)
     ]
 
     assert_equal active_subscriptions.map(&:id).sort, Subscription.active.map(&:id).sort
@@ -62,7 +87,13 @@ class SubscriptionTest < ActiveSupport::TestCase
       subscriptions(:reader_unsubscribed_only),
       subscriptions(:reader_three_inactive_history),
       subscriptions(:reader_four_inactive),
-      subscriptions(:reader_four_ended_history)
+      subscriptions(:reader_four_ended_history),
+      subscriptions(:pagination_subscriber_16),
+      subscriptions(:pagination_subscriber_17),
+      subscriptions(:pagination_subscriber_18),
+      subscriptions(:pagination_subscriber_19),
+      subscriptions(:pagination_subscriber_20),
+      subscriptions(:pagination_subscriber_21)
     ]
 
     assert_equal unsubscribed_subscriptions.map(&:id).sort, Subscription.unsubscribed.map(&:id).sort
