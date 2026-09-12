@@ -8,24 +8,31 @@ module Pagination::PaginationHelper
   end
 
   private
+    PREVIOUS_PAGE_LABEL = "Previous"
+    NEXT_PAGE_LABEL = "Next"
+
     def show_pagination_controls?
-      @page.present? && @page.total_pages > 1
+      more_than_one_page?
+    end
+
+    def more_than_one_page?
+      @page.others?
     end
 
     def pagination_previous_control
-      if @page.has_previous?
-        link_to "Previous", pagination_path(@page.previous_page), class: "btn pagination-link"
-      else
-        disabled_pagination_control("Previous")
-      end
+      @page.has_previous? ? link_to_previous_page : disabled_pagination_control(PREVIOUS_PAGE_LABEL)
+    end
+
+    def link_to_previous_page
+      link_to PREVIOUS_PAGE_LABEL, pagination_path(@page.previous_page), class: "btn pagination-link"
     end
 
     def pagination_next_control
-      if @page.has_next?
-        link_to "Next", pagination_path(@page.next_page), class: "btn pagination-link"
-      else
-        disabled_pagination_control("Next")
-      end
+      @page.has_next? ? link_to_next_page : disabled_pagination_control(NEXT_PAGE_LABEL)
+    end
+
+    def link_to_next_page
+      link_to NEXT_PAGE_LABEL, pagination_path(@page.next_page), class: "btn pagination-link"
     end
 
     def pagination_page_indicator

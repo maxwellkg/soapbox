@@ -37,12 +37,16 @@ class Pagination::Page
     page_number + 1 if has_next?
   end
 
+  def others?
+    total_pages > 1
+  end
+
   def total_pages
     @total_pages ||= no_matching_records? ? 1 : calculated_total_pages
   end
 
   def records
-    @records ||= @query.limit(records_per_page).offset(offset)
+    @records ||= paginated_query
   end
 
   def unpaginated_record_count
@@ -76,5 +80,11 @@ class Pagination::Page
 
     def calculated_total_pages
       (unpaginated_record_count.to_f / records_per_page).ceil
+    end
+
+    def paginated_query
+      @query
+        .limit(records_per_page)
+        .offset(offset)
     end
 end
