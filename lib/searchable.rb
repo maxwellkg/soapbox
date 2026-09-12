@@ -3,9 +3,15 @@ module Searchable
     # Ensure descendants are fully loaded in rake/runtime contexts.
     Rails.application.eager_load!
 
-    ApplicationRecord.descendants.select do |model|
-      model <= Searchable::Model && model.indexes?
-    end
+    ApplicationRecord.descendants.select(&method(:model_is_indexed?))
+  end
+
+  def self.model_is_indexed?(model)
+    model_includes_searchable?(model) && model.indexes?
+  end
+
+  def self.model_includes_searchable?(model)
+    Searchable::Model.in?(model.ancestors)
   end
 
   def self.reindex_all!
