@@ -1,11 +1,14 @@
 class Subscriber < ApplicationRecord
   include Searchable::Model
-  include Subscriber::Unsubscribable
+  include Unsubscribable
 
   has_many :subscriptions, dependent: :destroy, inverse_of: :subscriber, autosave: true
 
   after_initialize :ensure_latest_subscription, if: :new_record?
 
+  # A subscriber's status is always the status of its most recent subscription,
+  # read through the :subscriptions association rather than through one of its own.
+  # See fuller explanation in note below on .latest_subscription
   scope :with_latest_subscription, -> {
     joins(:subscriptions).where(<<~SQL)
       subscriptions.id = (
