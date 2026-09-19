@@ -26,12 +26,8 @@ class Blog < ApplicationRecord
     Author.instance!
   end
 
-  def as_atom_feed_xml
-    atom_feed.to_xml
-  end
-
-  def atom_feed
-    feed.atom_feed
+  def feed_xml
+    feed.as_xml
   end
 
   def feed

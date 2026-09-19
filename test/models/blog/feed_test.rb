@@ -6,7 +6,7 @@ class Blog::FeedTest < ActiveSupport::TestCase
 
   test "atom_feed builds channel metadata" do
     blog = Blog.instance
-    atom_feed = Blog::Feed.new(blog).atom_feed
+    atom_feed = Blog::Feed.new(blog).atom
 
     assert_equal blog.title, atom_feed.title.content
     assert_equal expected_feed_id(blog), atom_feed.id.content
@@ -14,7 +14,7 @@ class Blog::FeedTest < ActiveSupport::TestCase
   end
 
   test "atom_feed has self and alternate links" do
-    atom_feed = Blog::Feed.new(Blog.instance).atom_feed
+    atom_feed = Blog::Feed.new(Blog.instance).atom
 
     self_link = atom_feed.links.find { |link| link.rel == "self" }
     alternate_link = atom_feed.links.find { |link| link.rel == "alternate" }
@@ -24,7 +24,7 @@ class Blog::FeedTest < ActiveSupport::TestCase
   end
 
   test "atom_feed includes published posts only in published_at descending order" do
-    atom_feed = Blog::Feed.new(Blog.instance).atom_feed
+    atom_feed = Blog::Feed.new(Blog.instance).atom
 
     expected_posts = Post.published.with_markdown_content.order(published_at: :desc).to_a
 
@@ -43,14 +43,14 @@ class Blog::FeedTest < ActiveSupport::TestCase
   test "atom_feed raises when singleton author is missing" do
     Author.delete_all
 
-    assert_raises(ActiveRecord::RecordNotFound) { Blog::Feed.new(Blog.instance).atom_feed }
+    assert_raises(ActiveRecord::RecordNotFound) { Blog::Feed.new(Blog.instance).atom }
   end
 
   test "atom_feed updated falls back to current time when no published posts exist" do
     Post.update_all(status: "draft", published_at: nil, email_status: "not_started", start_emails_job_key: nil)
 
     freeze_time do
-      atom_feed = Blog::Feed.new(Blog.instance).atom_feed
+      atom_feed = Blog::Feed.new(Blog.instance).atom
 
       assert_equal Time.current.utc, atom_feed.updated.content
     end

@@ -8,7 +8,7 @@ class PostsController < ApplicationController
 
   def index
     respond_to do |format|
-      format.atom { render xml: @blog.as_atom_feed_xml }
+      format.atom { render xml: @blog.feed_xml }
       format.html { set_posts }
     end
   end

@@ -99,7 +99,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     get feed_url(format: :atom)
 
     assert_response :success
-    assert_equal Blog.instance.as_atom_feed_xml, response.body
+    assert_equal Blog.instance.feed_xml, response.body
   end
 
   test "index paginates search results" do

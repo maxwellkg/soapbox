@@ -9,11 +9,11 @@ class Blog::Feed
     @blog = blog
   end
 
-  def to_xml
-    atom_feed.to_xml
+  def as_xml
+    atom.to_xml
   end
 
-  def atom_feed
+  def atom
     build_atom_feed
   end
 
