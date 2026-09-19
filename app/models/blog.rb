@@ -1,4 +1,6 @@
 class Blog < ApplicationRecord
+  include Authorable
+
   has_markdown :description
   has_one_attached :site_image
   attribute :should_remove_site_image, :boolean, default: false
@@ -20,10 +22,6 @@ class Blog < ApplicationRecord
     def instance?
       exists?
     end
-  end
-
-  def author
-    Author.instance!
   end
 
   def feed_xml

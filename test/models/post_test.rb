@@ -111,6 +111,12 @@ class PostTest < ActiveSupport::TestCase
     assert_equal post.slug, post.to_param
   end
 
+  test "memoizes the author" do
+    post = posts(:published)
+
+    assert_same post.author, post.author
+  end
+
   test "determines the default slug" do
     post = Post.new(title: "This is a Title")
     assert_equal "this-is-a-title", post.send(:default_slug)

@@ -1,4 +1,5 @@
 class Post < ApplicationRecord
+  include Authorable
   include Post::Emailing
   include Post::Searchable
 
@@ -34,10 +35,6 @@ class Post < ApplicationRecord
 
   def to_param
     slug
-  end
-
-  def author
-    Author.instance!
   end
 
   def publish!

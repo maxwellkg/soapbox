@@ -94,15 +94,15 @@ class AuthorTest < ActiveSupport::TestCase
   end
 
   test "rejects creating a second author (at the db layer)" do
-    author = Author.new(email_address: "second@example.com", password: "password")
+    author = Author.new(
+      first_name: "Second",
+      last_name: "Author",
+      email_address: "second@example.com",
+      password: "password"
+    )
 
-    assert_db_constraint_violation do
+    assert_raises(ActiveRecord::RecordNotUnique) do
       author.save!(validate: false)
     end
   end
-
-  private
-    def assert_db_constraint_violation
-      assert_raises(ActiveRecord::StatementInvalid, ActiveRecord::RecordNotUnique) { yield }
-    end
 end
