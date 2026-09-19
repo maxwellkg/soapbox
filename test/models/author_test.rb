@@ -7,11 +7,11 @@ class AuthorTest < ActiveSupport::TestCase
   end
 
   test "full_name combines first and last names" do
-    assert_equal "Jane Doe", authors(:one).full_name
+    assert_equal "Jane Doe", authors(:instance).full_name
   end
 
   test "instance returns the singleton author" do
-    assert_equal authors(:one), Author.instance
+    assert_equal authors(:instance), Author.instance
   end
 
   test "instance? returns true when author exists" do
@@ -31,13 +31,13 @@ class AuthorTest < ActiveSupport::TestCase
   end
 
   test "authenticates with valid credentials" do
-    author = authors(:one)
+    author = authors(:instance)
 
     assert_equal author, Author.authenticate_by(email_address: author.email_address, password: "password")
   end
 
   test "requires a first name" do
-    author = authors(:one)
+    author = authors(:instance)
     author.first_name = nil
 
     assert_not author.valid?
@@ -48,7 +48,7 @@ class AuthorTest < ActiveSupport::TestCase
   end
 
   test "requires a last name" do
-    author = authors(:one)
+    author = authors(:instance)
     author.last_name = nil
 
     assert_not author.valid?
@@ -59,7 +59,7 @@ class AuthorTest < ActiveSupport::TestCase
   end
 
   test "requires an email address" do
-    author = authors(:one)
+    author = authors(:instance)
     author.email_address = nil
 
     assert_not author.valid?
@@ -70,7 +70,7 @@ class AuthorTest < ActiveSupport::TestCase
   end
 
   test "requires a valid email address format" do
-    author = authors(:one)
+    author = authors(:instance)
     author.email_address = "not-an-email"
 
     assert_not author.valid?
@@ -81,7 +81,7 @@ class AuthorTest < ActiveSupport::TestCase
   end
 
   test "is valid when all validations are met" do
-    author = authors(:one)
+    author = authors(:instance)
 
     assert author.valid?
   end

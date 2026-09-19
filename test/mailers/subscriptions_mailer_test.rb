@@ -42,7 +42,7 @@ class SubscriptionsMailerTest < ActionMailer::TestCase
   end
 
   test "subscribed email sends to the subscriber with the blog title subject" do
-    subscription = subscriptions(:reader_one_active)
+    subscription = subscriptions(:reader_one_current)
     email = SubscriptionsMailer.with(subscription: subscription).subscribed
 
     assert_equal [ subscription.subscriber.email_address ], email.to
@@ -50,7 +50,7 @@ class SubscriptionsMailerTest < ActionMailer::TestCase
   end
 
   test "subscribed email includes unsubscribe link" do
-    subscription = subscriptions(:reader_one_active)
+    subscription = subscriptions(:reader_one_current)
     email = SubscriptionsMailer.with(subscription: subscription).subscribed
 
     unsubscribe_path = "/subscribers/#{subscription.subscriber.unsubscribe_token}/unsubscribe"
@@ -59,7 +59,7 @@ class SubscriptionsMailerTest < ActionMailer::TestCase
   end
 
   test "subscribed email sets list_unsubscribe header" do
-    subscription = subscriptions(:reader_one_active)
+    subscription = subscriptions(:reader_one_current)
     email = SubscriptionsMailer.with(subscription: subscription).subscribed
 
     assert_not_nil email.header["List-Unsubscribe"]
@@ -69,7 +69,7 @@ class SubscriptionsMailerTest < ActionMailer::TestCase
   test "author notification, confirmation, and subscribed emails render html and text parts with the blog title" do
     author_notification_subscription = Subscription.create!(subscriber: create_subscriber_without_subscription("author-notification@example.com"), status: "pending_confirmation")
     confirmation_subscription = Subscription.create!(subscriber: create_subscriber_without_subscription("confirmation@example.com"), status: "pending_confirmation")
-    subscribed_subscription = subscriptions(:reader_one_active)
+    subscribed_subscription = subscriptions(:reader_one_current)
 
     author_notification = SubscriptionsMailer.with(subscription: author_notification_subscription).new_subscriber_author_notification
     assert_equal "multipart/alternative", author_notification.mime_type
@@ -93,7 +93,7 @@ class SubscriptionsMailerTest < ActionMailer::TestCase
   test "html emails apply premailer transformations" do
     author_notification_subscription = Subscription.create!(subscriber: create_subscriber_without_subscription("premailer-author-notification@example.com"), status: "pending_confirmation")
     confirmation_subscription = Subscription.create!(subscriber: create_subscriber_without_subscription("premailer-confirmation@example.com"), status: "pending_confirmation")
-    subscribed_subscription = subscriptions(:reader_one_active)
+    subscribed_subscription = subscriptions(:reader_one_current)
 
     author_notification = SubscriptionsMailer.with(subscription: author_notification_subscription).new_subscriber_author_notification
     author_notification.deliver_now

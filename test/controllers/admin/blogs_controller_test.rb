@@ -2,7 +2,7 @@ require "test_helper"
 
 class Admin::BlogsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @author = authors(:one)
+    @author = authors(:instance)
     @blog = blogs(:instance)
   end
 

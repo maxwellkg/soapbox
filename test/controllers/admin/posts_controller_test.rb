@@ -2,7 +2,7 @@ require "test_helper"
 
 class Admin::PostsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @author = authors(:one)
+    @author = authors(:instance)
   end
 
   test "redirects unauthenticated access across post admin routes" do

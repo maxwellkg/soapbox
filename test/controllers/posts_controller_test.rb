@@ -21,7 +21,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "index displays go to admin action for authenticated author" do
-    sign_in_as(authors(:one))
+    sign_in_as(authors(:instance))
 
     get root_url
 
@@ -75,7 +75,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
 
   test "show displays edit post action for authenticated author" do
     post = posts(:published)
-    sign_in_as(authors(:one))
+    sign_in_as(authors(:instance))
 
     get post_url(post)
 

@@ -1,11 +1,11 @@
-reader_one_email:
+reader_one_emailed_post:
   post: emailed
-  subscription: reader_one_active
+  subscription: reader_one_current
 
-reader_two_email:
+reader_two_emailed_post:
   post: emailed
-  subscription: reader_two_active
+  subscription: reader_two_current
 
-reader_three_email:
+reader_three_emailed_post:
   post: emailed
-  subscription: reader_three_active
+  subscription: reader_three_previous_active

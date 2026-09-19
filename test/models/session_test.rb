@@ -9,7 +9,7 @@ class SessionTest < ActiveSupport::TestCase
   end
 
   test "belongs to author" do
-    author = authors(:one)
+    author = authors(:instance)
     session = author.sessions.create!(user_agent: "test", ip_address: "127.0.0.1")
 
     assert_equal author, session.author

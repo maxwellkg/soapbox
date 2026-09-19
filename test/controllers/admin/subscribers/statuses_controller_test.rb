@@ -2,7 +2,7 @@ require "test_helper"
 
 class Admin::Subscribers::StatusesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @author = authors(:one)
+    @author = authors(:instance)
   end
 
   test "redirects unauthenticated subscribe and unsubscribe" do

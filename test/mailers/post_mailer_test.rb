@@ -2,7 +2,7 @@ require "test_helper"
 
 class PostMailerTest < ActionMailer::TestCase
   test "email includes unsubscribe link" do
-    post_email = post_emails(:reader_one_email)
+    post_email = post_emails(:reader_one_emailed_post)
     email = PostMailer.with(post: post_email.post, subscriber: post_email.subscription.subscriber).post_email
 
     unsubscribe_path = "/subscribers/#{post_email.subscription.subscriber.unsubscribe_token}/unsubscribe"
@@ -11,7 +11,7 @@ class PostMailerTest < ActionMailer::TestCase
   end
 
   test "email sets list_unsubscribe header" do
-    post_email = post_emails(:reader_one_email)
+    post_email = post_emails(:reader_one_emailed_post)
     email = PostMailer.with(post: post_email.post, subscriber: post_email.subscription.subscriber).post_email
 
     assert_not_nil email.header["List-Unsubscribe"]
@@ -20,7 +20,7 @@ class PostMailerTest < ActionMailer::TestCase
   end
 
   test "email renders html and text parts" do
-    post_email = post_emails(:reader_one_email)
+    post_email = post_emails(:reader_one_emailed_post)
     email = PostMailer.with(post: post_email.post, subscriber: post_email.subscription.subscriber).post_email
 
     assert_equal "multipart/alternative", email.mime_type
@@ -28,7 +28,7 @@ class PostMailerTest < ActionMailer::TestCase
   end
 
   test "html part includes blog title and post content" do
-    post_email = post_emails(:reader_one_email)
+    post_email = post_emails(:reader_one_emailed_post)
     email = PostMailer.with(post: post_email.post, subscriber: post_email.subscription.subscriber).post_email
     html = email.html_part.body.decoded
 
@@ -37,7 +37,7 @@ class PostMailerTest < ActionMailer::TestCase
   end
 
   test "text part includes read online and unsubscribe links" do
-    post_email = post_emails(:reader_one_email)
+    post_email = post_emails(:reader_one_emailed_post)
     email = PostMailer.with(post: post_email.post, subscriber: post_email.subscription.subscriber).post_email
     text = email.text_part.body.decoded
 
@@ -46,7 +46,7 @@ class PostMailerTest < ActionMailer::TestCase
   end
 
   test "html email applies premailer transformations" do
-    post_email = post_emails(:reader_one_email)
+    post_email = post_emails(:reader_one_emailed_post)
 
     delivered_email = PostMailer.with(post: post_email.post, subscriber: post_email.subscription.subscriber).post_email
     delivered_email.deliver_now
@@ -58,7 +58,7 @@ class PostMailerTest < ActionMailer::TestCase
   end
 
   test "html email keeps highlighted code block styles" do
-    post_email = post_emails(:reader_one_email)
+    post_email = post_emails(:reader_one_emailed_post)
     post_email.post.update!(content: "```ruby\nputs 'hello'\n```")
 
     delivered_email = PostMailer.with(post: post_email.post, subscriber: post_email.subscription.subscriber).post_email

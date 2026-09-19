@@ -1,35 +1,35 @@
-reader_one_active:
+reader_one_current:
   subscriber: reader_one
   status: active
   confirmed_at: <%= Time.utc(2025, 8, 14, 12) %>
 
-reader_two_active:
+reader_two_current:
   subscriber: reader_two
   status: active
   confirmed_at: <%= Time.utc(2025, 6, 14, 12) %>
 
-reader_three_active:
+reader_three_previous_active:
   subscriber: reader_three
   status: active
   confirmed_at: <%= Time.utc(2025, 11, 1, 12) %>
 
-reader_three_inactive_history:
+reader_three_current_unsubscribed:
   subscriber: reader_three
   status: unsubscribed
   confirmed_at: <%= Time.utc(2025, 1, 1, 12) %>
   unsubscribed_at: <%= Time.utc(2025, 2, 15, 12) %>
 
-reader_four_active:
+reader_four_previous_active:
   subscriber: reader_four
   status: active
   confirmed_at: <%= Time.utc(2025, 9, 1, 12) %>
 
-reader_four_inactive:
+reader_four_previous_unsubscribed:
   subscriber: reader_four
   status: unsubscribed
   unsubscribed_at: <%= Time.utc(2025, 4, 1, 12) %>
 
-reader_four_ended_history:
+reader_four_current_unsubscribed:
   subscriber: reader_four
   status: unsubscribed
   confirmed_at: <%= Time.utc(2025, 3, 1, 12) %>
@@ -39,114 +39,114 @@ reader_pending_confirmation:
   subscriber: reader_pending
   status: pending_confirmation
 
-reader_unsubscribed_only:
+reader_unsubscribed_current:
   subscriber: reader_unsubscribed
   status: unsubscribed
   confirmed_at: <%= Time.utc(2025, 5, 1, 12) %>
   unsubscribed_at: <%= Time.utc(2025, 5, 10, 12) %>
 
-pagination_subscriber_01:
-  subscriber: pagination_subscriber_01
+pagination_active_reader_01:
+  subscriber: pagination_active_reader_01
   status: active
   confirmed_at: <%= Time.utc(2025, 1, 1, 12) %>
 
-pagination_subscriber_02:
-  subscriber: pagination_subscriber_02
+pagination_active_reader_02:
+  subscriber: pagination_active_reader_02
   status: active
   confirmed_at: <%= Time.utc(2025, 1, 2, 12) %>
 
-pagination_subscriber_03:
-  subscriber: pagination_subscriber_03
+pagination_active_reader_03:
+  subscriber: pagination_active_reader_03
   status: active
   confirmed_at: <%= Time.utc(2025, 1, 3, 12) %>
 
-pagination_subscriber_04:
-  subscriber: pagination_subscriber_04
+pagination_active_reader_04:
+  subscriber: pagination_active_reader_04
   status: active
   confirmed_at: <%= Time.utc(2025, 1, 4, 12) %>
 
-pagination_subscriber_05:
-  subscriber: pagination_subscriber_05
+pagination_active_reader_05:
+  subscriber: pagination_active_reader_05
   status: active
   confirmed_at: <%= Time.utc(2025, 1, 5, 12) %>
 
-pagination_subscriber_06:
-  subscriber: pagination_subscriber_06
+pagination_active_reader_06:
+  subscriber: pagination_active_reader_06
   status: active
   confirmed_at: <%= Time.utc(2025, 1, 6, 12) %>
 
-pagination_subscriber_07:
-  subscriber: pagination_subscriber_07
+pagination_active_reader_07:
+  subscriber: pagination_active_reader_07
   status: active
   confirmed_at: <%= Time.utc(2025, 1, 7, 12) %>
 
-pagination_subscriber_08:
-  subscriber: pagination_subscriber_08
+pagination_active_reader_08:
+  subscriber: pagination_active_reader_08
   status: active
   confirmed_at: <%= Time.utc(2025, 1, 8, 12) %>
 
-pagination_subscriber_09:
-  subscriber: pagination_subscriber_09
+pagination_active_reader_09:
+  subscriber: pagination_active_reader_09
   status: active
   confirmed_at: <%= Time.utc(2025, 1, 9, 12) %>
 
-pagination_subscriber_10:
-  subscriber: pagination_subscriber_10
+pagination_active_reader_10:
+  subscriber: pagination_active_reader_10
   status: active
   confirmed_at: <%= Time.utc(2025, 1, 10, 12) %>
 
-pagination_subscriber_11:
-  subscriber: pagination_subscriber_11
+pagination_pending_reader_01:
+  subscriber: pagination_pending_reader_01
   status: pending_confirmation
 
-pagination_subscriber_12:
-  subscriber: pagination_subscriber_12
+pagination_pending_reader_02:
+  subscriber: pagination_pending_reader_02
   status: pending_confirmation
 
-pagination_subscriber_13:
-  subscriber: pagination_subscriber_13
+pagination_pending_reader_03:
+  subscriber: pagination_pending_reader_03
   status: pending_confirmation
 
-pagination_subscriber_14:
-  subscriber: pagination_subscriber_14
+pagination_pending_reader_04:
+  subscriber: pagination_pending_reader_04
   status: pending_confirmation
 
-pagination_subscriber_15:
-  subscriber: pagination_subscriber_15
+pagination_pending_reader_05:
+  subscriber: pagination_pending_reader_05
   status: pending_confirmation
 
-pagination_subscriber_16:
-  subscriber: pagination_subscriber_16
+pagination_unsubscribed_reader_01:
+  subscriber: pagination_unsubscribed_reader_01
   status: unsubscribed
   confirmed_at: <%= Time.utc(2025, 2, 1, 12) %>
   unsubscribed_at: <%= Time.utc(2025, 2, 15, 12) %>
 
-pagination_subscriber_17:
-  subscriber: pagination_subscriber_17
+pagination_unsubscribed_reader_02:
+  subscriber: pagination_unsubscribed_reader_02
   status: unsubscribed
   confirmed_at: <%= Time.utc(2025, 2, 2, 12) %>
   unsubscribed_at: <%= Time.utc(2025, 2, 16, 12) %>
 
-pagination_subscriber_18:
-  subscriber: pagination_subscriber_18
+pagination_unsubscribed_reader_03:
+  subscriber: pagination_unsubscribed_reader_03
   status: unsubscribed
   confirmed_at: <%= Time.utc(2025, 2, 3, 12) %>
   unsubscribed_at: <%= Time.utc(2025, 2, 17, 12) %>
 
-pagination_subscriber_19:
-  subscriber: pagination_subscriber_19
+pagination_unsubscribed_reader_04:
+  subscriber: pagination_unsubscribed_reader_04
   status: unsubscribed
   confirmed_at: <%= Time.utc(2025, 2, 4, 12) %>
   unsubscribed_at: <%= Time.utc(2025, 2, 18, 12) %>
 
-pagination_subscriber_20:
-  subscriber: pagination_subscriber_20
+pagination_unsubscribed_reader_05:
+  subscriber: pagination_unsubscribed_reader_05
   status: unsubscribed
   confirmed_at: <%= Time.utc(2025, 2, 5, 12) %>
   unsubscribed_at: <%= Time.utc(2025, 2, 19, 12) %>
 
-pagination_subscriber_21:
-  subscriber: pagination_subscriber_21
+pagination_unsubscribed_reader_06:
+  subscriber: pagination_unsubscribed_reader_06
   status: unsubscribed
   confirmed_at: <%= Time.utc(2025, 2, 6, 12) %>
   unsubscribed_at: <%= Time.utc(2025, 2, 20, 12) %>

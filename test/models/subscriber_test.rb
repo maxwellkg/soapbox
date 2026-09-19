@@ -77,11 +77,11 @@ class SubscriberTest < ActiveSupport::TestCase
   test "latest subscription returns the newest persisted subscription" do
     subscriber = subscribers(:reader_four)
 
-    assert_equal subscriptions(:reader_four_ended_history), subscriber.latest_subscription
+    assert_equal subscriptions(:reader_four_current_unsubscribed), subscriber.latest_subscription
   end
 
   test "scopes to active subscribers by latest subscription" do
-    active = %i[ reader_one reader_two pagination_subscriber_01 pagination_subscriber_02 pagination_subscriber_03 pagination_subscriber_04 pagination_subscriber_05 pagination_subscriber_06 pagination_subscriber_07 pagination_subscriber_08 pagination_subscriber_09 pagination_subscriber_10 ].map { |key| subscribers(key) }
+    active = %i[ reader_one reader_two pagination_active_reader_01 pagination_active_reader_02 pagination_active_reader_03 pagination_active_reader_04 pagination_active_reader_05 pagination_active_reader_06 pagination_active_reader_07 pagination_active_reader_08 pagination_active_reader_09 pagination_active_reader_10 ].map { |key| subscribers(key) }
 
     assert_equal active.map(&:id).sort, Subscriber.active.pluck(:id).sort
   end
@@ -89,13 +89,13 @@ class SubscriberTest < ActiveSupport::TestCase
   test "scopes to pending confirmation subscribers by latest subscription" do
     subscription = Subscription.create!(subscriber: subscribers(:reader_without_subscription), status: "pending_confirmation")
 
-    pending = [ subscribers(:reader_pending), subscription.subscriber ] + %i[ pagination_subscriber_11 pagination_subscriber_12 pagination_subscriber_13 pagination_subscriber_14 pagination_subscriber_15 ].map { |key| subscribers(key) }
+    pending = [ subscribers(:reader_pending), subscription.subscriber ] + %i[ pagination_pending_reader_01 pagination_pending_reader_02 pagination_pending_reader_03 pagination_pending_reader_04 pagination_pending_reader_05 ].map { |key| subscribers(key) }
 
     assert_equal pending.map(&:id).sort, Subscriber.pending_confirmation.pluck(:id).sort
   end
 
   test "scopes to unsubscribed subscribers by latest subscription" do
-    unsubscribed = %i[ reader_three reader_four reader_unsubscribed pagination_subscriber_16 pagination_subscriber_17 pagination_subscriber_18 pagination_subscriber_19 pagination_subscriber_20 pagination_subscriber_21 ].map { |key| subscribers(key) }
+    unsubscribed = %i[ reader_three reader_four reader_unsubscribed pagination_unsubscribed_reader_01 pagination_unsubscribed_reader_02 pagination_unsubscribed_reader_03 pagination_unsubscribed_reader_04 pagination_unsubscribed_reader_05 pagination_unsubscribed_reader_06 ].map { |key| subscribers(key) }
 
     assert_equal unsubscribed.map(&:id).sort, Subscriber.unsubscribed.pluck(:id).sort
   end

@@ -14,7 +14,7 @@ class SubscriptionTest < ActiveSupport::TestCase
   end
 
   test "only allows one current subscription per subscriber" do
-    existing = subscriptions(:reader_two_active)
+    existing = subscriptions(:reader_two_current)
 
     new_subscription = existing.subscriber.subscriptions.build(status: "pending_confirmation")
     assert_not new_subscription.valid?
@@ -31,25 +31,25 @@ class SubscriptionTest < ActiveSupport::TestCase
   test "scope for current" do
     current_subscriptions = [
       subscriptions(:reader_pending_confirmation),
-      subscriptions(:reader_one_active),
-      subscriptions(:reader_two_active),
-      subscriptions(:reader_three_active),
-      subscriptions(:reader_four_active),
-      subscriptions(:pagination_subscriber_01),
-      subscriptions(:pagination_subscriber_02),
-      subscriptions(:pagination_subscriber_03),
-      subscriptions(:pagination_subscriber_04),
-      subscriptions(:pagination_subscriber_05),
-      subscriptions(:pagination_subscriber_06),
-      subscriptions(:pagination_subscriber_07),
-      subscriptions(:pagination_subscriber_08),
-      subscriptions(:pagination_subscriber_09),
-      subscriptions(:pagination_subscriber_10),
-      subscriptions(:pagination_subscriber_11),
-      subscriptions(:pagination_subscriber_12),
-      subscriptions(:pagination_subscriber_13),
-      subscriptions(:pagination_subscriber_14),
-      subscriptions(:pagination_subscriber_15)
+      subscriptions(:reader_one_current),
+      subscriptions(:reader_two_current),
+      subscriptions(:reader_three_previous_active),
+      subscriptions(:reader_four_previous_active),
+      subscriptions(:pagination_active_reader_01),
+      subscriptions(:pagination_active_reader_02),
+      subscriptions(:pagination_active_reader_03),
+      subscriptions(:pagination_active_reader_04),
+      subscriptions(:pagination_active_reader_05),
+      subscriptions(:pagination_active_reader_06),
+      subscriptions(:pagination_active_reader_07),
+      subscriptions(:pagination_active_reader_08),
+      subscriptions(:pagination_active_reader_09),
+      subscriptions(:pagination_active_reader_10),
+      subscriptions(:pagination_pending_reader_01),
+      subscriptions(:pagination_pending_reader_02),
+      subscriptions(:pagination_pending_reader_03),
+      subscriptions(:pagination_pending_reader_04),
+      subscriptions(:pagination_pending_reader_05)
     ]
 
     assert_equal current_subscriptions.map(&:id).sort, Subscription.current.map(&:id).sort
@@ -57,20 +57,20 @@ class SubscriptionTest < ActiveSupport::TestCase
 
   test "scope for active" do
     active_subscriptions = [
-      subscriptions(:reader_one_active),
-      subscriptions(:reader_two_active),
-      subscriptions(:reader_three_active),
-      subscriptions(:reader_four_active),
-      subscriptions(:pagination_subscriber_01),
-      subscriptions(:pagination_subscriber_02),
-      subscriptions(:pagination_subscriber_03),
-      subscriptions(:pagination_subscriber_04),
-      subscriptions(:pagination_subscriber_05),
-      subscriptions(:pagination_subscriber_06),
-      subscriptions(:pagination_subscriber_07),
-      subscriptions(:pagination_subscriber_08),
-      subscriptions(:pagination_subscriber_09),
-      subscriptions(:pagination_subscriber_10)
+      subscriptions(:reader_one_current),
+      subscriptions(:reader_two_current),
+      subscriptions(:reader_three_previous_active),
+      subscriptions(:reader_four_previous_active),
+      subscriptions(:pagination_active_reader_01),
+      subscriptions(:pagination_active_reader_02),
+      subscriptions(:pagination_active_reader_03),
+      subscriptions(:pagination_active_reader_04),
+      subscriptions(:pagination_active_reader_05),
+      subscriptions(:pagination_active_reader_06),
+      subscriptions(:pagination_active_reader_07),
+      subscriptions(:pagination_active_reader_08),
+      subscriptions(:pagination_active_reader_09),
+      subscriptions(:pagination_active_reader_10)
     ]
 
     assert_equal active_subscriptions.map(&:id).sort, Subscription.active.map(&:id).sort
@@ -84,16 +84,16 @@ class SubscriptionTest < ActiveSupport::TestCase
 
   test "scope for unsubscribed" do
     unsubscribed_subscriptions = [
-      subscriptions(:reader_unsubscribed_only),
-      subscriptions(:reader_three_inactive_history),
-      subscriptions(:reader_four_inactive),
-      subscriptions(:reader_four_ended_history),
-      subscriptions(:pagination_subscriber_16),
-      subscriptions(:pagination_subscriber_17),
-      subscriptions(:pagination_subscriber_18),
-      subscriptions(:pagination_subscriber_19),
-      subscriptions(:pagination_subscriber_20),
-      subscriptions(:pagination_subscriber_21)
+      subscriptions(:reader_unsubscribed_current),
+      subscriptions(:reader_three_current_unsubscribed),
+      subscriptions(:reader_four_previous_unsubscribed),
+      subscriptions(:reader_four_current_unsubscribed),
+      subscriptions(:pagination_unsubscribed_reader_01),
+      subscriptions(:pagination_unsubscribed_reader_02),
+      subscriptions(:pagination_unsubscribed_reader_03),
+      subscriptions(:pagination_unsubscribed_reader_04),
+      subscriptions(:pagination_unsubscribed_reader_05),
+      subscriptions(:pagination_unsubscribed_reader_06)
     ]
 
     assert_equal unsubscribed_subscriptions.map(&:id).sort, Subscription.unsubscribed.map(&:id).sort
@@ -145,7 +145,7 @@ class SubscriptionTest < ActiveSupport::TestCase
   end
 
   test "confirm is idempotent for active subscriptions" do
-    subscription = subscriptions(:reader_one_active)
+    subscription = subscriptions(:reader_one_current)
 
     assert_no_changes -> { subscription.reload.attributes.slice("status", "confirmed_at", "unsubscribed_at") } do
       assert_no_enqueued_emails do
@@ -155,7 +155,7 @@ class SubscriptionTest < ActiveSupport::TestCase
   end
 
   test "confirm fails for unsubscribed subscriptions" do
-    subscription = subscriptions(:reader_four_ended_history)
+    subscription = subscriptions(:reader_four_current_unsubscribed)
 
     assert_not subscription.confirm
     assert_equal "unsubscribed", subscription.reload.status
@@ -176,7 +176,7 @@ class SubscriptionTest < ActiveSupport::TestCase
   end
 
   test "unsubscribe moves active subscriptions to unsubscribed and preserves confirmed at" do
-    subscription = subscriptions(:reader_one_active)
+    subscription = subscriptions(:reader_one_current)
     confirmed_at = subscription.confirmed_at
 
     freeze_time do
@@ -191,7 +191,7 @@ class SubscriptionTest < ActiveSupport::TestCase
   end
 
   test "unsubscribe is idempotent for unsubscribed subscriptions" do
-    subscription = subscriptions(:reader_four_ended_history)
+    subscription = subscriptions(:reader_four_current_unsubscribed)
 
     assert_no_changes -> { subscription.reload.attributes.slice("status", "confirmed_at", "unsubscribed_at") } do
       assert_no_enqueued_emails do
@@ -209,7 +209,7 @@ class SubscriptionTest < ActiveSupport::TestCase
   end
 
   test "send confirmation is rejected for non-pending subscriptions" do
-    subscription = subscriptions(:reader_one_active)
+    subscription = subscriptions(:reader_one_current)
 
     assert_no_enqueued_emails do
       assert_not subscription.send_confirmation
@@ -233,7 +233,7 @@ class SubscriptionTest < ActiveSupport::TestCase
   end
 
   test "unsubscribing a subscription enqueues no email" do
-    subscription = subscriptions(:reader_one_active)
+    subscription = subscriptions(:reader_one_current)
 
     assert_no_enqueued_emails do
       assert subscription.unsubscribe
@@ -241,7 +241,7 @@ class SubscriptionTest < ActiveSupport::TestCase
   end
 
   test "an unrelated update enqueues no email" do
-    subscription = subscriptions(:reader_one_active)
+    subscription = subscriptions(:reader_one_current)
 
     assert_no_enqueued_emails do
       subscription.touch
@@ -292,7 +292,7 @@ class SubscriptionTest < ActiveSupport::TestCase
   end
 
   test "unsubscribe overwrites any pre-filled unsubscribed at with the transition time" do
-    subscription = subscriptions(:reader_one_active)
+    subscription = subscriptions(:reader_one_current)
     subscription.unsubscribed_at = 1.day.ago
 
     freeze_time do
@@ -303,7 +303,7 @@ class SubscriptionTest < ActiveSupport::TestCase
   end
 
   test "does not allow moving active subscriptions back to pending confirmation" do
-    subscription = subscriptions(:reader_one_active)
+    subscription = subscriptions(:reader_one_current)
     subscription.status = "pending_confirmation"
     subscription.confirmed_at = nil
 
@@ -312,7 +312,7 @@ class SubscriptionTest < ActiveSupport::TestCase
   end
 
   test "does not allow reactivating unsubscribed subscriptions" do
-    subscription = subscriptions(:reader_four_ended_history)
+    subscription = subscriptions(:reader_four_current_unsubscribed)
     subscription.status = "active"
     subscription.unsubscribed_at = nil
 

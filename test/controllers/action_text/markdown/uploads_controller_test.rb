@@ -2,7 +2,7 @@ require "test_helper"
 
 class ActionText::Markdown::UploadsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    sign_in_as(authors(:one))
+    sign_in_as(authors(:instance))
   end
 
   test "attach a file" do

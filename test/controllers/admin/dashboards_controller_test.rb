@@ -2,7 +2,7 @@ require "test_helper"
 
 class Admin::DashboardsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @author = authors(:one)
+    @author = authors(:instance)
   end
 
   test "redirects unauthenticated dashboard access" do
