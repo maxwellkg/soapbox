@@ -7,7 +7,7 @@ We want code to be beautiful in the practical sense: clear, well-shaped, and eas
 
 This leads to a bias toward strong defaults when those defaults come from real business logic. If the correct behavior is usually the same, it is often better to encode that behavior directly into the system than to rely on every caller to remember to do the right thing. Patterns like callbacks, implicit defaults, and tightly-coupled state and behavior are valid when they make the normal path safer, clearer, and more faithful to the domain.
 
-For the full set of principles and implementation guidance, see [`MKG_PROGRAMMING_PRINCIPLES.md`](./MKG_PROGRAMMING_PRINCIPLES.md).
+For the full set of principles and implementation guidance, see [`MKG_PROGRAMMING_PRINCIPLES.md`](./.agents/MKG_PROGRAMMING_PRINCIPLES.md).
 
 ## Product Context
 Soapbox is a small, self-hosted blogging application for a single user. This scope should inform architectural decisions. Simplicity, maintainability, and fidelity to the product matter more than preparing for hypothetical multi-tenant scale, generalized publishing workflows, or speculative future abstractions.
@@ -32,6 +32,6 @@ Documentation should explain domain rules, product intent, and why the code is s
 When adding comments or documentation, explain intent, constraints, or business rules that are not obvious from the code itself. Do not add explanation that merely narrates what the code is doing line by line.
 
 ## Core rule
-- At the start of every coding task, load and follow `MKG_PROGRAMMING_PRINCIPLES.md`.
+- At the start of every coding task, load and follow `.agents/MKG_PROGRAMMING_PRINCIPLES.md`.
 - Treat that file as mandatory operating principles for implementation decisions, code structure, architectural suggestions, documentation, and review quality.
 - If any instruction conflicts, follow direct user instructions first, then apply the principles file to all remaining decisions.
