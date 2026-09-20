@@ -9,10 +9,10 @@
 #
 #   not_started
 #        │
-#        │ start_emails!
+#        │ start_emails
 #        │ generate key; enqueue job with wait: 1.minute
 #        ▼
-#      pending ─────────────── stop_emails! ───────────────▶ not_started
+#      pending ─────────────── stop_emails ───────────────▶ not_started
 #        │                                                   clear key
 #        │
 #        │ delayed job runs with matching key
@@ -66,11 +66,11 @@ module Post::Emailing
     saved_change_to_email_status?(from: "pending", to: "not_started")
   end
 
-  def start_emails!
+  def start_emails
     update(email_status: "pending")
   end
 
-  def stop_emails!
+  def stop_emails
     update(email_status: "not_started")
   end
 
@@ -123,7 +123,7 @@ module Post::Emailing
     end
 
     # The job key validates that this delayed work is still authorized. A stale
-    # job (key was cleared by stop_emails! or replaced by a later restart) must
+    # job (key was cleared by stop_emails or replaced by a later restart) must
     # do nothing: running would create PostEmail records for a delivery the
     # author explicitly cancelled, potentially sending duplicate emails to readers.
     def initiate_emails_using_key(key:)

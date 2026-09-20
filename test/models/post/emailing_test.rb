@@ -113,7 +113,7 @@ class Post::EmailingTest < ActiveSupport::TestCase
     post = posts(:published)
 
     assert_changes -> { post.reload.email_status }, from: "not_started", to: "pending" do
-      assert post.start_emails!
+      assert post.start_emails
     end
   end
 
@@ -121,18 +121,18 @@ class Post::EmailingTest < ActiveSupport::TestCase
     post = posts(:pending_email)
 
     assert_changes -> { post.reload.email_status }, from: "pending", to: "not_started" do
-      assert post.stop_emails!
+      assert post.stop_emails
     end
   end
 
   test "stopping email delivery prevents the delayed job from sending emails" do
     post = posts(:published)
 
-    assert post.start_emails!
+    assert post.start_emails
     assert post.email_status_pending?
     job_key = post.start_emails_job_key
 
-    assert post.stop_emails!
+    assert post.stop_emails
     assert post.email_status_not_started?
     assert_nil post.start_emails_job_key
 
@@ -220,7 +220,7 @@ class Post::EmailingTest < ActiveSupport::TestCase
     assert_no_changes -> { post.email_status } do
       assert_no_changes -> { post.start_emails_job_key } do
         assert_no_changes -> { post.emails.ids } do
-          assert post.unpublish!
+          assert post.unpublish
         end
       end
     end

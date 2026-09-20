@@ -42,6 +42,6 @@ class Admin::Posts::EmailStatusesController < Admin::ApplicationController
     end
 
     def email_status_command_for(action)
-      "#{action}_emails!".to_sym
+      "#{action}_emails".to_sym
     end
 end

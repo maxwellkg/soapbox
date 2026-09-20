@@ -37,11 +37,11 @@ class Post < ApplicationRecord
     slug
   end
 
-  def publish!
+  def publish
     update(status: "published")
   end
 
-  def unpublish!
+  def unpublish
     self.status = :draft
     self.email_status = :not_started if email_status_pending?
 

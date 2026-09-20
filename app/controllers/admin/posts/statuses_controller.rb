@@ -2,11 +2,11 @@ class Admin::Posts::StatusesController < Admin::ApplicationController
   before_action :set_post
 
   def publish
-    apply_status_change(:publish!)
+    apply_status_change(:publish)
   end
 
   def unpublish
-    apply_status_change(:unpublish!)
+    apply_status_change(:unpublish)
   end
 
   private
@@ -35,6 +35,6 @@ class Admin::Posts::StatusesController < Admin::ApplicationController
     end
 
     def status_change_verb(command)
-      command.to_s.delete_suffix("!").concat("ed")
+      "#{command}ed"
     end
 end

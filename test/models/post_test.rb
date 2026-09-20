@@ -81,7 +81,7 @@ class PostTest < ActiveSupport::TestCase
     draft = posts(:draft)
 
     assert_changes -> { draft.reload.status }, from: "draft", to: "published" do
-      assert draft.publish!
+      assert draft.publish
     end
   end
 
@@ -89,14 +89,14 @@ class PostTest < ActiveSupport::TestCase
     published = posts(:published)
 
     assert_changes -> { published.reload.status }, from: "published", to: "draft" do
-      assert published.unpublish!
+      assert published.unpublish
     end
   end
 
   test "unpublishing stops pending emails" do
     post = posts(:pending_email)
 
-    assert post.unpublish!
+    assert post.unpublish
 
     post.reload
     assert_predicate post, :draft?
