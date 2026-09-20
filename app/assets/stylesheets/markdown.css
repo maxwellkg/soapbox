@@ -1,3 +1,31 @@
+.heading__link {
+  --opacity: 0.5;
+  --size: 0.8em;
+
+  background: url("link.svg") no-repeat center bottom 0.2em;
+  background-size: var(--size);
+  block-size: 1em;
+  color: var(--primary-color);
+  display: inline-flex;
+  font-size: var(--size);
+  inline-size: var(--size);
+  opacity: var(--opacity);
+  overflow: hidden;
+  padding: 1em 0 0;
+  transition: opacity 300ms ease;
+  vertical-align: middle;
+
+  @media (hover: hover) {
+    --opacity: 0;
+
+    :is(h1, h2, h3, h4, h5, h6):hover & {
+      --opacity: 0.5;
+    }
+  }
+}
+
+/* Rouge token colors for fenced code blocks. */
+
 .highlight {
   color: #d6e8ee;
 }

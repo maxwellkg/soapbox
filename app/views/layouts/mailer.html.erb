@@ -2,6 +2,8 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= stylesheet_link_tag "terminal_theme", "blog", "mailer", media: "all" %>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;600;700&display=swap" rel="stylesheet">
@@ -9,6 +11,17 @@
   </head>
 
   <body>
-    <%= yield %>
+    <main class="mailer-shell">
+      <header class="mailer-header">
+        <%= render "blogs/header", as_main_heading: blog_header_as_main_heading? %>
+        <hr>
+      </header>
+
+      <div class="mailer-content">
+        <%= yield %>
+      </div>
+
+      <%= yield :footer if content_for?(:footer) %>
+    </main>
   </body>
 </html>

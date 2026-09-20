@@ -1,18 +1,4 @@
-<% content_for :head do %>
-  <%= stylesheet_link_tag "terminal_theme", "application", "posts", media: "all" %>
-<% end %>
-
-<main class="post-email-shell">
-  <header class="post-email-title-header">
-    <%= render "posts/blog_title", for_email: true %>
-  </header>
-
-  <hr>
-
-  <div class="post-mailer-wrapper">
-    <p>
-      Confirm your subscription to <%= link_to @blog.title, root_url %> by
-      <%= link_to "clicking here", subscription_confirmation_url(@subscription.confirmation_token) %>.
-    </p>
-  </div>
-</main>
+<p>
+  Confirm your subscription to <%= link_to @blog.title, root_url %> by
+  <%= link_to "clicking here", subscription_confirmation_url(@subscription.confirmation_token) %>.
+</p>

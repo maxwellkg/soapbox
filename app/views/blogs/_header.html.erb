@@ -1,0 +1,21 @@
+<%# locals: (as_main_heading: true) %>
+
+<div class="blog-header">
+  <div class="blog-header-copy">
+    <% if as_main_heading %>
+      <h1 class="blog-header-title"><%= link_to @blog.title, root_url, class: "blog-header-link" %></h1>
+    <% else %>
+      <div class="blog-header-title"><%= link_to @blog.title, root_url, class: "blog-header-link" %></div>
+    <% end %>
+
+    <% if @blog.subtitle.present? %>
+      <p class="blog-header-subtitle"><%= @blog.subtitle %></p>
+    <% end %>
+  </div>
+
+  <% if @blog.site_image.attached? %>
+    <div class="blog-header-image">
+      <%= image_tag @blog.site_image.variant(resize_to_fill: [ 480, 480 ]), alt: "#{@blog.title} site image" %>
+    </div>
+  <% end %>
+</div>

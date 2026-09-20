@@ -48,9 +48,7 @@ h2,
 h3,
 h4,
 h5,
-h6,
-.blog-title,
-.post-title {
+h6 {
   font-family: var(--font-family-headings);
   font-weight: 600;
   letter-spacing: 0;
@@ -59,6 +57,14 @@ h6,
 
 h1 {
   font-size: clamp(2rem, 5vw, 2.6rem);
+}
+
+.blog-header-title,
+.post-title {
+  font-family: var(--font-family-headings);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.25;
 }
 
 h2 {

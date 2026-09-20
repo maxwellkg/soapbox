@@ -1,0 +1,14 @@
+.mailer-shell {
+  margin: 0 auto;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  max-width: 60rem;
+}
+
+.mailer-header {
+  padding-bottom: 1.5rem;
+}
+
+.mailer-content {
+  padding-bottom: 3rem;
+}

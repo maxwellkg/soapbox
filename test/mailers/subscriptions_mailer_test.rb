@@ -106,11 +106,11 @@ class SubscriptionsMailerTest < ActionMailer::TestCase
     confirmation_html = ActionMailer::Base.deliveries[-2].html_part.body.decoded
     subscribed_html = ActionMailer::Base.deliveries[-1].html_part.body.decoded
 
-    assert_match(/class="blog-title"[^>]*style="[^"]+"/i, author_notification_html)
+    assert_match(/class="blog-header-title"[^>]*style="[^"]+"/i, author_notification_html)
     assert_no_match(/<link[^>]+stylesheet/i, author_notification_html)
-    assert_match(/class="blog-title"[^>]*style="[^"]+"/i, confirmation_html)
+    assert_match(/class="blog-header-title"[^>]*style="[^"]+"/i, confirmation_html)
     assert_no_match(/<link[^>]+stylesheet/i, confirmation_html)
-    assert_match(/class="blog-title"[^>]*style="[^"]+"/i, subscribed_html)
+    assert_match(/class="blog-header-title"[^>]*style="[^"]+"/i, subscribed_html)
     assert_no_match(/<link[^>]+stylesheet/i, subscribed_html)
   end
 end

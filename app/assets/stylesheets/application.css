@@ -15,32 +15,6 @@ house-md .house-md-content {
   border: 0;
 }
 
-.heading__link {
-  --opacity: 0.5;
-  --size: 0.8em;
-
-  background: url("link.svg") no-repeat center bottom 0.2em;
-  background-size: var(--size);
-  block-size: 1em;
-  color: var(--primary-color);
-  display: inline-flex;
-  font-size: var(--size);
-  inline-size: var(--size);
-  opacity: var(--opacity);
-  overflow: hidden;
-  padding: 1em 0 0;
-  transition: opacity 300ms ease;
-  vertical-align: middle;
-
-  @media (hover: hover) {
-    --opacity: 0;
-
-    :is(h1, h2, h3, h4, h5, h6):hover & {
-      --opacity: 0.5;
-    }
-  }
-}
-
 .btn-primary,
 input[type="submit"].btn-primary,
 button.btn-primary {
@@ -101,8 +75,7 @@ button.btn-error:hover {
 .admin-form-row select,
 .admin-search-input input,
 .admin-search-select select,
-.search-row input,
-.signup-row input {
+.search-row input {
   width: 100%;
 }
 
@@ -244,7 +217,6 @@ button.btn-error:hover {
   white-space: nowrap;
 }
 
-.signup-row > *,
 .search-row > *,
 .admin-search-row > * {
   min-width: 0;
@@ -417,6 +389,15 @@ button.btn-error:hover {
 .pagination-page {
   color: var(--secondary-color);
   margin: 0;
+}
+
+.site-setup-empty-state {
+  margin: 3rem 0;
+  padding: 1.25rem;
+}
+
+.site-setup-empty-state h1 {
+  margin-top: 0;
 }
 
 @media (max-width: 640px) {

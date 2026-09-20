@@ -1,8 +1,6 @@
 module PostsHelper
-  def post_title_tag(for_email: false)
-    tag_type = for_email ? :h2 : :h1
-
-    content_tag tag_type, class: "post-title" do
+  def post_title_tag
+    content_tag :h1, class: "post-title" do
       link_to @post.title, @post, class: "post-title-link"
     end
   end

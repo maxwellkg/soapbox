@@ -9,6 +9,10 @@ module ApplicationHelper
     date.strftime("%d %B %Y")
   end
 
+  def blog_header_as_main_heading?
+    content_for(:blog_header_as_main_heading) != false
+  end
+
   def sanitize_content(content)
     sanitize content, scrubber: HtmlScrubber.new
   end

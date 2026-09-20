@@ -36,7 +36,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     get root_url
 
     assert_response :success
-    assert_select ".blog-title-image img[alt='#{blog.title} site image']"
+    assert_select ".blog-header-image img[alt='#{blog.title} site image']"
     assert_select "link[rel='icon'][href*='active_storage']"
     assert_select "link[rel='apple-touch-icon'][href*='active_storage']"
   end
@@ -70,7 +70,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_select "pre.highlight"
     assert_select "pre.highlight", text: /puts 'hello'/
     assert_no_match(/>\s*ruby\s*</, response.body)
-    assert_select "link[href*='syntax']"
+    assert_select "link[href*='markdown']"
   end
 
   test "show displays edit post action for authenticated author" do

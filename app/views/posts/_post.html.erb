@@ -1,14 +1,14 @@
 <%# locals: (for_email: false) %>
 
 <article id="<%= dom_id(@post) %>" class="post">
-  <header>
-    <%= post_title_tag for_email: for_email %>
+  <div class="post-header">
+    <%= post_title_tag %>
     <p class="post-byline">By <%= @post.author.full_name %></p>
 
     <% if @post.published_at.present? %>
       <p class="post-published-at"><%= standard_formatted_date(@post.published_at) %></p>
     <% end %>
-  </header>
+  </div>
 
   <section class="post-content">
     <%= sanitize_content(@post.content.to_html) %>
