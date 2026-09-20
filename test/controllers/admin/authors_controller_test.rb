@@ -79,5 +79,9 @@ class Admin::AuthorsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Something went wrong", flash[:error]
     assert_select "h1", "Edit Account"
     assert_select ".admin-form-errors"
+
+    get admin_author_path
+
+    assert_select ".flash-message", count: 0
   end
 end

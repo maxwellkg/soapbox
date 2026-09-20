@@ -39,7 +39,7 @@ module FlashesHelper
     end
 
     def flash_message_alert_role?(type)
-      type.to_sym.in?(%i[ alert error ])
+      type.to_sym == :alert
     end
 
     def flash_collection

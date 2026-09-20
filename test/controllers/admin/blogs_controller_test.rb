@@ -120,5 +120,9 @@ class Admin::BlogsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Something went wrong", flash[:error]
     assert_select "h1", "Edit Blog"
     assert_select ".admin-form-errors"
+
+    get admin_blog_path
+
+    assert_select ".flash-message", count: 0
   end
 end

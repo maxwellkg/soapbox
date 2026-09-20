@@ -12,7 +12,7 @@ class Admin::AuthorsController < Admin::ApplicationController
       flash_success "Account was successfully updated"
       redirect_to admin_author_path
     else
-      flash_error "Something went wrong"
+      flash_error "Something went wrong", now: true
       render :edit, status: :unprocessable_entity
     end
   end

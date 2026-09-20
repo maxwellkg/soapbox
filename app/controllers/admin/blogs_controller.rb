@@ -12,7 +12,7 @@ class Admin::BlogsController < Admin::ApplicationController
       flash_success "Blog was successfully updated"
       redirect_to admin_blog_path
     else
-      flash_error "Something went wrong"
+      flash_error "Something went wrong", now: true
       render :edit, status: :unprocessable_entity
     end
   end
