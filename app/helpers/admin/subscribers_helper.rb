@@ -19,10 +19,6 @@ module Admin::SubscribersHelper
     Subscription::STATUSES.map { |status| [ status.humanize, status ] }
   end
 
-  def admin_subscribers_searching_or_filtering?
-    admin_subscribers_searching? || admin_subscribers_filtering?
-  end
-
   def admin_subscribers_selected_status
     params[:status].presence
   end
@@ -32,10 +28,6 @@ module Admin::SubscribersHelper
   end
 
   private
-    def admin_subscribers_searching?
-      search_term.present?
-    end
-
     def admin_subscribers_filtering?
       admin_subscribers_selected_status.present?
     end

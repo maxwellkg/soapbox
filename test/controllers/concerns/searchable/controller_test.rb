@@ -9,7 +9,7 @@ class Searchable::ControllerTest < ActiveSupport::TestCase
 
     attr_accessor :params
 
-    public :search_given?, :search_term, :search_params
+    public :search_given?, :searching?, :search_term, :search_params
   end
 
   test "extracts search term" do
@@ -18,6 +18,7 @@ class Searchable::ControllerTest < ActiveSupport::TestCase
 
     assert_equal "hello", controller.search_term
     assert controller.search_given?
+    assert controller.searching?
     assert_equal({ "search" => "hello" }, controller.search_params.to_h)
   end
 
@@ -27,5 +28,6 @@ class Searchable::ControllerTest < ActiveSupport::TestCase
 
     assert_nil controller.search_term
     assert_not controller.search_given?
+    assert_not controller.searching?
   end
 end

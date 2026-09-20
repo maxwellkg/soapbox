@@ -2,13 +2,14 @@ module Searchable::Controller
   extend ActiveSupport::Concern
 
   included do
-    helper_method :search_term, :search_given?
+    helper_method :search_term, :search_given?, :searching?
   end
 
   private
     def search_given?
       search_term.present?
     end
+    alias_method :searching?, :search_given?
 
     def search_term
       search_params[:search].presence

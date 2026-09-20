@@ -36,10 +36,6 @@ module Admin::PostsHelper
               data: { turbo_confirm: "delete this post?" }
   end
 
-  def admin_posts_searching_or_filtering?
-    admin_posts_searching? || admin_posts_filtering?
-  end
-
   def admin_posts_selected_status
     params[:status].presence
   end
@@ -49,10 +45,6 @@ module Admin::PostsHelper
   end
 
   private
-    def admin_posts_searching?
-      search_term.present?
-    end
-
     def admin_posts_filtering?
       admin_posts_selected_status.present?
     end
