@@ -1,4 +1,6 @@
 class Admin::Posts::StatusesController < Admin::ApplicationController
+  include Admin::Posts::SetPost
+
   before_action :set_post
 
   def publish
@@ -20,10 +22,6 @@ class Admin::Posts::StatusesController < Admin::ApplicationController
   end
 
   private
-    def set_post
-      @post = Post.find_by!(slug: params.expect(:slug))
-    end
-
     def post_status_notice
       if @post.published?
         "Post is published."

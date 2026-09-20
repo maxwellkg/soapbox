@@ -1,4 +1,5 @@
 class Admin::PostsController < Admin::ApplicationController
+  include Admin::Posts::SetPost
   include Searchable::Controller
   include Pagination::Controller
 
@@ -51,10 +52,6 @@ class Admin::PostsController < Admin::ApplicationController
   end
 
   private
-    def set_post
-      @post = Post.find_by!(slug: params.expect(:slug))
-    end
-
     def post_creation_params
       params.expect(post: [ :title, :slug ])
     end

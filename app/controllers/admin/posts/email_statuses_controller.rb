@@ -1,4 +1,6 @@
 class Admin::Posts::EmailStatusesController < Admin::ApplicationController
+  include Admin::Posts::SetPost
+
   before_action :set_post
 
   def start
@@ -20,10 +22,6 @@ class Admin::Posts::EmailStatusesController < Admin::ApplicationController
   end
 
   private
-    def set_post
-      @post = Post.find_by!(slug: params.expect(:slug))
-    end
-
     def email_status_notice
       if @post.email_status_pending?
         "Post emails are pending and can still be stopped."
