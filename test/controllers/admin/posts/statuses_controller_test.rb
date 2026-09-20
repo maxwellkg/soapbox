@@ -25,7 +25,7 @@ class Admin::Posts::StatusesControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to admin_post_path(post_record)
-    assert_equal "Post was successfully published.", flash[:success]
+    assert_equal "Post is published.", flash[:success]
   end
 
   test "unpublishes a published post" do
@@ -37,7 +37,7 @@ class Admin::Posts::StatusesControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to admin_post_path(post_record)
-    assert_equal "Post was successfully unpublished.", flash[:success]
+    assert_equal "Post is a draft.", flash[:success]
   end
 
   test "unpublishes a post and stops its pending emails" do
@@ -51,10 +51,10 @@ class Admin::Posts::StatusesControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to admin_post_path(post_record)
-    assert_equal "Post was successfully unpublished. Post emails were successfully stopped.", flash[:success]
+    assert_equal "Post is a draft.", flash[:success]
   end
 
-  test "shows unchanged message when status is unchanged" do
+  test "confirms the current status when status is unchanged" do
     sign_in_as(@author)
     published_post = posts(:published)
     draft_post = posts(:draft)
@@ -64,14 +64,14 @@ class Admin::Posts::StatusesControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to admin_post_path(published_post)
-    assert_equal "Post status was unchanged.", flash[:success]
+    assert_equal "Post is published.", flash[:success]
 
     assert_no_changes -> { draft_post.reload.status } do
       patch unpublish_admin_post_path(draft_post)
     end
 
     assert_redirected_to admin_post_path(draft_post)
-    assert_equal "Post status was unchanged.", flash[:success]
+    assert_equal "Post is a draft.", flash[:success]
   end
 
   test "re-renders edit when publish fails validation" do

@@ -24,7 +24,7 @@ class Admin::Posts::EmailStatusesControllerTest < ActionDispatch::IntegrationTes
     end
 
     assert_redirected_to admin_post_path(post_record)
-    assert_equal "Post emails were successfully started.", flash[:success]
+    assert_equal "Post emails are pending and can still be stopped.", flash[:success]
   end
 
   test "stops post emails" do
@@ -36,10 +36,10 @@ class Admin::Posts::EmailStatusesControllerTest < ActionDispatch::IntegrationTes
     end
 
     assert_redirected_to admin_post_path(post_record)
-    assert_equal "Post emails were successfully stopped.", flash[:success]
+    assert_equal "Post emails have not been started.", flash[:success]
   end
 
-  test "shows unchanged message when email status is unchanged" do
+  test "confirms the current email status when email status is unchanged" do
     sign_in_as(@author)
     post_record = posts(:pending_email)
 
@@ -48,7 +48,7 @@ class Admin::Posts::EmailStatusesControllerTest < ActionDispatch::IntegrationTes
     end
 
     assert_redirected_to admin_post_path(post_record)
-    assert_equal "Post email status was unchanged.", flash[:success]
+    assert_equal "Post emails are pending and can still be stopped.", flash[:success]
   end
 
   test "re-renders edit when command fails" do
