@@ -1,8 +1,5 @@
 class SubscriptionsMailer < ApplicationMailer
-  helper ApplicationHelper, PostsHelper
-
   def new_subscriber_author_notification
-    @blog = Blog.instance!
     @subscription = params[:subscription]
     @subscriber = @subscription.subscriber
 
@@ -13,7 +10,6 @@ class SubscriptionsMailer < ApplicationMailer
   end
 
   def confirmation
-    @blog = Blog.instance!
     @subscription = params[:subscription]
     @subscriber = @subscription.subscriber
 
@@ -24,7 +20,6 @@ class SubscriptionsMailer < ApplicationMailer
   end
 
   def subscribed
-    @blog = Blog.instance!
     @subscription = params[:subscription]
     @subscriber = @subscription.subscriber
 

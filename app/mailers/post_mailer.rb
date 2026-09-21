@@ -1,9 +1,8 @@
 class PostMailer < ApplicationMailer
-  helper ApplicationHelper, PostsHelper
+  helper PostsHelper
 
   def post_email
     @post = params[:post]
-    @blog = Blog.instance!
     @subscriber = params[:subscriber]
 
     mail(

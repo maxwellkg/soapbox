@@ -1,1 +1,8 @@
+<%= @blog.title %>
+<% if @blog.subtitle.present? %>
+  <%= @blog.subtitle %>
+<% end %>
+
+---
+
 <%= yield %>
