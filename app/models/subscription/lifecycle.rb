@@ -29,7 +29,8 @@ module Subscription::Lifecycle
     validate :validate_transition, if: :updating_status?
     validate :validate_timestamp_consistency
 
-    before_validation :synchronize_lifecycle_timestamps, if: -> { activating? || unsubscribing? }
+    before_validation :set_confirmed_at, if: :activating?
+    before_validation :set_unsubscribed_at, if: :unsubscribing?
   end
 
   def confirmation_token
@@ -102,11 +103,6 @@ module Subscription::Lifecycle
 
     def validate_unsubscribed_timestamps
       errors.add(:unsubscribed_at, :blank) if unsubscribed_at.blank?
-    end
-
-    def synchronize_lifecycle_timestamps
-      set_confirmed_at if activating?
-      set_unsubscribed_at if unsubscribing?
     end
 
     def activating?

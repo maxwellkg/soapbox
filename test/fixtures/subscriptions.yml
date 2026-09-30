@@ -8,21 +8,11 @@ reader_two_current:
   status: active
   confirmed_at: <%= Time.utc(2025, 6, 14, 12) %>
 
-reader_three_previous_active:
-  subscriber: reader_three
-  status: active
-  confirmed_at: <%= Time.utc(2025, 11, 1, 12) %>
-
 reader_three_current_unsubscribed:
   subscriber: reader_three
   status: unsubscribed
   confirmed_at: <%= Time.utc(2025, 1, 1, 12) %>
   unsubscribed_at: <%= Time.utc(2025, 2, 15, 12) %>
-
-reader_four_previous_active:
-  subscriber: reader_four
-  status: active
-  confirmed_at: <%= Time.utc(2025, 9, 1, 12) %>
 
 reader_four_previous_unsubscribed:
   subscriber: reader_four

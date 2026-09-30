@@ -133,13 +133,16 @@ module Post::Emailing
     def initiate_emails
       raise "Can only initiate emails when email_status is 'pending'" unless email_status_pending?
 
-      build_emails_for_active_subscriptions
+      build_emails_for_active_subscribers
       email_status_initiated!
     end
 
-    def build_emails_for_active_subscriptions
-      Subscription.active.find_each do |subscription|
-        emails.build(subscription: subscription)
+    # A subscriber's current standing is the status of their latest subscription,
+    # so recipients are selected through Subscriber.active. PostEmail then validates
+    # its subscription is active as a final assurance against inactive recipients.
+    def build_emails_for_active_subscribers
+      Subscriber.active.includes(:subscriptions).find_each do |subscriber|
+        emails.build(subscription: subscriber.latest_subscription)
       end
     end
 end

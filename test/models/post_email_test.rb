@@ -32,7 +32,7 @@ class PostEmailTest < ActiveSupport::TestCase
     assert_not post_email.valid?
     assert post_email.errors.of_kind?(:post, :taken)
 
-    post_email.subscription = subscriptions(:reader_four_previous_active)
+    post_email.subscription = subscriptions(:pagination_active_reader_01)
 
     assert post_email.valid?
     assert_not post_email.errors.of_kind?(:post, :taken)
@@ -59,9 +59,32 @@ class PostEmailTest < ActiveSupport::TestCase
   test "it automatically enqueues the emails after create" do
     post_email = PostEmail.create!(
       post: posts(:published),
-      subscription: subscriptions(:reader_three_previous_active)
+      subscription: subscriptions(:pagination_active_reader_01)
     )
 
     assert_enqueued_email_with PostMailer, :post_email, params: { post: post_email.post, subscriber: post_email.subscription.subscriber }
+  end
+
+  test "is invalid unless the subscription is active" do
+    pending = PostEmail.new(
+      post: posts(:published),
+      subscription: subscriptions(:reader_pending_confirmation)
+    )
+    assert_not pending.valid?
+    assert pending.errors.of_kind?(:subscription, "must be active")
+
+    unsubscribed = PostEmail.new(
+      post: posts(:published),
+      subscription: subscriptions(:reader_unsubscribed_current)
+    )
+    assert_not unsubscribed.valid?
+    assert unsubscribed.errors.of_kind?(:subscription, "must be active")
+
+    active = PostEmail.new(
+      post: posts(:published),
+      subscription: subscriptions(:pagination_active_reader_01)
+    )
+    assert active.valid?
+    assert_not active.errors.of_kind?(:subscription, "must be active")
   end
 end

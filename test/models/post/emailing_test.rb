@@ -156,17 +156,17 @@ class Post::EmailingTest < ActiveSupport::TestCase
   test "initiate_emails_using_key initiates when key matches" do
     post = posts(:pending_email)
     matching_key = post.start_emails_job_key
-    num_active_subscriptions = Subscription.active.count
+    num_active_subscribers = Subscriber.active.count
 
     assert_enqueued_emails 0
 
-    assert_changes -> { post.emails.count }, from: 0, to: num_active_subscriptions do
+    assert_changes -> { post.emails.count }, from: 0, to: num_active_subscribers do
       assert_changes -> { post.email_status }, from: "pending", to: "initiated" do
         post.send(:initiate_emails_using_key, key: matching_key)
       end
     end
 
-    assert_enqueued_emails num_active_subscriptions
+    assert_enqueued_emails num_active_subscribers
   end
 
   test "initiate_emails_using_key does nothing when key does not match" do
@@ -201,17 +201,17 @@ class Post::EmailingTest < ActiveSupport::TestCase
 
   test "initiating emails" do
     post = posts(:pending_email)
-    num_active_subscriptions = Subscription.active.count
+    num_active_subscribers = Subscriber.active.count
 
     assert_enqueued_emails 0
 
-    assert_changes -> { post.emails.count }, from: 0, to: num_active_subscriptions do
+    assert_changes -> { post.emails.count }, from: 0, to: num_active_subscribers do
       assert_changes -> { post.email_status }, from: "pending", to: "initiated" do
         post.send(:initiate_emails)
       end
     end
 
-    assert_enqueued_emails num_active_subscriptions
+    assert_enqueued_emails num_active_subscribers
   end
 
   test "unpublishing preserves initiated email history" do

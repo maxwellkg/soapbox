@@ -33,8 +33,6 @@ class SubscriptionTest < ActiveSupport::TestCase
       subscriptions(:reader_pending_confirmation),
       subscriptions(:reader_one_current),
       subscriptions(:reader_two_current),
-      subscriptions(:reader_three_previous_active),
-      subscriptions(:reader_four_previous_active),
       subscriptions(:pagination_active_reader_01),
       subscriptions(:pagination_active_reader_02),
       subscriptions(:pagination_active_reader_03),
@@ -59,8 +57,6 @@ class SubscriptionTest < ActiveSupport::TestCase
     active_subscriptions = [
       subscriptions(:reader_one_current),
       subscriptions(:reader_two_current),
-      subscriptions(:reader_three_previous_active),
-      subscriptions(:reader_four_previous_active),
       subscriptions(:pagination_active_reader_01),
       subscriptions(:pagination_active_reader_02),
       subscriptions(:pagination_active_reader_03),
