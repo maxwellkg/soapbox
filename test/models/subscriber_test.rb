@@ -35,10 +35,39 @@ class SubscriberTest < ActiveSupport::TestCase
   end
 
   test "normalizes email address" do
-    subscriber = subscribers(:reader_three)
-    subscriber.update!(email_address: " fOO@bAr.com ")
+    subscriber = Subscriber.new(email_address: " fOO@bAr.com ")
 
     assert_equal "foo@bar.com", subscriber.email_address
+  end
+
+  test "rejects changing a persisted subscriber's email address" do
+    subscriber = subscribers(:reader_one)
+
+    subscriber.email_address = "changed@example.com"
+
+    assert_not subscriber.valid?
+    assert subscriber.errors.of_kind?(:email_address, :immutable)
+  end
+
+  test "saving a persisted subscriber with an unchanged email address succeeds" do
+    subscriber = subscribers(:reader_four)
+
+    assert subscriber.update!(email_address: subscriber.email_address)
+  end
+
+  test "a persisted subscriber can still create new subscriptions" do
+    subscriber = subscribers(:reader_unsubscribed)
+
+    assert_difference -> { subscriber.subscriptions.count }, 1 do
+      subscriber.subscriptions.create!
+    end
+  end
+
+  test "new subscribers are not bound by email address immutability" do
+    subscriber = Subscriber.new(email_address: "one@example.com")
+    subscriber.email_address = "two@example.com"
+
+    assert subscriber.valid?
   end
 
   test "searches by email address" do

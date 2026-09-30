@@ -2,7 +2,7 @@ class Admin::SubscribersController < Admin::ApplicationController
   include Searchable::Controller
   include Pagination::Controller
 
-  before_action :set_subscriber, only: %i[ show edit update ]
+  before_action :set_subscriber, only: :show
 
   def index
     @subscribers =  paginate(
@@ -30,19 +30,6 @@ class Admin::SubscribersController < Admin::ApplicationController
     else
       flash_alert "Sorry, something went wrong.", now: true
       render :new, status: :unprocessable_entity
-    end
-  end
-
-  def edit
-  end
-
-  def update
-    if @subscriber.update(subscriber_params)
-      flash_success "Subscriber was successfully updated."
-      redirect_to admin_subscriber_path(@subscriber)
-    else
-      flash_alert "Sorry, something went wrong.", now: true
-      render :edit, status: :unprocessable_entity
     end
   end
 

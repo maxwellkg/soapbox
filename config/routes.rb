@@ -34,7 +34,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :subscribers, except: :destroy do
+    resources :subscribers, only: %i[ index show new create ] do
       member do
         patch :subscribe, to: "subscribers/statuses#subscribe"
         patch :unsubscribe, to: "subscribers/statuses#unsubscribe"

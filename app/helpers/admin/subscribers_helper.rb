@@ -1,12 +1,4 @@
 module Admin::SubscribersHelper
-  def admin_subscriber_form_submit_text
-    @subscriber.persisted? ? "update subscriber" : "create subscriber"
-  end
-
-  def admin_subscriber_form_cancel_path
-    @subscriber.persisted? ? admin_subscriber_path(@subscriber) : admin_subscribers_path
-  end
-
   def admin_subscriber_status_text(subscriber)
     subscriber.status.humanize
   end
