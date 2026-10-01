@@ -17,6 +17,14 @@ class PostMailerTest < ActionMailer::TestCase
     assert_not_nil email.header["List-Unsubscribe"]
     unsubscribe_path = "/subscribers/#{post_email.subscription.subscriber.unsubscribe_token}/unsubscribe"
     assert_includes email.header["List-Unsubscribe"].value, unsubscribe_path
+    assert_match(/\A<.*>\z/, email.header["List-Unsubscribe"].value)
+  end
+
+  test "email sets RFC 8058 one-click unsubscribe header" do
+    post_email = post_emails(:reader_one_emailed_post)
+    email = PostMailer.with(post: post_email.post, subscriber: post_email.subscription.subscriber).post_email
+
+    assert_equal "List-Unsubscribe=One-Click", email.header["List-Unsubscribe-Post"].value
   end
 
   test "email renders html and text parts" do

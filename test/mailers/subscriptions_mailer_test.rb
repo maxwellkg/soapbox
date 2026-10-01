@@ -64,6 +64,14 @@ class SubscriptionsMailerTest < ActionMailer::TestCase
 
     assert_not_nil email.header["List-Unsubscribe"]
     assert_includes email.header["List-Unsubscribe"].value, subscription.subscriber.unsubscribe_token
+    assert_match(/\A<.*>\z/, email.header["List-Unsubscribe"].value)
+  end
+
+  test "subscribed email sets RFC 8058 one-click unsubscribe header" do
+    subscription = subscriptions(:reader_one_current)
+    email = SubscriptionsMailer.with(subscription: subscription).subscribed
+
+    assert_equal "List-Unsubscribe=One-Click", email.header["List-Unsubscribe-Post"].value
   end
 
   test "author notification, confirmation, and subscribed emails render html and text parts with the blog title" do

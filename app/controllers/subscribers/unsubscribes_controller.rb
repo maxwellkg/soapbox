@@ -1,7 +1,21 @@
 class Subscribers::UnsubscribesController < ApplicationController
   allow_unauthenticated_access
+  # RFC 8058 one-click unsubscribe is POSTed by the mail client, without cookies or a CSRF token
+  skip_forgery_protection only: :one_click
 
-  before_action :set_subscriber
+  before_action :set_subscriber, only: %i[ show complete ]
+
+  def one_click
+    subscriber = Subscriber.find_by_unsubscribe_token(params.expect(:token))
+
+    if subscriber.nil?
+      head :not_found
+    elsif subscriber.unsubscribe
+      head :ok
+    else
+      head :internal_server_error
+    end
+  end
 
   def show
   end

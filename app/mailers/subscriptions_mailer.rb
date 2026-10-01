@@ -31,7 +31,7 @@ class SubscriptionsMailer < ApplicationMailer
     mail(
       to: @subscriber.email_address,
       subject: "You're subscribed to #{@blog.title}",
-      list_unsubscribe: subscriber_unsubscribe_url(@subscriber)
+      **unsubscribe_headers(@subscriber)
     )
   end
 end

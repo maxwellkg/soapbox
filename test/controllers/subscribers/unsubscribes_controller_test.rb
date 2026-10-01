@@ -11,7 +11,7 @@ class Subscribers::UnsubscribesControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_select "h1", "Unsubscribe from email updates?"
-    assert_select "form[action=?]", unsubscribe_path(subscriber.unsubscribe_token) do
+    assert_select "form[action=?]", subscribers_unsubscribe_path(subscriber.unsubscribe_token) do
       assert_select "input[type=?][name=?][value=?]", "hidden", "_method", "patch"
     end
   end
@@ -22,7 +22,7 @@ class Subscribers::UnsubscribesControllerTest < ActionDispatch::IntegrationTest
 
     assert_changes -> { subscription.reload.status }, from: "active", to: "unsubscribed" do
       assert_no_enqueued_emails do
-        patch unsubscribe_path(subscriber.unsubscribe_token)
+        patch subscribers_unsubscribe_path(subscriber.unsubscribe_token)
       end
       assert_redirected_to root_url
     end
@@ -34,7 +34,7 @@ class Subscribers::UnsubscribesControllerTest < ActionDispatch::IntegrationTest
     subscriber = subscribers(:reader_unsubscribed)
 
     assert_no_enqueued_emails do
-      patch unsubscribe_path(subscriber.unsubscribe_token)
+      patch subscribers_unsubscribe_path(subscriber.unsubscribe_token)
     end
     assert_redirected_to root_url
 
@@ -46,7 +46,7 @@ class Subscribers::UnsubscribesControllerTest < ActionDispatch::IntegrationTest
 
     temporarily_redefine_method(Subscriber, :unsubscribe, -> { false }) do
       assert_no_enqueued_emails do
-        patch unsubscribe_path(subscriber.unsubscribe_token)
+        patch subscribers_unsubscribe_path(subscriber.unsubscribe_token)
       end
       assert_redirected_to root_url
     end
@@ -54,15 +54,50 @@ class Subscribers::UnsubscribesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Sorry, something went wrong. Please try again.", flash[:alert]
   end
 
+  test "one_click unsubscribes immediately and returns success" do
+    subscriber = subscribers(:reader_one)
+    subscription = subscriber.latest_subscription
+
+    assert_changes -> { subscription.reload.status }, from: "active", to: "unsubscribed" do
+      assert_no_enqueued_emails do
+        post subscribers_unsubscribe_path(subscriber.unsubscribe_token)
+      end
+      assert_response :success
+    end
+  end
+
+  test "one_click succeeds for an already unsubscribed subscriber" do
+    subscriber = subscribers(:reader_unsubscribed)
+
+    assert_no_enqueued_emails do
+      post subscribers_unsubscribe_path(subscriber.unsubscribe_token)
+    end
+    assert_response :success
+  end
+
+  test "one_click returns server error if unsubscribe fails" do
+    subscriber = subscribers(:reader_one)
+
+    temporarily_redefine_method(Subscriber, :unsubscribe, -> { false }) do
+      post subscribers_unsubscribe_path(subscriber.unsubscribe_token)
+      assert_response :internal_server_error
+    end
+  end
+
+  test "one_click returns not found for invalid token" do
+    post subscribers_unsubscribe_path("invalid")
+    assert_response :not_found
+  end
+
   test "show redirects for expired/invalid token" do
-    get unsubscribe_url("invalid")
+    get subscribers_unsubscribe_url("invalid")
     assert_redirected_to root_url
 
     assert_equal "Unsubscribe link is invalid or has expired.", flash[:alert]
   end
 
   test "complete redirects for expired/invalid token" do
-    patch unsubscribe_path("invalid")
+    patch subscribers_unsubscribe_path("invalid")
     assert_redirected_to root_url
 
     assert_equal "Unsubscribe link is invalid or has expired.", flash[:alert]

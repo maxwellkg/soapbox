@@ -12,11 +12,16 @@ Rails.application.routes.draw do
   post "signup", to: "subscribers/signups#create", as: :signups
   get "/subscriptions/:token/confirm", to: "subscriptions/confirmations#show", as: :subscription_confirmation
   patch "/subscriptions/:token/confirm", to: "subscriptions/confirmations#update"
-  get "/subscribers/:token/unsubscribe", to: "subscribers/unsubscribes#show", as: :unsubscribe
-  patch "/subscribers/:token/unsubscribe", to: "subscribers/unsubscribes#complete"
 
+  namespace :subscribers do
+    get   "/:token/unsubscribe", to: "unsubscribes#show", as: :unsubscribe
+    post  "/:token/unsubscribe", to: "unsubscribes#one_click"
+    patch "/:token/unsubscribe", to: "unsubscribes#complete"
+  end
+
+  # Lets callers build the unsubscribe URL from a subscriber alone without providing the raw token
   direct :subscriber_unsubscribe do |subscriber, **opts|
-    unsubscribe_url(subscriber.unsubscribe_token, **opts)
+    subscribers_unsubscribe_url(subscriber.unsubscribe_token, **opts)
   end
 
   namespace :admin do

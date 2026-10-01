@@ -9,8 +9,8 @@ class PostMailer < ApplicationMailer
     mail(
       to: @subscriber.email_address,
       subject: @post.title,
-      list_unsubscribe: subscriber_unsubscribe_url(@subscriber),
-      message_stream: "broadcast"
+      message_stream: "broadcast",
+      **unsubscribe_headers(@subscriber)
     )
   end
 end
