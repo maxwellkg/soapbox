@@ -10,12 +10,8 @@ class Subscribers::SignupsController < ApplicationController
 
     @signup = Subscriber.find_or_initialize_by(signup_params)
 
-    if @signup.active?
-      flash_success "Thanks for subscribing.", now: true
-      set_signup
-    elsif subscribe_signup
-      flash_success "Check your inbox to confirm your subscription.", now: true
-      set_signup
+    if @signup.subscribe
+      acknowledge_signup
     else
       flash_alert "Sorry, something went wrong", now: true
       render :create, status: :unprocessable_entity
@@ -23,10 +19,6 @@ class Subscribers::SignupsController < ApplicationController
   end
 
   private
-    def subscribe_signup
-      @signup.persisted? ? @signup.subscribe : @signup.save
-    end
-
     def signup_params
       params.expect(subscriber: [ :email_address ])
     end
@@ -36,9 +28,13 @@ class Subscribers::SignupsController < ApplicationController
     end
 
     def handle_honeypot_signup
-      set_signup
-      flash_success "Thanks for subscribing.", now: true
+      acknowledge_signup
       render :create
+    end
+
+    def acknowledge_signup
+      set_signup
+      flash_success "Thanks for subscribing. Please check your inbox to confirm your subscription", now: true
     end
 
     def handle_rate_limited_signup

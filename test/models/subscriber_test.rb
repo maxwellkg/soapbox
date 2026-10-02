@@ -137,6 +137,21 @@ class SubscriberTest < ActiveSupport::TestCase
     assert_equal Subscriber.all.to_a, Subscriber.for_status(nil).to_a
   end
 
+  test "subscribe saves a new subscriber with a pending subscription" do
+    subscriber = Subscriber.new(email_address: "new@example.com")
+
+    assert_difference [ -> { Subscriber.count }, -> { Subscription.count } ], 1 do
+      assert_enqueued_emails 2 do
+        assert subscriber.subscribe
+      end
+    end
+
+    assert subscriber.persisted?
+    assert subscriber.pending_confirmation?
+    assert_enqueued_email_with SubscriptionsMailer, :confirmation, params: { subscription: subscriber.latest_subscription }
+    assert_enqueued_email_with SubscriptionsMailer, :new_subscriber_author_notification, params: { subscription: subscriber.latest_subscription }
+  end
+
   test "subscribe sends a confirmation email again for a pending subscriber" do
     subscriber = subscribers(:reader_pending)
 

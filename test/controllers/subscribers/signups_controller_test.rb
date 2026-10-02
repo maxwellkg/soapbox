@@ -7,7 +7,8 @@ class Subscribers::SignupsControllerTest < ActionDispatch::IntegrationTest
     assert_difference -> { Subscriber.count }, 1 do
       submit_signup(email_address)
     end
-    assert_confirmation_pending_response
+    assert_response :success
+    assert_flash_message "Thanks for subscribing. Please check your inbox to confirm your subscription", key: :success
 
     created = Subscriber.find_by!(email_address: email_address)
 
@@ -20,7 +21,7 @@ class Subscribers::SignupsControllerTest < ActionDispatch::IntegrationTest
     assert_difference -> { Subscriber.count }, 1 do
       submit_signup(email_address)
     end
-    assert_confirmation_pending_response
+    assert_response :success
 
     subscription = Subscriber.find_by!(email_address:).latest_subscription
     assert subscription.pending_confirmation?
@@ -59,7 +60,7 @@ class Subscribers::SignupsControllerTest < ActionDispatch::IntegrationTest
       submit_signup(subscriber.email_address)
     end
 
-    assert_thanks_for_subscribing_response
+    assert_response :success
   end
 
   test "create creates a new pending subscription for an unsubscribed subscriber" do
@@ -70,7 +71,7 @@ class Subscribers::SignupsControllerTest < ActionDispatch::IntegrationTest
         submit_signup(subscriber.email_address)
       end
     end
-    assert_confirmation_pending_response
+    assert_response :success
 
     assert_signup_emails_enqueued_for(subscriber.reload.latest_subscription)
   end
@@ -82,7 +83,7 @@ class Subscribers::SignupsControllerTest < ActionDispatch::IntegrationTest
     assert_no_difference -> { subscriber.reload.subscriptions.count } do
       submit_signup(subscriber.email_address)
     end
-    assert_confirmation_pending_response
+    assert_response :success
 
     assert_equal original_subscription_id, subscriber.reload.latest_subscription.id
     assert_enqueued_email_with SubscriptionsMailer, :confirmation, params: { subscription: subscriber.latest_subscription }
@@ -119,7 +120,8 @@ class Subscribers::SignupsControllerTest < ActionDispatch::IntegrationTest
       submit_signup("reader@example.com", name: "Spam Bot")
     end
 
-    assert_thanks_for_subscribing_response
+    assert_response :success
+    assert_flash_message "Thanks for subscribing. Please check your inbox to confirm your subscription", key: :success
     assert_signup_form_present
   end
 
@@ -131,16 +133,6 @@ class Subscribers::SignupsControllerTest < ActionDispatch::IntegrationTest
           email_address:
         }.compact
       }
-    end
-
-    def assert_confirmation_pending_response
-      assert_response :success
-      assert_flash_message "Check your inbox to confirm your subscription.", key: :success
-    end
-
-    def assert_thanks_for_subscribing_response
-      assert_response :success
-      assert_flash_message "Thanks for subscribing.", key: :success
     end
 
     def assert_no_signup(&block)
