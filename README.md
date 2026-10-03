@@ -15,8 +15,8 @@ Soapbox is distributed as a complete Rails application through a [GitHub templat
 The application ships ready to deploy with [Kamal](https://kamal-deploy.org/). Update these settings before deploying:
 
 - **Deployment** — Define the server address, the domain and SSL proxy settings, the container registry, and the storage volume in `config/deploy.yml`.
-- **Production URL** — Uncomment and add your domain to `default_url_options` in `config/environments/production.rb` so that links can be generated correctly in your emailed content
-- **Email delivery** — Add your Postmark API token to the Rails encrypted credentials under `postmark_api_token` via `EDITOR=[your editor] bin/rails credentials:edit`. Update the sender address in the `default from:` in `app/mailers/application_mailer.rb`.
+- **Production URL** — Uncomment and add your domain to `default_url_options` in `config/environments/production.rb` so that links can be generated and emails can be sent (the configured host is used as the sender's domain in application emails)
+- **Email delivery** — Add your Postmark API token to the Rails encrypted credentials under `postmark_api_token` via `EDITOR=[your editor] bin/rails credentials:edit`
 
 Until you run the setup process, visitors will see a "nothing is here yet" page. Run `bin/kamal site_setup` (`bin/rails site:setup` in a development environment) to create the site's author and blog records. Afterwards, you can add a rich-text description of the blog, a site image, and other configuration in the admin area.
 

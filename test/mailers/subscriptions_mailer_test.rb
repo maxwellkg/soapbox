@@ -7,6 +7,14 @@ class SubscriptionsMailerTest < ActionMailer::TestCase
     end
   end
 
+  test "emails use the blog identity and subscriptions address" do
+    email = SubscriptionsMailer.with(subscription: subscriptions(:reader_one_current)).subscribed
+
+    assert_equal [ "subscriptions@#{ActionMailer::Base.default_url_options.fetch(:host)}" ], email.from
+    assert_equal [ Blog.instance!.title ], email[:from].display_names
+    assert_nil email.reply_to
+  end
+
   test "new subscriber author notification sends to the author with signup subject" do
     subscription = Subscription.create!(subscriber: subscribers(:reader_without_subscription), status: "pending_confirmation")
     email = SubscriptionsMailer.with(subscription: subscription).new_subscriber_author_notification

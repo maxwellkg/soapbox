@@ -1,6 +1,15 @@
 require "test_helper"
 
 class PostMailerTest < ActionMailer::TestCase
+  test "email uses the blog identity and replies to the author" do
+    post_email = post_emails(:reader_one_emailed_post)
+    email = PostMailer.with(post: post_email.post, subscriber: post_email.subscription.subscriber).post_email
+
+    assert_equal [ "updates@#{ActionMailer::Base.default_url_options.fetch(:host)}" ], email.from
+    assert_equal [ Blog.instance!.title ], email[:from].display_names
+    assert_equal [ Author.instance!.email_address ], email.reply_to
+  end
+
   test "email includes unsubscribe link" do
     post_email = post_emails(:reader_one_emailed_post)
     email = PostMailer.with(post: post_email.post, subscriber: post_email.subscription.subscriber).post_email

@@ -1,4 +1,6 @@
 class SubscriptionsMailer < ApplicationMailer
+  default from: -> { email_address_with_name(subscriptions_address, blog_title) }
+
   helper ApplicationHelper, PostsHelper
 
   def new_subscriber_author_notification
@@ -34,4 +36,9 @@ class SubscriptionsMailer < ApplicationMailer
       **unsubscribe_headers(@subscriber)
     )
   end
+
+  private
+    def subscriptions_address
+      blog_email_address("subscriptions")
+    end
 end
