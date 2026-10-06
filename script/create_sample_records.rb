@@ -1,5 +1,5 @@
 # Creates lived-in sample data in the development database
-# published posts spread across the last few months, a couple of drafts, 
+# published posts spread across the last few months, a couple of drafts,
 # readers at every stage of the subscription lifecycle,
 # and one completed email delivery.
 #
