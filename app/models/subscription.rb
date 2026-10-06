@@ -4,9 +4,9 @@
 #   (new subscription)
 #          │
 #          ▼
-#   pending_confirmation ────── confirm ─────▶ active
-#          │                                  │
-#          └────────────── unsubscribe ───────┘
+#   pending_confirmation ────── [ confirm ] ──────────▶ active
+#          │                                       │
+#          └────────────── [ unsubscribe ] ────────┘
 #                              │
 #                              ▼
 #                        unsubscribed

@@ -27,14 +27,14 @@
   <% if @post.summary? %>
     <p class="admin-label">Summary</p>
     <div class="admin-rich-text-box">
-      <%= sanitize_content(@post.summary.to_html) %>
+      <%= @post.summary.to_html %>
     </div>
   <% end %>
 
   <% if @post.content? %>
     <p class="admin-label">Content</p>
     <div class="admin-rich-text-box">
-      <%= sanitize_content(@post.content.to_html) %>
+      <%= @post.content.to_html %>
     </div>
   <% end %>
 </section>

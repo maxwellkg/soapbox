@@ -76,6 +76,14 @@ class SubscriberTest < ActiveSupport::TestCase
     assert_equal [], Subscriber.search_email_address("no-such-subscriber").to_a
   end
 
+  test "search matches percent and underscore in a term as literal characters" do
+    percent = Subscriber.create!(email_address: "50%off@example.com")
+    underscore = Subscriber.create!(email_address: "reader_one@example.com")
+
+    assert_equal [ percent.id ], Subscriber.search_email_address("50%off").pluck(:id)
+    assert_equal [ underscore.id ], Subscriber.search_email_address("reader_one").pluck(:id)
+  end
+
   test "derives its status from its subscription" do
     pending_subscriber = subscribers(:reader_pending)
     active_subscriber = subscribers(:reader_one)

@@ -23,6 +23,16 @@ class Blog::Feed::EntryTest < ActiveSupport::TestCase
     assert_equal post_url(post), item.link.href
   end
 
+  test "populate sanitizes rendered post content" do
+    post = posts(:published)
+    post.content = "<mark>Allowed</mark><script>alert('nope')</script>"
+
+    item = build_item_for(post)
+
+    assert_includes item.content.content, "<mark>Allowed</mark>"
+    assert_not_includes item.content.content, "<script>"
+  end
+
   test "populate raises when singleton author is missing" do
     post = posts(:published)
     Author.delete_all

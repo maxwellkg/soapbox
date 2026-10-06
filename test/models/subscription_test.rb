@@ -115,6 +115,16 @@ class SubscriptionTest < ActiveSupport::TestCase
     end
   end
 
+  test "can only generate a confirmation for a pending subscription" do
+    pending = subscriptions(:reader_pending_confirmation)
+    active = subscriptions(:reader_one_current)
+    unsubscribed = subscriptions(:reader_three_current_unsubscribed)
+
+    assert_nothing_raised { pending.confirmation_token }
+    assert_raises { active.confirmation_token }
+    assert_raises { unsubscribed.confirmation_token }
+  end
+
   test "confirmation token becomes invalid after unsubscribe" do
     subscription = Subscription.create!(subscriber: subscribers(:reader_without_subscription), status: "pending_confirmation")
     token = subscription.confirmation_token

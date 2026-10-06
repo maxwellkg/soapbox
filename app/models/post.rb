@@ -41,11 +41,10 @@ class Post < ApplicationRecord
     update(status: "published")
   end
 
+  # unpublishing must also ensure that email status is reverted to not_started
+  # to prevent emails being sent for a draft post
   def unpublish
-    self.status = :draft
-    self.email_status = :not_started if email_status_pending?
-
-    save
+    update(status: "draft")
   end
 
   def excerpt

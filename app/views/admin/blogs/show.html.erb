@@ -26,7 +26,7 @@
   <% if @blog.description? %>
     <p class="admin-label">Description</p>
     <div class="admin-rich-text-box">
-      <%= sanitize_content(@blog.description.to_html) %>
+      <%= @blog.description.to_html %>
     </div>
   <% else %>
     <p>

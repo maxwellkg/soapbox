@@ -4,9 +4,6 @@ module Post::Searchable
   included do
     include Searchable::Model
 
-    full_text_search_on :title
-    full_text_search_on :plain_text_summary, as: :summary
-    full_text_search_on :plain_text_content, as: :content
     full_text_search :title_summary_and_content, on: %i[ title plain_text_summary plain_text_content ]
   end
 

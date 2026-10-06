@@ -11,6 +11,6 @@
   </header>
 
   <section class="post-content">
-    <%= sanitize_content(@post.content.to_html) %>
+    <%= @post.content.to_html %>
   </section>
 </article>

@@ -46,13 +46,13 @@ class Blog::FeedTest < ActiveSupport::TestCase
     assert_raises(ActiveRecord::RecordNotFound) { Blog::Feed.new(Blog.instance).atom }
   end
 
-  test "atom_feed updated falls back to current time when no published posts exist" do
+  test "atom_feed updated falls back to blog created time when no published posts exist" do
     Post.update_all(status: "draft", published_at: nil, email_status: "not_started", start_emails_job_key: nil)
 
     freeze_time do
       atom_feed = Blog::Feed.new(Blog.instance).atom
 
-      assert_equal Time.current.utc, atom_feed.updated.content
+      assert_equal Blog.instance.created_at, atom_feed.updated.content
     end
   end
 

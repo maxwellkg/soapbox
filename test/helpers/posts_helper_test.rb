@@ -9,7 +9,7 @@ class PostsHelperTest < ActionView::TestCase
     html = post_preview_content(post).to_s
 
     assert_includes html, "Custom summary"
-    assert_equal sanitize_content(post.summary.to_html).to_s, html
+    assert_equal post.summary.to_html.to_s, html
   end
 
   test "post_preview_content wraps derived excerpt in a paragraph when no summary" do

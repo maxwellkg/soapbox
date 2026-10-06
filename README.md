@@ -1,8 +1,8 @@
 # Soapbox
 
-<img src="docs/screenshots/soapbox_logo.png" width="150" alt="Soapbox Logo">
+<img src="docs/screenshots/soapbox_logo.png" width="300" alt="Soapbox Logo">
 
-Soapbox is a self-hosted, single-author blogging application built with Ruby on Rails. Publish your writing on the web, let readers subscribe to it, and send them new content via email&mdash;all in an app you run yourself.
+Soapbox is a self-hosted blogging application built with Ruby on Rails. Publish your writing on the web, let readers subscribe to it, and send them new content via email&mdash;all in an app you run yourself.
 
 ## Status
 
@@ -18,11 +18,13 @@ The application ships ready to deploy with [Kamal](https://kamal-deploy.org/). U
 - **Production URL** — Uncomment and add your domain to `default_url_options` in `config/environments/production.rb` so that links can be generated and emails can be sent (the configured host is used as the sender's domain in application emails)
 - **Email delivery** — Add your Postmark API token to the Rails encrypted credentials under `postmark_api_token` via `EDITOR=[your editor] bin/rails credentials:edit`
 
-Until you run the setup process, visitors will see a "nothing is here yet" page. Run `bin/kamal site_setup` (`bin/rails site:setup` in a development environment) to create the site's author and blog records. Afterwards, you can add a rich-text description of the blog, a site image, and other configuration in the admin area.
+Until you run the setup process, visitors will see a "nothing is here yet" page. Run `bin/kamal site_setup` (`bin/rails site:setup` in a development environment) to create the site's author and blog records. Afterwards, you can add a Markdown description of the blog, a site image, and other configuration in the admin area.
 
 ## Documentation
 
-For detailed setup, deployment, first-time setup, and author guidance, see the full documentation: https://docs.mgove.dev/2/soapbox
+For setup, deployment, first-time setup, and author guidance, see the [Soapbox user guide](https://docs.mgove.dev/2/soapbox).
+
+For the application's domain rules and technical architecture, see the [technical documentation](docs/README.md).
 
 ## License
 

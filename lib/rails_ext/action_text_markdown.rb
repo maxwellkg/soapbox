@@ -21,8 +21,23 @@ module ActionText
     belongs_to :record, polymorphic: true, touch: true
 
     def to_html
-      (renderer.try(:call) || renderer).render(content).html_safe
+      sanitize(rendered_html)
     end
+
+    private
+      def sanitize(html)
+        ActionView::Base.safe_list_sanitizer
+          .sanitize(html, scrubber:)
+          .html_safe
+      end
+
+      def rendered_html
+        (renderer.try(:call) || renderer).render(content)
+      end
+
+      def scrubber
+        HtmlScrubber.new
+      end
   end
 end
 

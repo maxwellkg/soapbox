@@ -92,7 +92,7 @@ class Blog::Feed
     end
 
     def default_feed_updated_at
-      Time.current
+      blog.created_at
     end
 
     def feed_id

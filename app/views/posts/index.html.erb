@@ -12,7 +12,7 @@
 
 <% if @blog.description? %>
   <section id="description">
-    <%= sanitize_content(@blog.description.to_html) %>
+    <%= @blog.description.to_html %>
   </section>
 <% end %>
 

@@ -64,14 +64,16 @@ class Subscriber < ApplicationRecord
   end
 
   def subscribe
-    return save if new_record?
-
-    if pending_confirmation?
-      latest_subscription.send_confirmation
-    elsif active?
-      true
+    if new_record?
+      save
     else
-      subscriptions.create.persisted?
+      if pending_confirmation?
+        latest_subscription.send_confirmation
+      elsif active?
+        true
+      else
+        subscriptions.create.persisted?
+      end
     end
   end
 

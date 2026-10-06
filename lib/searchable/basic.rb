@@ -12,6 +12,8 @@ module Searchable::Basic
     end
 
     def basic_search(search_name, on:)
+      on = Array.wrap(on)
+
       check_attributes_for_basic_search(search_name, on)
 
       search_method_name = method_name_for_search(search_name)
@@ -26,20 +28,26 @@ module Searchable::Basic
       end
 
       def check_attributes_for_basic_search(search_name, attributes)
-        unless attributes.all? { |attribute| database_backed_attribute?(attribute) }
-          raise "Invalid attributes for basic search #{search_name}"
+        attributes.each do |attribute|
+          check_attribute_for_basic_search(search_name, attribute)
+        end
+      end
+
+      def check_attribute_for_basic_search(search_name, attribute)
+        unless database_backed_attribute?(attribute)
+          raise "Invalid attribute #{attribute} for basic search #{search_name}. Attribute must be database backed"
         end
       end
 
       def define_basic_search_method(search_method_name, attributes)
         define_singleton_method(search_method_name) do |search_term|
-          return all if search_term.blank?
+          return all unless search_term.present?
 
           pattern = "%#{sanitize_sql_like(search_term.to_s)}%"
 
-          conditions = attributes
-            .map { |attribute| arel_table[attribute].matches(pattern) }
-            .reduce(&:or)
+          conditions =  attributes
+                          .map { |attribute| arel_table[attribute].matches(pattern, "\\") }
+                          .reduce(&:or)
 
           where(conditions)
         end

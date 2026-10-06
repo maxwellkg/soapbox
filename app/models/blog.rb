@@ -32,6 +32,10 @@ class Blog < ApplicationRecord
     @feed ||= Blog::Feed.new(self)
   end
 
+  def resized_site_image(size)
+    site_image.variant(resize_to_fill: [ size, size ])
+  end
+
   private
     def remove_site_image
       site_image.purge if site_image.attached?

@@ -17,7 +17,7 @@ module PostsHelper
 
   private
     def post_summary_preview(post)
-      sanitize_content(post.summary.to_html)
+      post.summary.to_html
     end
 
     def post_excerpt_preview(post)

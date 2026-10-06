@@ -34,6 +34,8 @@ module Subscription::Lifecycle
   end
 
   def confirmation_token
+    raise "Confirmation tokens are only available for pending subscriptions" unless pending_confirmation?
+
     generate_token_for(:confirmation)
   end
 

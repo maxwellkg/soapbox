@@ -8,6 +8,8 @@ module Searchable::FullText::Searching
     end
 
     def full_text_search(search_name, on:)
+      on = Array.wrap(on)
+
       search_method_name = method_name_for_search(search_name)
 
       track_indexed_search_fields(on)

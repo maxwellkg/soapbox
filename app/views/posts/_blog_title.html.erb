@@ -11,7 +11,7 @@
 
   <% if @blog.site_image.attached? %>
     <div class="blog-title-image">
-      <%= image_tag @blog.site_image.variant(resize_to_fill: [ 480, 480 ]), alt: "#{@blog.title} site image" %>
+      <%= image_tag @blog.resized_site_image(480), alt: "#{@blog.title} site image" %>
     </div>
   <% end %>
 </div>

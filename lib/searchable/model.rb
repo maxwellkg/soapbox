@@ -4,12 +4,6 @@ module Searchable::Model
   included do
     include Searchable::Basic
     include Searchable::FullText
-
-    scope :search, ->(**searches) do
-      searches.reduce(all) do |relation, (search_name, term)|
-        relation.public_send(method_name_for_search(search_name), term)
-      end
-    end
   end
 
   class_methods do

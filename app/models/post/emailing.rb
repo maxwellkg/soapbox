@@ -48,6 +48,7 @@ module Post::Emailing
       validate :email_status_can_only_be_changed_to_initiated_from_pending
     end
 
+    before_validation :prevent_emails_for_draft
     before_validation :update_start_emails_job_key, if: :will_save_change_to_email_status?
 
     after_commit :enqueue_start_emails_job, if: -> { saved_change_to_email_status?(to: "pending") }
@@ -90,6 +91,12 @@ module Post::Emailing
     def email_status_can_only_be_changed_to_initiated_from_pending
       if will_save_change_to_email_status?(to: "initiated") && !will_save_change_to_email_status?(from: "pending")
         errors.add(:email_status, message: "can only be moved to 'initiated' if was previously 'pending'")
+      end
+    end
+
+    def prevent_emails_for_draft
+      if will_save_change_to_status?(to: "draft") && email_status_pending?
+        self.email_status = :not_started
       end
     end
 
