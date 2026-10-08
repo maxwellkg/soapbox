@@ -31,5 +31,14 @@ class ActionText::Markdown::UploadsControllerTest < ActionDispatch::IntegrationT
 
     assert_response :redirect
     assert_match(/\/rails\/active_storage\/.*\/site_image\.png/, @response.redirect_url)
+
+    follow_redirect!
+
+    assert_response :success
+    assert_equal "max-age=#{1.year.to_i}, public", response.headers["Cache-Control"]
+  end
+
+  test "local storage serves uploads from permanent URLs" do
+    assert_predicate ActiveStorage::Blob.services.fetch(:local), :public?
   end
 end
