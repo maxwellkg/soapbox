@@ -1,5 +1,5 @@
 .blog-title-link {
-  color: var(--accent);
+  color: #5accf0;
   text-decoration: none;
 }
 
@@ -22,11 +22,9 @@
 
 .blog-title-image img {
   aspect-ratio: 1 / 1;
-  border: 0;
   height: auto;
   margin: 0;
   object-fit: cover;
-  padding: 0;
   width: 100%;
 }
 
@@ -49,9 +47,9 @@
 }
 
 .signup-fieldset {
-  background-color: var(--surface-muted-color);
-  border: 1px solid var(--secondary-color);
-  border-radius: var(--radius);
+  background-color: #11202b;
+  border: 1px solid #8eaab3;
+  border-radius: 0;
   display: grid;
   gap: 0.75rem;
   padding: 1rem;
@@ -59,8 +57,8 @@
 
 .signup-fieldset legend,
 .search-fieldset legend {
-  color: var(--secondary-color);
-  font-family: var(--font-family-headings);
+  color: #8eaab3;
+  font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', Monaco, Consolas, 'Ubuntu Mono', monospace;
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.04em;
@@ -147,19 +145,12 @@
   margin: 0;
 }
 
-.post-email-shell {
-  margin: 0 auto;
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-  max-width: 60rem;
-}
-
 .post-title {
   margin-top: 0;
 }
 
 .post-wrapper .post-title {
-  font-size: clamp(2.5rem, 5vw, 3.25rem);
+  font-size: 2.5rem;
 }
 
 .post-wrapper .post-content {
@@ -168,17 +159,17 @@
 
 .post-title-link {
   text-decoration: none;
-  color: var(--font-color);
+  color: #d6e8ee;
 }
 
 .post-title-link:visited {
-  color: var(--font-color);
+  color: #d6e8ee;
 }
 
 .search-fieldset {
-  background-color: var(--surface-muted-color);
-  border: 1px solid var(--secondary-color);
-  border-radius: var(--radius);
+  background-color: #11202b;
+  border: 1px solid #8eaab3;
+  border-radius: 0;
   display: grid;
   gap: 0.75rem;
   padding: 1rem;
@@ -197,7 +188,7 @@
 
 .post-byline,
 .post-published-at {
-  color: var(--secondary-color);
+  color: #8eaab3;
   margin: 0;
 }
 
@@ -205,23 +196,15 @@
   margin-top: 1.5rem;
 }
 
-.post-email-title-header {
-  padding-bottom: 1.5rem;
-}
-
-.post-mailer-wrapper {
-  padding-bottom: 3rem;
-}
-
 .post-preview {
   border: 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--secondary-color) 35%, transparent);
+  border-bottom: 1px solid #3b4c55;
   margin: 0;
   padding: 1.75rem 0;
 }
 
 .post-preview:first-of-type {
-  border-top: 1px solid color-mix(in srgb, var(--secondary-color) 35%, transparent);
+  border-top: 1px solid #3b4c55;
 }
 
 .post-preview h2 {
@@ -230,7 +213,7 @@
 }
 
 .post-preview-meta {
-  color: var(--secondary-color);
+  color: #8eaab3;
   margin: 0;
 }
 

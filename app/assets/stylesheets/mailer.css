@@ -1,0 +1,65 @@
+.email-background,
+.email-blog-title {
+  border: 0 !important;
+  border-collapse: collapse;
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+.email-background,
+.email-background-cell {
+  background-color: #0e1923 !important;
+}
+
+.email-background-cell {
+  border: 0 !important;
+  color: #d6e8ee;
+  font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', Monaco, Consolas, 'Ubuntu Mono', monospace;
+  font-size: 1rem;
+  line-height: 1.54;
+  padding: 24px !important;
+}
+
+.email-shell {
+  margin: 0 auto;
+  max-width: 60rem;
+}
+
+.email-title-header {
+  padding-bottom: 1.5rem;
+}
+
+.email-content {
+  padding-bottom: 3rem;
+}
+
+.email-blog-title-copy,
+.email-blog-title-image-cell {
+  border: 0 !important;
+  padding: 0 !important;
+}
+
+.email-blog-title .blog-title {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.email-blog-title .blog-subtitle {
+  font-size: 1.2rem;
+  margin-top: 2rem;
+}
+
+.email-blog-title-image-cell {
+  text-align: right !important;
+  width: 96px !important;
+}
+
+.email-blog-title-image {
+  border: 0 !important;
+  display: block;
+  height: 96px;
+  margin: 0 0 0 auto;
+  object-fit: cover;
+  padding: 0 !important;
+  width: 96px;
+}

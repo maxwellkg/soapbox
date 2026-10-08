@@ -8,7 +8,6 @@ class PostMailer < ApplicationMailer
 
   def post_email
     @post = params[:post]
-    @blog = Blog.instance!
     @subscriber = params[:subscriber]
 
     mail(

@@ -1,21 +1,7 @@
-<% content_for :head do %>
-  <%= stylesheet_link_tag "terminal_theme", "application", "posts", media: "all" %>
-<% end %>
+<p>
+  <strong><%= @subscriber.email_address %></strong> has signed up for a subscription.
+</p>
 
-<main class="post-email-shell">
-  <header class="post-email-title-header">
-    <%= render "posts/blog_title", for_email: true %>
-  </header>
-
-  <hr>
-
-  <div class="post-mailer-wrapper">
-    <p>
-      <strong><%= @subscriber.email_address %></strong> has signed up for a subscription.
-    </p>
-
-    <p>
-      <%= link_to "View subscriber in admin", admin_subscriber_url(@subscriber) %>
-    </p>
-  </div>
-</main>
+<p>
+  <%= link_to "View subscriber in admin", admin_subscriber_url(@subscriber) %>
+</p>

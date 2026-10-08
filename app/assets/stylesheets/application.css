@@ -3,7 +3,7 @@
 }
 
 :where(house-md-toolbar :is(button, label)) {
-  color: var(--font-color);
+  color: #d6e8ee;
   line-height: 0;
 }
 
@@ -16,27 +16,24 @@ house-md .house-md-content {
 }
 
 .heading__link {
-  --opacity: 0.5;
-  --size: 0.8em;
-
   background: url("link.svg") no-repeat center bottom 0.2em;
-  background-size: var(--size);
+  background-size: 0.8em;
   block-size: 1em;
-  color: var(--primary-color);
+  color: #5accf0;
   display: inline-flex;
-  font-size: var(--size);
-  inline-size: var(--size);
-  opacity: var(--opacity);
+  font-size: 0.8em;
+  inline-size: 0.8em;
+  opacity: 0.5;
   overflow: hidden;
   padding: 1em 0 0;
   transition: opacity 300ms ease;
   vertical-align: middle;
 
   @media (hover: hover) {
-    --opacity: 0;
+    opacity: 0;
 
     :is(h1, h2, h3, h4, h5, h6):hover & {
-      --opacity: 0.5;
+      opacity: 0.5;
     }
   }
 }
@@ -44,44 +41,44 @@ house-md .house-md-content {
 .btn-primary,
 input[type="submit"].btn-primary,
 button.btn-primary {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
-  color: var(--invert-font-color);
+  background-color: #5accf0;
+  border-color: #5accf0;
+  color: #0e1923;
 }
 
 .btn-primary:hover,
 input[type="submit"].btn-primary:hover,
 button.btn-primary:hover {
-  background-color: color-mix(in srgb, var(--primary-color) 88%, white);
-  border-color: color-mix(in srgb, var(--primary-color) 88%, white);
-  color: var(--invert-font-color);
+  background-color: #6ed2f2;
+  border-color: #6ed2f2;
+  color: #0e1923;
 }
 
 .btn-error,
 input[type="submit"].btn-error,
 button.btn-error {
-  border-color: var(--color-negative);
-  color: var(--color-negative);
+  border-color: #ff7b88;
+  color: #ff7b88;
 }
 
 .btn-error:hover,
 input[type="submit"].btn-error:hover,
 button.btn-error:hover {
-  background-color: color-mix(in srgb, var(--color-negative) 16%, transparent);
-  border-color: var(--color-negative);
-  color: var(--color-negative);
+  background-color: #352933;
+  border-color: #ff7b88;
+  color: #ff7b88;
 }
 
 .btn-publish,
 .btn-publish:visited {
-  border-color: var(--primary-color);
-  color: var(--primary-color);
+  border-color: #5accf0;
+  color: #5accf0;
 }
 
 .btn-publish:hover,
 .btn-publish:focus-visible {
-  border-color: var(--primary-color);
-  color: var(--primary-color);
+  border-color: #5accf0;
+  color: #5accf0;
 }
 
 .btn-unpublish,
@@ -156,7 +153,7 @@ button.btn-error:hover {
 .flash-neutral {
   background-color: #1a2a33;
   border-color: #8eaab3;
-  color: var(--font-color);
+  color: #d6e8ee;
 }
 
 .invisible {
@@ -209,17 +206,17 @@ button.btn-error:hover {
 }
 
 .admin-search-fieldset {
-  background-color: var(--surface-muted-color);
-  border-color: var(--secondary-color);
-  border-radius: var(--radius);
+  background-color: #11202b;
+  border-color: #8eaab3;
+  border-radius: 0;
   display: grid;
   gap: 0.75rem;
   padding: 1rem;
 }
 
 .admin-search-fieldset legend {
-  color: var(--secondary-color);
-  font-family: var(--font-family-headings);
+  color: #8eaab3;
+  font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', Monaco, Consolas, 'Ubuntu Mono', monospace;
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.04em;
@@ -279,7 +276,7 @@ button.btn-error:hover {
 }
 
 .admin-meta {
-  color: var(--secondary-color);
+  color: #8eaab3;
   margin: 0.5rem 0 0;
 }
 
@@ -296,9 +293,9 @@ button.btn-error:hover {
 }
 
 .admin-rich-text-box {
-  background-color: var(--surface-muted-color);
-  border: 1px solid var(--secondary-color);
-  border-radius: var(--radius);
+  background-color: #11202b;
+  border: 1px solid #8eaab3;
+  border-radius: 0;
   padding: 1rem;
 }
 
@@ -337,8 +334,8 @@ button.btn-error:hover {
 }
 
 .admin-fieldset {
-  background-color: var(--surface-muted-color);
-  border: 1px solid var(--secondary-color);
+  background-color: #11202b;
+  border: 1px solid #8eaab3;
   display: grid;
   gap: 1rem;
   margin: 0;
@@ -351,7 +348,7 @@ button.btn-error:hover {
 }
 
 .admin-form-hint {
-  color: var(--secondary-color);
+  color: #8eaab3;
   margin: 0;
 }
 
@@ -415,7 +412,7 @@ button.btn-error:hover {
 }
 
 .pagination-page {
-  color: var(--secondary-color);
+  color: #8eaab3;
   margin: 0;
 }
 

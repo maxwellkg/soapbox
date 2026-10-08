@@ -1,0 +1,17 @@
+<table class="email-blog-title" role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="email-blog-title-copy" valign="top">
+      <h1 class="blog-title"><%= link_to @blog.title, root_url, class: "blog-title-link" %></h1>
+
+      <% if @blog.subtitle.present? %>
+        <p class="blog-subtitle"><%= @blog.subtitle %></p>
+      <% end %>
+    </td>
+
+    <% if @blog.site_image.attached? %>
+      <td class="email-blog-title-image-cell" width="96" valign="top" align="right">
+        <%= image_tag @blog.resized_site_image(480), alt: "#{@blog.title} site image", width: 96, height: 96, class: "email-blog-title-image" %>
+      </td>
+    <% end %>
+  </tr>
+</table>

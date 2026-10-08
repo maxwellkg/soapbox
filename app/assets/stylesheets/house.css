@@ -1,21 +1,15 @@
-:root {
-  --house-border-radius: 0.5em;
-}
-
 :where(house-md) {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 
   &:invalid {
-    border: var(--color-negative) 2px solid;
+    border: #ff7b88 2px solid;
   }
 }
 
 :where(house-md-toolbar) {
-  --hover-size: 0;
-
-  border-radius: var(--house-border-radius);
+  border-radius: 0.5em;
   display: inline-flex;
   gap: 0.1em;
 
@@ -25,7 +19,7 @@
     appearance: none;
     background-color: transparent;
     border: none;
-    border-radius: var(--house-border-radius);
+    border-radius: 0.5em;
     cursor: pointer;
     display: inline-flex;
     flex-shrink: 0;
@@ -43,23 +37,23 @@
     }
 
     &:where(:focus-visible) {
-      background-color: color-mix(in srgb, var(--foreground) 10%, transparent);
+      background-color: #222e37;
     }
 
     @media (hover: hover) {
       &:hover {
-        background-color: color-mix(in srgb, var(--foreground) 10%, transparent);
+        background-color: #222e37;
       }
     }
 
     &:where(:active) {
-      background-color: color-mix(in srgb, var(--foreground) 16%, transparent);
+      background-color: #2e3a43;
     }
   }
 }
 
 :where(.house-md-content) {
-  caret-color: var(--primary-color);
+  caret-color: #5accf0;
   flex-grow: 1;
   min-block-size: 50dvh;
   text-align: start;
@@ -77,7 +71,7 @@
 }
 
 :where(house-md-upload) {
-  border-radius: var(--house-border-radius);
+  border-radius: 0.5em;
   margin-block: 0.5ex;
   position: relative;
 
@@ -121,16 +115,16 @@
   font-weight: normal;
 
   house-md-upload[status="complete"] & {
-    color: var(--primary-color);
+    color: #5accf0;
   }
 }
 
 :where(.md-progress-bar) {
   -webkit-appearance: none;
   appearance: none;
-  background-color: color-mix(in srgb, var(--foreground) 18%, transparent);
+  background-color: #323e48;
   block-size: 1ex;
-  border-radius: var(--house-border-radius);
+  border-radius: 0.5em;
   display: block;
   inline-size: 100%;
   line-height: inherit;
@@ -142,21 +136,21 @@
   }
 
   &::-webkit-progress-bar {
-    background-color: color-mix(in srgb, var(--foreground) 18%, transparent);
-    border-radius: var(--house-border-radius);
+    background-color: #323e48;
+    border-radius: 0.5em;
   }
 
   &::-webkit-progress-inner-element {
-    border-radius: var(--house-border-radius);
+    border-radius: 0.5em;
   }
 
   &::-webkit-progress-value {
-    background-color: var(--primary-color);
-    border-radius: var(--house-border-radius);
+    background-color: #5accf0;
+    border-radius: 0.5em;
   }
 
   &::-moz-progress-bar {
-    background-color: var(--primary-color);
-    border-radius: var(--house-border-radius);
+    background-color: #5accf0;
+    border-radius: 0.5em;
   }
 }

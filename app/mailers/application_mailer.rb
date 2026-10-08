@@ -1,10 +1,16 @@
 class ApplicationMailer < ActionMailer::Base
+  before_action :set_blog
+
   default from: -> { email_address_with_name(notifications_address, blog_title) }
   layout "mailer"
 
   private
+    def set_blog
+      @blog = Blog.instance!
+    end
+
     def blog_title
-      Blog.instance!.title
+      @blog.title
     end
 
     def notifications_address

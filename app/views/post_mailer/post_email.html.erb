@@ -1,15 +1,11 @@
 <% content_for :head do %>
-  <%= stylesheet_link_tag "syntax", "terminal_theme", "application", "posts", media: "all" %>
+  <%= stylesheet_link_tag "posts", "syntax", media: "all" %>
 <% end %>
 
-<main class="post-email-shell">
-  <div class="post-mailer-wrapper">
-    <%= render "posts/post", for_email: true %>
-  </div>
+<%= render "posts/post", for_email: true %>
 
-  <hr>
+<hr>
 
-  <p>
-    You received this email because you are subscribed to <%= @blog.title %>. If you no longer wish to receive emails, <%= link_to "unsubscribe here", subscriber_unsubscribe_url(@subscriber) %>.
-  </p>
-</main>
+<p>
+  You received this email because you are subscribed to <%= @blog.title %>. If you no longer wish to receive emails, <%= link_to "unsubscribe here", subscriber_unsubscribe_url(@subscriber) %>.
+</p>

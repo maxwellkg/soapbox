@@ -5,10 +5,27 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;600;700&display=swap" rel="stylesheet">
+    <%= stylesheet_link_tag "terminal_theme", "mailer", media: "all" %>
     <%= yield :head %>
   </head>
 
   <body>
-    <%= yield %>
+    <table class="email-background" role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#0e1923">
+      <tr>
+        <td class="email-background-cell" bgcolor="#0e1923">
+          <main class="email-shell">
+            <header class="email-title-header">
+              <%= render "posts/email_blog_title" %>
+            </header>
+
+            <hr>
+
+            <div class="email-content">
+              <%= yield %>
+            </div>
+          </main>
+        </td>
+      </tr>
+    </table>
   </body>
 </html>
