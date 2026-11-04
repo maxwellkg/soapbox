@@ -23,26 +23,5 @@ module Soapbox
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-
-    # ThemeCSSLoader expands theme variables for email and must be registered
-    # ahead of the stock premailer-rails strategies. It is referenced here
-    # rather than in config/initializers because :setup_main_autoloader runs
-    # after config/initializers, when Zeitwerk autoload constants do not yet resolve.
-    initializer "soapbox.premailer_theme_css", after: :setup_main_autoloader do
-      Premailer::Rails.config[:strategies] = [
-        ThemeCSSLoader,
-        :filesystem, :asset_pipeline, :propshaft, :network
-      ]
-
-      # Resolved CSS varies with the blog's theme, which can change within a
-      # process's lifetime, so premailer-rails' per-URL stylesheet cache is
-      # disabled: each delivery re-reads and re-resolves the few KB of email
-      # CSS, which is noise next to Premailer's inlining work.
-      Premailer::Rails::CSSHelper.singleton_class.prepend(
-        Module.new do
-          def cache_enabled? = false
-        end
-      )
-    end
   end
 end
