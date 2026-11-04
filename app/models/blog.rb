@@ -1,5 +1,10 @@
 class Blog < ApplicationRecord
+  DEFAULT_THEME = "terminal"
+  THEMES = %w[ terminal editorial ].freeze
+
   include Authorable
+
+  enum :theme, THEMES.index_with(&:itself), default: DEFAULT_THEME, validate: true
 
   has_markdown :description
   has_one_attached :site_image

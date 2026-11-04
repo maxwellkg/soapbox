@@ -1,17 +1,18 @@
+/* Application-owned presentation for the vendored House Markdown elements. */
+
 :where(house-md) {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-
-  &:invalid {
-    border: #ff7b88 2px solid;
-  }
 }
 
 :where(house-md-toolbar) {
+  align-items: center;
   border-radius: 0.5em;
   display: inline-flex;
-  gap: 0.1em;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+  max-inline-size: 100%;
 
   :is(button, label) {
     aspect-ratio: 6/5;
@@ -36,24 +37,32 @@
       user-select: none;
     }
 
-    &:where(:focus-visible) {
-      background-color: #222e37;
-    }
-
-    @media (hover: hover) {
-      &:hover {
-        background-color: #222e37;
-      }
-    }
-
-    &:where(:active) {
-      background-color: #2e3a43;
-    }
   }
 }
 
+:where(house-md-toolbar :is(button, label)) {
+  line-height: 0;
+}
+
+house-md-toolbar > :is(button, label) {
+  block-size: 2.5rem;
+  display: inline-flex;
+  inline-size: 2.5rem;
+}
+
+house-md-toolbar > :is(button, label) svg {
+  block-size: 1.2rem;
+}
+
+:where(house-md-toolbar :is(button, label, svg)) {
+  vertical-align: middle;
+}
+
+house-md .house-md-content {
+  border: 0;
+}
+
 :where(.house-md-content) {
-  caret-color: #5accf0;
   flex-grow: 1;
   min-block-size: 50dvh;
   text-align: start;
@@ -76,8 +85,6 @@
   position: relative;
 
   &[status="failed"] {
-    background-color: #3a1c22;
-    color: #ffd2d8;
     font-weight: bold;
     padding: 0.5em;
   }
@@ -96,12 +103,10 @@
   position: absolute;
 
   house-md-upload[status="failed"] & {
-    color: #ffd2d8;
     display: inline-block;
   }
 
   &::before {
-    color: #ffd2d8;
     content: '×';
     font-size: 24px;
     font-weight: bold;
@@ -113,16 +118,11 @@
 
 :where(.md-file) {
   font-weight: normal;
-
-  house-md-upload[status="complete"] & {
-    color: #5accf0;
-  }
 }
 
 :where(.md-progress-bar) {
   -webkit-appearance: none;
   appearance: none;
-  background-color: #323e48;
   block-size: 1ex;
   border-radius: 0.5em;
   display: block;
@@ -136,7 +136,6 @@
   }
 
   &::-webkit-progress-bar {
-    background-color: #323e48;
     border-radius: 0.5em;
   }
 
@@ -145,12 +144,69 @@
   }
 
   &::-webkit-progress-value {
-    background-color: #5accf0;
     border-radius: 0.5em;
   }
 
   &::-moz-progress-bar {
-    background-color: #5accf0;
     border-radius: 0.5em;
   }
+}
+
+:where(house-md):invalid {
+  border-width: 2px;
+}
+
+:where(house-md-toolbar) :is(button, label):where(:focus-visible) {
+  outline: none;
+}
+
+@media (hover: hover) {
+  :where(house-md-toolbar) :is(button, label):hover {
+    background-color: var(--toolbar-hover);
+    outline: none;
+  }
+}
+
+:where(house-md-toolbar :is(button, label)) {
+  color: var(--editor-control-text);
+}
+
+:where(house-md):invalid {
+  border-color: var(--error-border);
+}
+
+:where(house-md-toolbar) :is(button, label):where(:focus-visible) {
+  background-color: var(--toolbar-hover);
+}
+
+:where(house-md-toolbar) :is(button, label):where(:active) {
+  background-color: var(--toolbar-active);
+}
+
+:where(.house-md-content) {
+  caret-color: var(--link);
+}
+
+:where(house-md-upload)[status="failed"] {
+  background-color: var(--error-background);
+  color: var(--error-text);
+}
+
+house-md-upload[status="failed"] :where(.md-close),
+house-md-upload[status="failed"] :where(.md-close)::before {
+  color: var(--error-text);
+}
+
+house-md-upload[status="complete"] :where(.md-file) {
+  color: var(--publish-text);
+}
+
+:where(.md-progress-bar),
+:where(.md-progress-bar)::-webkit-progress-bar {
+  background-color: var(--progress-track);
+}
+
+:where(.md-progress-bar)::-webkit-progress-value,
+:where(.md-progress-bar)::-moz-progress-bar {
+  background-color: var(--link);
 }

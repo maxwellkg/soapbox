@@ -2,17 +2,14 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;600;700&display=swap" rel="stylesheet">
-    <%= stylesheet_link_tag "terminal_theme", "mailer", media: "all" %>
+    <%= stylesheet_link_tag "mailer", theme_stylesheet, media: "all" %>
     <%= yield :head %>
   </head>
 
   <body>
-    <table class="email-background" role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#0e1923">
+    <table class="email-background" role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <td class="email-background-cell" bgcolor="#0e1923">
+        <td class="email-background-cell">
           <main class="email-shell">
             <header class="email-title-header">
               <%= render "posts/email_blog_title" %>

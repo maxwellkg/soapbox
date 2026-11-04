@@ -17,6 +17,8 @@
 <% end %>
 
 <section class="admin-meta-block">
+  <p><span class="admin-label">Theme:</span> <%= @blog.theme.titleize %></p>
+
   <% if @blog.subtitle.present? %>
     <p><span class="admin-label">Subtitle:</span> <%= @blog.subtitle %></p>
   <% end %>

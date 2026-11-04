@@ -8,9 +8,13 @@ class ApplicationController < ActionController::Base
   # Changes to the importmap will invalidate the etag for HTML responses
   stale_when_importmap_changes
 
-  before_action :ensure_site_setup!
+  before_action :set_blog, :ensure_site_setup!
 
   private
+    def set_blog
+      @blog = Blog.instance
+    end
+
     def ensure_site_setup!
       return if SiteSetup.complete?
 

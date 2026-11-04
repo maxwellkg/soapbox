@@ -32,6 +32,35 @@ class BlogTest < ActiveSupport::TestCase
     assert blog.valid?
   end
 
+  test "defaults to the terminal theme" do
+    Blog.delete_all
+
+    assert_equal "terminal", Blog.new(title: "New Blog").theme
+  end
+
+  test "accepts supported themes" do
+    blog = blogs(:instance)
+
+    Blog::THEMES.each do |theme|
+      blog.theme = theme
+      assert blog.valid?
+    end
+  end
+
+  test "rejects an unsupported theme" do
+    blog = blogs(:instance)
+    blog.theme = "unknown"
+
+    assert_not blog.valid?
+    assert blog.errors.of_kind?(:theme, :inclusion)
+  end
+
+  test "rejects an unsupported theme at the db layer" do
+    assert_db_constraint_violation do
+      blogs(:instance).update_column(:theme, "unknown")
+    end
+  end
+
   test "rejects creating a second blog at the application layer" do
     blog = Blog.new(title: "Second Blog")
 
@@ -52,4 +81,9 @@ class BlogTest < ActiveSupport::TestCase
 
     assert_same blog.author, blog.author
   end
+
+  private
+    def assert_db_constraint_violation
+      assert_raises(ActiveRecord::StatementInvalid, ActiveRecord::RecordNotUnique) { yield }
+    end
 end

@@ -1,13 +1,11 @@
-.blog-title-link {
-  color: #5accf0;
-  text-decoration: none;
-}
-
 .blog-title-header {
   align-items: start;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
   display: grid;
   gap: 1.5rem;
   grid-template-columns: 2fr 1fr;
+  padding-bottom: 2rem;
 }
 
 .blog-title-copy {
@@ -22,23 +20,47 @@
 
 .blog-title-image img {
   aspect-ratio: 1 / 1;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 50%;
   height: auto;
   margin: 0;
   object-fit: cover;
+  padding: 0.3rem;
   width: 100%;
 }
 
 .blog-title {
-  font-size: 2rem;
+  font-size: 2.4rem;
   margin-bottom: 0.5rem;
 }
 
 .blog-subtitle {
   font-size: 1.2rem;
+  font-style: italic;
+  line-height: 1.5;
   margin-top: 2rem;
 }
 
-.blog-title-link:hover {
+.blog-title-link,
+.blog-title-link:visited,
+.post-title-link,
+.post-title-link:visited,
+.post-preview .post-title-link,
+.post-preview .post-title-link:visited,
+.admin-preview-row h2 a,
+.admin-preview-row h2 a:visited {
+  text-decoration: none;
+}
+
+.blog-title-link:hover,
+.blog-title-link:focus-visible,
+.post-title-link:hover,
+.post-title-link:focus-visible,
+.post-preview .post-title-link:hover,
+.post-preview .post-title-link:focus-visible,
+.admin-preview-row h2 a:hover,
+.admin-preview-row h2 a:focus-visible {
   background-color: transparent;
 }
 
@@ -47,9 +69,6 @@
 }
 
 .signup-fieldset {
-  background-color: #11202b;
-  border: 1px solid #8eaab3;
-  border-radius: 0;
   display: grid;
   gap: 0.75rem;
   padding: 1rem;
@@ -57,11 +76,11 @@
 
 .signup-fieldset legend,
 .search-fieldset legend {
-  color: #8eaab3;
-  font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', Monaco, Consolas, 'Ubuntu Mono', monospace;
   font-size: 0.85rem;
   font-weight: 600;
+  inline-size: max-content;
   letter-spacing: 0.04em;
+  max-inline-size: 100%;
   padding: 0 0.35rem;
   text-transform: uppercase;
 }
@@ -149,27 +168,39 @@
   margin-top: 0;
 }
 
+.post-byline,
+.post-published-at,
+.post-preview-meta,
+.admin-meta,
+.admin-form-hint,
+.pagination-page {
+  font-size: 0.92rem;
+}
+
+.post-byline,
+.post-published-at {
+  margin: 0.2rem 0 0;
+}
+
+.post-wrapper {
+  margin-top: 4rem;
+}
+
+.post-wrapper .post {
+  margin-top: 0;
+}
+
 .post-wrapper .post-title {
-  font-size: 2.5rem;
+  font-size: clamp(2.4rem, 6vw, 4.25rem);
 }
 
 .post-wrapper .post-content {
+  font-size: 1.08rem;
+  line-height: 1.75;
   margin-top: 2rem;
 }
 
-.post-title-link {
-  text-decoration: none;
-  color: #d6e8ee;
-}
-
-.post-title-link:visited {
-  color: #d6e8ee;
-}
-
 .search-fieldset {
-  background-color: #11202b;
-  border: 1px solid #8eaab3;
-  border-radius: 0;
   display: grid;
   gap: 0.75rem;
   padding: 1rem;
@@ -186,25 +217,20 @@
   margin-top: 2rem;
 }
 
-.post-byline,
-.post-published-at {
-  color: #8eaab3;
-  margin: 0;
-}
-
 .post-content {
   margin-top: 1.5rem;
 }
 
 .post-preview {
-  border: 0;
-  border-bottom: 1px solid #3b4c55;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
   margin: 0;
   padding: 1.75rem 0;
 }
 
 .post-preview:first-of-type {
-  border-top: 1px solid #3b4c55;
+  border-top-style: solid;
+  border-top-width: 1px;
 }
 
 .post-preview h2 {
@@ -213,7 +239,6 @@
 }
 
 .post-preview-meta {
-  color: #8eaab3;
   margin: 0;
 }
 
@@ -233,6 +258,7 @@
   .blog-title-header {
     justify-items: center;
     grid-template-columns: 1fr;
+    padding-bottom: 1.5rem;
   }
 
   .blog-title-image {
@@ -244,6 +270,10 @@
   .blog-title-copy {
     grid-row: 2;
     text-align: center;
+  }
+
+  .post-wrapper .post-title {
+    font-size: clamp(2.2rem, 12vw, 3.25rem);
   }
 
   .search-row,
@@ -263,4 +293,63 @@
     flex-basis: auto;
     width: 100%;
   }
+}
+
+.blog-title-header,
+figure figcaption,
+.post-preview,
+.post-preview:first-of-type {
+  border-color: var(--divider);
+}
+
+.blog-title-image img {
+  border-color: var(--border);
+}
+
+.blog-subtitle {
+  color: var(--ink-subtle);
+}
+
+.blog-title-link,
+.blog-title-link:visited,
+.post-title-link,
+.post-title-link:visited {
+  color: var(--ink-strong);
+}
+
+.blog-title-link:hover,
+.blog-title-link:focus-visible,
+.post-title-link:hover,
+.post-title-link:focus-visible {
+  color: var(--link);
+}
+
+.post-preview .post-title-link,
+.post-preview .post-title-link:visited,
+.admin-preview-row h2 a,
+.admin-preview-row h2 a:visited {
+  color: var(--link);
+}
+
+.post-preview .post-title-link:hover,
+.post-preview .post-title-link:focus-visible,
+.admin-preview-row h2 a:hover,
+.admin-preview-row h2 a:focus-visible {
+  color: var(--link-hover);
+}
+
+figure figcaption {
+  color: var(--ink-muted);
+  font-family: var(--font-ui);
+}
+
+.post-byline,
+.post-published-at {
+  color: var(--ink-muted);
+  font-family: var(--font-ui);
+}
+
+.post-preview-meta {
+  color: var(--ink-muted);
+  font-family: var(--font-ui);
 }

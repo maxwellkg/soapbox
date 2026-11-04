@@ -24,6 +24,7 @@ class Admin::BlogsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "h1", @blog.title
+    assert_select "p", text: /Theme:\s+Terminal/
     assert_select "p", text: /Subtitle:\s+#{Regexp.escape(@blog.subtitle)}/
     assert_select "a[href='#{edit_admin_blog_path}']", text: "edit blog"
   end
@@ -40,6 +41,7 @@ class Admin::BlogsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_select "input[name='blog[title]'][value=?]", @blog.title
     assert_select "input[name='blog[subtitle]'][value=?]", @blog.subtitle
+    assert_select "select[name='blog[theme]'] option[selected][value='terminal']"
     assert_select "input[type='file'][name='blog[site_image]']"
     assert_select "input[name='blog[should_remove_site_image]']", count: 0
   end
@@ -62,7 +64,8 @@ class Admin::BlogsControllerTest < ActionDispatch::IntegrationTest
       blog: {
         title: "New Soapbox Title",
         subtitle: "Dispatches from the terminal",
-        description: "Welcome to the new description."
+        description: "Welcome to the new description.",
+        theme: "editorial"
       }
     }
 
@@ -70,6 +73,7 @@ class Admin::BlogsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Blog was successfully updated", flash[:success]
     assert_equal "New Soapbox Title", @blog.reload.title
     assert_equal "Dispatches from the terminal", @blog.subtitle
+    assert_equal "editorial", @blog.theme
     assert_includes @blog.description.content, "Welcome to the new description."
   end
 

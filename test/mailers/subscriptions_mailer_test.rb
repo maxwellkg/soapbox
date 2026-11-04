@@ -128,5 +128,8 @@ class SubscriptionsMailerTest < ActionMailer::TestCase
     assert_no_match(/<link[^>]+stylesheet/i, confirmation_html)
     assert_match(/class="blog-title"[^>]*style="[^"]+"/i, subscribed_html)
     assert_no_match(/<link[^>]+stylesheet/i, subscribed_html)
+    assert_no_match(/var\(/i, author_notification_html)
+    assert_no_match(/var\(/i, confirmation_html)
+    assert_no_match(/var\(/i, subscribed_html)
   end
 end

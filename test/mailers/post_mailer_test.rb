@@ -53,6 +53,37 @@ class PostMailerTest < ActionMailer::TestCase
     assert_includes html, post_email.post.title
   end
 
+  test "html part uses the blog theme" do
+    Blog.instance.update!(theme: "editorial")
+    post_email = post_emails(:reader_one_emailed_post)
+    email = PostMailer.with(post: post_email.post, subscriber: post_email.subscription.subscriber).post_email
+    html = email.html_part.body.decoded
+
+    assert_includes html, "themes/editorial"
+    assert_operator html.index(ApplicationController.helpers.stylesheet_path("mailer")), :<,
+                    html.index(ApplicationController.helpers.stylesheet_path("themes/editorial"))
+    assert_not_includes html, ApplicationController.helpers.stylesheet_path("posts")
+
+    email.deliver_now
+    delivered_html = ActionMailer::Base.deliveries.last.html_part.body.decoded
+
+    assert_no_match(/<link[^>]+stylesheet/i, delivered_html)
+    assert_no_match(/fonts\.googleapis\.com/i, delivered_html)
+    assert_match(/background-color:\s*#f6f0e4/i, delivered_html)
+  end
+
+  test "terminal email inlines theme colors as literals" do
+    post_email = post_emails(:reader_one_emailed_post)
+    email = PostMailer.with(post: post_email.post, subscriber: post_email.subscription.subscriber).post_email
+
+    email.deliver_now
+    delivered_html = ActionMailer::Base.deliveries.last.html_part.body.decoded
+
+    assert_no_match(/<link[^>]+stylesheet/i, delivered_html)
+    assert_no_match(/var\(/i, delivered_html)
+    assert_match(/background-color:\s*#0e1923/i, delivered_html)
+  end
+
   test "text part includes read online and unsubscribe links" do
     post_email = post_emails(:reader_one_emailed_post)
     email = PostMailer.with(post: post_email.post, subscriber: post_email.subscription.subscriber).post_email
@@ -72,6 +103,9 @@ class PostMailerTest < ActionMailer::TestCase
 
     assert_match(/class="post-title"[^>]*style="[^"]+"/i, html)
     assert_no_match(/<link[^>]+stylesheet/i, html)
+    assert_no_match(/fonts\.googleapis\.com/i, html)
+    assert_no_match(/var\(/i, html)
+    assert_match(/background-color:\s*#0e1923/i, html)
   end
 
   test "html email keeps highlighted code block styles" do

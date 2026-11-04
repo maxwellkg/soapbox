@@ -12,6 +12,33 @@ The image is stored as a single Active Storage attachment on [`Blog`](../app/mod
 
 The blog edit form has a field for choosing a new image. Once an image is attached, the form also shows a "Remove current site image" checkbox; checking it and saving deletes the stored file. The form's `accept: "image/*"` hint only guides the browser's file picker; Soapbox does not validate the file's content type or size.
 
+## Themes
+
+Themes contain the visual design for the site. Different themes make the blog look different while keeping the same content, structure, and features.
+
+The application is built on a shared design system defined by its HTML and base stylesheets:
+
+- `base.css` defines typography, spacing, and layout.
+- `application.css` styles web content and controls.
+- `posts.css` styles the blog and its posts.
+- `markdown_editor.css` styles the House editor.
+- `actiontext.css` styles the Trix editor.
+- `mailer.css` contains styles that are safe to use in email.
+
+Each theme file, such as `themes/terminal.css` or `themes/editorial.css`, applies its own visual identity to that design system. It defines the theme's fonts and colors using shared names such as `--link`, `--paper`, and `--font-ui`. It is also the place for any CSS overrides specific to that theme.
+
+Every theme must define the same set of shared values. `ThemePaletteTest` checks this. To add a theme, create a new theme file, provide all of those values, and add any design-system overrides the theme requires.
+
+Browsers understand CSS custom properties directly. A stylesheet can use a property before the theme defines its value because the browser resolves it when applying the styles.
+
+Email requires some extra processing. Premailer prepares an email for delivery by taking its stylesheets and copying the relevant styles directly into the HTML. Most email clients do not understand CSS custom properties, and Premailer would otherwise copy references such as `var(--link)` into the HTML without resolving them.
+
+To prevent that, `ThemeCSSLoader` runs before Premailer's standard stylesheet loaders. It replaces each custom property reference with the actual value from the blog's current theme. Premailer then receives ordinary CSS values that it can safely inline into the email.
+
+Premailer normally caches stylesheets by URL. We have turned that cache off because the active theme can change while the application is running. A cached stylesheet could therefore contain values from the wrong theme. Resolving the few kilobytes of CSS again for each message adds little work compared with inlining the email's styles.
+
+Theme files may also import web fonts. Browsers load those fonts normally. Premailer removes the imports from emails because it receives the CSS without the theme file's location and therefore cannot resolve their URLs.
+
 ## Setup
 
 The blog is not operational before the singleton records for blog and author exist. This prevents public pages and mailers from operating with no publication identity or owner.

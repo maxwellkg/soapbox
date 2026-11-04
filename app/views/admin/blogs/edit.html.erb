@@ -33,6 +33,12 @@
     </div>
 
     <div class="admin-form-row">
+      <%= form.label :theme, class: "admin-form-label" %>
+      <%= form.select :theme, Blog::THEMES.map { |theme| [ theme.titleize, theme ] } %>
+      <p class="admin-form-hint">Controls the appearance of the website and HTML emails.</p>
+    </div>
+
+    <div class="admin-form-row">
       <%= form.label :description, class: "admin-form-label" %>
       <%= render "shared/house_toolbar", toolbar_id: "blog-description-toolbar" %>
       <%= form.markdown_area :description, toolbar: "blog-description-toolbar" %>
