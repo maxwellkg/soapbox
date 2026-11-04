@@ -1,6 +1,4 @@
 class Admin::BlogsController < Admin::ApplicationController
-  before_action :set_blog
-
   def show
   end
 
@@ -18,11 +16,7 @@ class Admin::BlogsController < Admin::ApplicationController
   end
 
   private
-    def set_blog
-      @blog = Blog.instance
-    end
-
     def blog_params
-      params.expect(blog: [ :title, :subtitle, :description, :site_image, :should_remove_site_image ])
+      params.expect(blog: [ :title, :subtitle, :description, :site_image, :should_remove_site_image, :theme ])
     end
 end

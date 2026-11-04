@@ -2,7 +2,7 @@ class PostsController < ApplicationController
   include Searchable::Controller
   include Pagination::Controller
 
-  before_action :set_blog, :set_signup
+  before_action :set_signup
 
   allow_unauthenticated_access
 
@@ -18,10 +18,6 @@ class PostsController < ApplicationController
   end
 
   private
-    def set_blog
-      @blog = Blog.instance!
-    end
-
     def set_signup
       @signup = Subscriber.new
     end

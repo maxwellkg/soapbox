@@ -8,6 +8,7 @@ class SetupGateTest < ActionDispatch::IntegrationTest
 
     assert_response :service_unavailable
     assert_select "h1", "there's nothing here yet"
+    assert_select "link[rel='stylesheet'][href='#{ApplicationController.helpers.stylesheet_path("themes/terminal")}']"
   end
 
   test "non-html requests return service unavailable when setup is incomplete" do

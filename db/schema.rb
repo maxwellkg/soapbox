@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_31_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_02_120000) do
   create_table "action_text_markdowns", force: :cascade do |t|
     t.text "content", default: "", null: false
     t.datetime "created_at", null: false
@@ -67,10 +67,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_31_120000) do
     t.datetime "created_at", null: false
     t.boolean "singleton_guard", default: true, null: false
     t.text "subtitle"
+    t.string "theme", default: "terminal", null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false
     t.index ["singleton_guard"], name: "index_blogs_on_singleton_guard", unique: true
     t.check_constraint "singleton_guard = 1", name: "blogs_singleton_guard_true"
+    t.check_constraint "theme IN ('terminal', 'editorial')", name: "blogs_theme_supported"
   end
 
   create_table "post_emails", force: :cascade do |t|

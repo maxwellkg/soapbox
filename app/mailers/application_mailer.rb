@@ -1,4 +1,6 @@
 class ApplicationMailer < ActionMailer::Base
+  helper ThemeHelper
+
   before_action :set_blog
 
   default from: -> { email_address_with_name(notifications_address, blog_title) }

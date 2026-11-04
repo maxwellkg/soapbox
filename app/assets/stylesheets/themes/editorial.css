@@ -1,0 +1,74 @@
+/* Fonts and colors only. Structural styling lives in the base stylesheets,
+   which consume these custom properties; browsers resolve them directly and
+   ThemeCSSLoader expands them for email. */
+@import url('https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;600;700&family=Libre+Franklin:wght@400;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap');
+
+:root {
+  --font-reading: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-ui: 'Libre Franklin', Arial, sans-serif;
+  --font-code: 'Cascadia Code', 'SFMono-Regular', Consolas, monospace;
+
+  --paper: #f6f0e4;
+  --ink: #29302f;
+  --ink-strong: #1d292f;
+  --ink-muted: #65716e;
+  --ink-quiet: #495956;
+  --ink-subtle: #596663;
+
+  --link: #315f86;
+  --link-hover: #234763;
+  --link-underline: #7f9db3;
+  --hover-background: #dce6ec;
+  --accent: #3f7564;
+  --on-primary: #fffaf2;
+
+  --border: #b9aa98;
+  --divider: #c9bbab;
+  --panel: #eee5d7;
+  --sunken: #ece2d4;
+  --field-background: #fffaf2;
+  --field-border: #a99a89;
+  --placeholder: #8a7e72;
+  --focus-ring: #c8d9e5;
+  --hr-background: #b9aa98;
+
+  --code-border: #d3c4b2;
+  --code-text: #2d526d;
+  --code-block-background: #11212d;
+  --code-block-border: #34434d;
+  --code-block-text: #d6e8ee;
+  --kbd-background: #fffaf2;
+  --kbd-text: #243f50;
+  --select-arrow: #495956;
+  --table-heading-text: #34423f;
+  --mark-background: #f2dca8;
+
+  --editor-control-text: #495956;
+  --ui-disabled: #a99a89;
+  --toolbar-hover: #ded2c2;
+  --toolbar-active: #d2c4b3;
+  --progress-track: #d2c4b3;
+
+  --success-background: #dce9de;
+  --success-border: #47705a;
+  --success-text: #294535;
+  --publish-border: #47705a;
+  --publish-text: #355743;
+  --error-border: #a62f35;
+  --error-flash-border: #a62f35;
+  --error-background: #f3d8d7;
+  --error-text: #702026;
+  --error-emphasis: #85242a;
+  --error-hover-background: #f3d8d7;
+  --alert-background: #f2e3bd;
+  --alert-border: #a06c1d;
+  --alert-text: #62420f;
+  --unpublish-border: #9a681d;
+  --unpublish-text: #785015;
+  --notice-background: #dbe7ea;
+  --notice-border: #507482;
+  --notice-text: #304e59;
+  --neutral-background: #ece2d4;
+  --neutral-border: #9a8a78;
+  --neutral-text: #475552;
+}
