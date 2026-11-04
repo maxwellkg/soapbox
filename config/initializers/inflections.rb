@@ -10,5 +10,6 @@
 #   inflect.uncountable %w( fish sheep )
 # end
 
-# The CSS acronym lives in config/application.rb, where Zeitwerk's autoloader
-# setup can see it before filenames are camelized into constants.
+ActiveSupport::Inflector.inflections(:en) do |inflect|
+  inflect.acronym "CSS"
+end

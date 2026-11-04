@@ -6,13 +6,6 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-# Zeitwerk camelizes filenames using the global inflector, and it does so
-# before config/initializers run, so the CSS acronym for ThemeCSSLoader must
-# be defined here rather than in inflections.rb.
-ActiveSupport::Inflector.inflections(:en) do |inflect|
-  inflect.acronym "CSS"
-end
-
 module Soapbox
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
